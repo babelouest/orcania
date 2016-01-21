@@ -28,6 +28,13 @@ char * str_replace(const char * source, const char * old, const char * new);
 char * nstrdup(const char * source);
 
 /**
+ * nstrcmp
+ * a modified strcmp function that don't crash when p1 is NULL or p2 us NULL
+ * Returned value must be free'd after use
+ */
+int nstrcmp(const char * p1, const char * p2);
+
+/**
  * char * msprintf(const char * message, ...)
  * Implementation of sprintf that return a malloc'd char * with the string construction
  * because life is too short to use 3 lines instead of 1

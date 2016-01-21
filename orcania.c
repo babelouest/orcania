@@ -95,6 +95,23 @@ char * nstrdup(const char * source) {
 }
 
 /**
+ * nstrcmp
+ * a modified strcmp function that don't crash when p1 is NULL or p2 us NULL
+ * Returned value must be free'd after use
+ */
+int nstrcmp(const char * p1, const char * p2) {
+  if (p1 == NULL && p2 == NULL) {
+    return 0;
+  } else if (p1 != NULL && p2 == NULL) {
+    return -1;
+  } else if (p1 == NULL && p2 != NULL) {
+    return 1;
+  } else {
+    return strcmp(p1, p2);
+  }
+}
+
+/**
  * json_t * json_search(json_t * haystack, json_t * needle)
  * jansson library addon
  * This function could be removed if y pull request is accepted in jansson official repository:
@@ -104,44 +121,44 @@ char * nstrdup(const char * source) {
  * If needle is not found, return NULL
  */
 json_t * json_search(json_t * haystack, json_t * needle) {
-    json_t * value1, * value2;
-    size_t index;
-    const char * key;
-    
-    if (!haystack || !needle)
-        return NULL;
-    
-    if (haystack == needle)
-        return haystack;
-    
-    // If both haystack and needle are the same type, test them
-    if (json_typeof(haystack) == json_typeof(needle))
-        if (json_equal(haystack, needle))
-            return haystack;
-    
-    // If they are not equals, test json_search in haystack elements recursively if it's an array or an object
-    if (json_is_array(haystack)) {
-        json_array_foreach(haystack, index, value1) {
-            if (json_equal(value1, needle)) {
-                return value1;
-            } else {
-                value2 = json_search(value1, needle);
-                if (value2 != NULL) {
-                    return value2;
-                }
-            }
-        }
-    } else if (json_is_object(haystack)) {
-        json_object_foreach(haystack, key, value1) {
-            if (json_equal(value1, needle)) {
-                return value1;
-            } else {
-                value2 = json_search(value1, needle);
-                if (value2 != NULL) {
-                    return value2;
-                }
-            }
-        }
-    }
+  json_t * value1, * value2;
+  size_t index;
+  const char * key;
+
+  if (!haystack || !needle)
     return NULL;
+
+  if (haystack == needle)
+    return haystack;
+
+  // If both haystack and needle are the same type, test them
+  if (json_typeof(haystack) == json_typeof(needle))
+    if (json_equal(haystack, needle))
+      return haystack;
+
+  // If they are not equals, test json_search in haystack elements recursively if it's an array or an object
+  if (json_is_array(haystack)) {
+    json_array_foreach(haystack, index, value1) {
+      if (json_equal(value1, needle)) {
+        return value1;
+      } else {
+        value2 = json_search(value1, needle);
+        if (value2 != NULL) {
+          return value2;
+        }
+      }
+    }
+  } else if (json_is_object(haystack)) {
+    json_object_foreach(haystack, key, value1) {
+      if (json_equal(value1, needle)) {
+        return value1;
+      } else {
+        value2 = json_search(value1, needle);
+        if (value2 != NULL) {
+          return value2;
+        }
+      }
+    }
+  }
+  return NULL;
 }
