@@ -132,7 +132,7 @@ json_t * json_search(json_t * haystack, json_t * needle) {
     return haystack;
 
   // If both haystack and needle are the same type, test them
-  if (json_typeof(haystack) == json_typeof(needle))
+  if (json_typeof(haystack) == json_typeof(needle) && !json_is_object(haystack))
     if (json_equal(haystack, needle))
       return haystack;
 
@@ -147,6 +147,17 @@ json_t * json_search(json_t * haystack, json_t * needle) {
           return value2;
         }
       }
+    }
+  } else if (json_is_object(haystack) && json_is_object(needle)) {
+    int same = 1;
+    json_object_foreach(needle, key, value1) {
+      value2 = json_object_get(haystack, key);
+      if (!json_equal(value1, value2)) {
+        same = 0;
+      }
+    }
+    if (same) {
+      return haystack;
     }
   } else if (json_is_object(haystack)) {
     json_object_foreach(haystack, key, value1) {
