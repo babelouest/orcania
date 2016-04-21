@@ -112,10 +112,59 @@ int nstrcmp(const char * p1, const char * p2) {
 }
 
 /**
+ * nstrncmp
+ * a modified strncmp function that don't crash when p1 is NULL or p2 us NULL
+ * Returned value must be free'd after use
+ */
+int nstrncmp(const char * p1, const char * p2, size_t n) {
+  if ((p1 == NULL && p2 == NULL) || n <= 0) {
+    return 0;
+  } else if (p1 != NULL && p2 == NULL) {
+    return -1;
+  } else if (p1 == NULL && p2 != NULL) {
+    return 1;
+  } else {
+    return strncmp(p1, p2, n);
+  }
+}
+
+/**
+ * nstrcasecmp
+ * a modified strcasecmp function that don't crash when p1 is NULL or p2 us NULL
+ * Returned value must be free'd after use
+ */
+int nstrcasecmp(const char * p1, const char * p2) {
+  if (p1 == NULL && p2 == NULL) {
+    return 0;
+  } else if (p1 != NULL && p2 == NULL) {
+    return -1;
+  } else if (p1 == NULL && p2 != NULL) {
+    return 1;
+  } else {
+    return strcasecmp(p1, p2);
+  }
+}
+
+/**
+ * nstrncasecmp
+ * a modified strncasecmp function that don't crash when p1 is NULL or p2 us NULL
+ * Returned value must be free'd after use
+ */
+int nstrncasecmp(const char * p1, const char * p2, size_t n) {
+  if ((p1 == NULL && p2 == NULL) || n <= 0) {
+    return 0;
+  } else if (p1 != NULL && p2 == NULL) {
+    return -1;
+  } else if (p1 == NULL && p2 != NULL) {
+    return 1;
+  } else {
+    return strncasecmp(p1, p2, n);
+  }
+}
+
+/**
  * json_t * json_search(json_t * haystack, json_t * needle)
  * jansson library addon
- * This function could be removed if y pull request is accepted in jansson official repository:
- * https://github.com/akheron/jansson/pull/265
  * Look for an occurence of needle within haystack
  * If needle is present in haystack, return the reference to the json_t * that is equal to needle
  * If needle is not found, return NULL

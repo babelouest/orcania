@@ -35,6 +35,27 @@ char * nstrdup(const char * source);
 int nstrcmp(const char * p1, const char * p2);
 
 /**
+ * nstrncmp
+ * a modified strncmp function that don't crash when p1 is NULL or p2 us NULL
+ * Returned value must be free'd after use
+ */
+int nstrncmp(const char * p1, const char * p2, size_t n);
+
+/**
+ * nstrcasecmp
+ * a modified strcasecmp function that don't crash when p1 is NULL or p2 us NULL
+ * Returned value must be free'd after use
+ */
+int nstrcasecmp(const char * p1, const char * p2);
+
+/**
+ * nstrncasecmp
+ * a modified strncasecmp function that don't crash when p1 is NULL or p2 us NULL
+ * Returned value must be free'd after use
+ */
+int nstrncasecmp(const char * p1, const char * p2, size_t n);
+
+/**
  * char * msprintf(const char * message, ...)
  * Implementation of sprintf that return a malloc'd char * with the string construction
  * because life is too short to use 3 lines instead of 1
