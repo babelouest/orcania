@@ -30,30 +30,38 @@ char * nstrdup(const char * source);
 /**
  * nstrcmp
  * a modified strcmp function that don't crash when p1 is NULL or p2 us NULL
- * Returned value must be free'd after use
  */
 int nstrcmp(const char * p1, const char * p2);
 
 /**
  * nstrncmp
  * a modified strncmp function that don't crash when p1 is NULL or p2 us NULL
- * Returned value must be free'd after use
  */
 int nstrncmp(const char * p1, const char * p2, size_t n);
 
 /**
  * nstrcasecmp
  * a modified strcasecmp function that don't crash when p1 is NULL or p2 us NULL
- * Returned value must be free'd after use
  */
 int nstrcasecmp(const char * p1, const char * p2);
 
 /**
  * nstrncasecmp
  * a modified strncasecmp function that don't crash when p1 is NULL or p2 us NULL
- * Returned value must be free'd after use
  */
 int nstrncasecmp(const char * p1, const char * p2, size_t n);
+
+/**
+ * nstrstr
+ * a modified strstr function that don't crash when p1 is NULL or p2 us NULL
+ */
+char * nstrstr(const char * haystack, const char * needle);
+
+/**
+ * nstrlen
+ * a modified version of strlen that don't crash when s is NULL
+ */
+size_t nstrlen(const char * s);
 
 /**
  * char * msprintf(const char * message, ...)
