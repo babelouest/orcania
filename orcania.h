@@ -10,7 +10,7 @@
 #ifndef __ORCANIA_H__
 #define __ORCANIA_H__
 
-#define ORCANIA_VERSION 0.5
+#define ORCANIA_VERSION 0.6
 /**
  * char * str_replace(const char * source, char * old, char * new)
  * replace all occurences of old by new in the string source
@@ -18,7 +18,7 @@
  * return NULL on error
  * returned value must be free'd after use
  */
-char * str_replace(const char * source, const char * old, const char * new);
+char * str_replace(const char * source, const char * str_old, const char * str_new);
 
 /**
  * nstrdup
@@ -38,6 +38,18 @@ int nstrcmp(const char * p1, const char * p2);
  * a modified strncmp function that don't crash when p1 is NULL or p2 us NULL
  */
 int nstrncmp(const char * p1, const char * p2, size_t n);
+
+/**
+ * nstrcpy
+ * a modified strcpy function that don't crash when p1 is NULL or p2 us NULL
+ */
+char * nstrcpy(char * p1, const char * p2);
+
+/**
+ * nstrncpy
+ * a modified strncpy function that don't crash when p1 is NULL or p2 us NULL
+ */
+char * nstrncpy(char * p1, const char * p2, size_t n);
 
 /**
  * nstrcasecmp

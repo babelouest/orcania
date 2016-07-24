@@ -12,21 +12,21 @@
  */
 
 /**
- * char * str_replace(const char * source, char * old, char * new)
- * replace all occurences of old by new in the string source
- * return a char * with the new value
+ * char * str_replace(const char * source, char * str_old, char * str_new)
+ * replace all occurences of str_old by str_new in the string source
+ * return a char * with the str_new value
  * return NULL on error
  * returned value must be free'd after use
  */
-char * str_replace(const char * source, const char * old, const char * new) {
+char * str_replace(const char * source, const char * str_old, const char * str_new) {
   char * to_return, * ptr, * pre, * next;
   size_t len, pre_len;
   
-  if (source == NULL || old == NULL || new == NULL) {
+  if (source == NULL || str_old == NULL || str_new == NULL) {
     return NULL;
   }
   
-  ptr = strstr(source, old);
+  ptr = strstr(source, str_old);
   if (ptr == NULL) {
     return strdup(source);
   } else {
@@ -38,19 +38,19 @@ char * str_replace(const char * source, const char * old, const char * new) {
     memcpy(pre, source, pre_len);
     pre[pre_len] = '\0';
     
-    next = str_replace(source+strlen(pre)+strlen(old), old, new);
+    next = str_replace(source+strlen(pre)+strlen(str_old), str_old, str_new);
     if (next == NULL) {
       free(pre);
       return NULL;
     }
-    len = ((ptr-source)+strlen(new)+strlen(next));
+    len = ((ptr-source)+strlen(str_new)+strlen(next));
     to_return = malloc((len+1)*sizeof(char));
     if (to_return == NULL) {
       free(pre);
       free(next);
       return NULL;
     }
-    if (snprintf(to_return, (len+1), "%s%s%s", pre, new, next) < 0) {
+    if (snprintf(to_return, (len+1), "%s%s%s", pre, str_new, next) < 0) {
       free(pre);
       free(next);
       free(to_return);
@@ -123,6 +123,30 @@ int nstrncmp(const char * p1, const char * p2, size_t n) {
     return 1;
   } else {
     return strncmp(p1, p2, n);
+  }
+}
+
+/**
+ * nstrcpy
+ * a modified strcpy function that don't crash when p1 is NULL or p2 us NULL
+ */
+char * nstrcpy(char * p1, const char * p2) {
+  if (p1 == NULL || p2 == NULL) {
+    return NULL;
+  } else {
+    return strcpy(p1, p2);
+  }
+}
+
+/**
+ * nstrncpy
+ * a modified strncpy function that don't crash when p1 is NULL or p2 us NULL
+ */
+char * nstrncpy(char * p1, const char * p2, size_t n) {
+  if (p1 == NULL || p2 == NULL) {
+    return NULL;
+  } else {
+    return strncpy(p1, p2, n);
   }
 }
 
