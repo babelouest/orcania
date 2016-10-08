@@ -7,7 +7,7 @@
  * Orcania library
  * 
  * Different functions for different purposes but that can be shared between
- * all Angharad modules
+ * other projects
  * 
  */
 
