@@ -95,6 +95,15 @@ char * nstrdup(const char * source) {
 }
 
 /**
+ * nstrndup
+ * a modified strndup function that don't crash when source is NULL, instead return NULL
+ * Returned value must be free'd after use
+ */
+char * nstrndup(const char * source, size_t len) {
+  return (source==NULL?NULL:strndup(source, len));
+}
+
+/**
  * nstrcmp
  * a modified strcmp function that don't crash when p1 is NULL or p2 us NULL
  */
