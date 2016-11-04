@@ -101,4 +101,9 @@ char * msprintf(const char * message, ...);
  */
 json_t * json_search(json_t * haystack, json_t * needle);
 
+/**
+ * Check if the result json object has a "result" element that is equal to value
+ */
+int check_result_value(json_t * result, const int value);
+
 #endif

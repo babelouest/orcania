@@ -275,3 +275,14 @@ json_t * json_search(json_t * haystack, json_t * needle) {
   }
   return NULL;
 }
+
+/**
+ * Check if the result json object has a "result" element that is equal to value
+ */
+int check_result_value(json_t * result, const int value) {
+  return (result != NULL && 
+          json_is_object(result) && 
+          json_object_get(result, "result") != NULL && 
+          json_is_integer(json_object_get(result, "result")) && 
+          json_integer_value(json_object_get(result, "result")) == value);
+}
