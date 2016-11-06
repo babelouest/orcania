@@ -100,7 +100,7 @@ char * nstrdup(const char * source) {
  * Returned value must be free'd after use
  */
 char * nstrndup(const char * source, size_t len) {
-  return (source==NULL?NULL:strndup(source, len));
+  return (source==NULL||len<=0?NULL:strndup(source, len));
 }
 
 /**
