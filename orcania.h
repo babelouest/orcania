@@ -10,6 +10,8 @@
 #ifndef __ORCANIA_H__
 #define __ORCANIA_H__
 
+#include <jansson.h>
+
 #define ORCANIA_VERSION 0.6
 /**
  * char * str_replace(const char * source, char * old, char * new)
