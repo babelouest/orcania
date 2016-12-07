@@ -79,6 +79,12 @@ int nstrncasecmp(const char * p1, const char * p2, size_t n);
 char * nstrstr(const char * haystack, const char * needle);
 
 /**
+ * nstrnstr
+ * a modified strnstr function that don't crash when p1 is NULL or p2 us NULL
+ */
+char * nstrnstr(const char * haystack, const char * needle, size_t len);
+
+/**
  * nstrlen
  * a modified version of strlen that don't crash when s is NULL
  */
