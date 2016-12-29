@@ -316,3 +316,59 @@ int check_result_value(json_t * result, const int value) {
           json_is_integer(json_object_get(result, "result")) && 
           json_integer_value(json_object_get(result, "result")) == value);
 }
+
+/**
+ * Split a string into an array of strings using separator string
+ * return the number of elements to be returned, -1 on error
+ * if return_array is not NULL, set the returned array in it
+ * return_array is an array of char * ending with a NULL value
+ * return_array must be free'd after use
+ * you can use free_string_array to free return_array
+ */
+int split_string(const char * string, const char * separator, char *** return_array) {
+  int result = -1;
+  char * token;
+  const char * begin = string;
+  
+  if (string != NULL && separator != NULL) {
+    if (return_array != NULL) {
+      *return_array = NULL;
+    }
+    result = 1;
+    token = strstr(begin, separator);
+    while (token != NULL) {
+      if (return_array != NULL) {
+        (*return_array) = realloc((*return_array), (result + 1)*sizeof(char*));
+        if ((*return_array) != NULL) {
+          (*return_array)[result-1] = nstrndup(begin, (token-begin));
+          (*return_array)[result] = NULL;
+        }
+      }
+      result++;
+      begin = token+strlen(separator);
+      token = strstr(begin, separator);
+    }
+    if (return_array != NULL) {
+      (*return_array) = realloc((*return_array), (result + 1)*sizeof(char*));
+      if ((*return_array) != NULL) {
+        (*return_array)[result-1] = nstrdup(begin);
+        (*return_array)[result] = NULL;
+      }
+    }
+  }
+  return result;
+}
+
+/**
+ * Clean an array of strings
+ */
+void free_string_array(char ** array) {
+  int i;
+  if (array != NULL) {
+    for (i=0; array[i] != NULL; i++) {
+      free(array[i]);
+      array[i] = NULL;
+    }
+    free(array);
+  }
+}

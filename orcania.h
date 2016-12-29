@@ -12,7 +12,7 @@
 
 #include <jansson.h>
 
-#define ORCANIA_VERSION 0.6
+#define ORCANIA_VERSION 0.7
 /**
  * char * str_replace(const char * source, char * old, char * new)
  * replace all occurences of old by new in the string source
@@ -113,5 +113,20 @@ json_t * json_search(json_t * haystack, json_t * needle);
  * Check if the result json object has a "result" element that is equal to value
  */
 int check_result_value(json_t * result, const int value);
+
+/**
+ * Split a string into an array of strings using separator string
+ * return the number of elements to be returned, -1 on error
+ * if return_array is not NULL, set the returned array in it
+ * return_array is an array of char * ending with a NULL value
+ * return_array must be free'd after use
+ * you can use free_string_array to free return_array
+ */
+int split_string(const char * string, const char * separator, char *** return_array);
+
+/**
+ * Clean an array of strings
+ */
+void free_string_array(char ** array);
 
 #endif
