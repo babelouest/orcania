@@ -319,14 +319,14 @@ int check_result_value(json_t * result, const int value) {
 
 /**
  * Split a string into an array of strings using separator string
- * return the number of elements to be returned, -1 on error
+ * return the number of elements to be returned, 0 on error
  * if return_array is not NULL, set the returned array in it
  * return_array is an array of char * ending with a NULL value
  * return_array must be free'd after use
  * you can use free_string_array to free return_array
  */
 int split_string(const char * string, const char * separator, char *** return_array) {
-  int result = -1;
+  int result = 0;
   char * token;
   const char * begin = string;
   
@@ -371,4 +371,26 @@ void free_string_array(char ** array) {
     }
     free(array);
   }
+}
+
+/**
+ * Remove string of beginning and ending whitespaces
+ */
+char * trimwhitespace(char * str) {
+  char * end;
+
+  while(isspace((unsigned char)*str)) str++;
+
+  if(*str == 0) {
+    return str;
+  }
+
+  end = str + strlen(str) - 1;
+  while(end > str && isspace((unsigned char)*end)) {
+    end--;
+  }
+
+  *(end+1) = 0;
+
+  return str;
 }
