@@ -12,7 +12,7 @@
 
 #include <jansson.h>
 
-#define ORCANIA_VERSION 0.8
+#define ORCANIA_VERSION 0.9
 /**
  * char * str_replace(const char * source, char * old, char * new)
  * replace all occurences of old by new in the string source
@@ -74,15 +74,27 @@ int nstrncasecmp(const char * p1, const char * p2, size_t n);
 
 /**
  * nstrstr
- * a modified strstr function that don't crash when p1 is NULL or p2 us NULL
+ * a modified strstr function that don't crash when haystack is NULL or needle us NULL
  */
 char * nstrstr(const char * haystack, const char * needle);
 
 /**
  * nstrnstr
- * a modified strnstr function that don't crash when p1 is NULL or p2 us NULL
+ * a modified strnstr function that don't crash when haystack is NULL or needle us NULL
  */
 char * nstrnstr(const char * haystack, const char * needle, size_t len);
+
+/**
+ * nstrchr
+ * a modified strchr function that don't crash when haystack is NULL
+ */
+char * nstrchr(const char * haystack, int c);
+
+/**
+ * nstrrchr
+ * a modified strrchr function that don't crash when haystack is NULL
+ */
+char * nstrrchr(const char * haystack, int c);
 
 /**
  * nstrlen

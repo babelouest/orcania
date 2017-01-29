@@ -1,4 +1,5 @@
 #include <string.h>
+#include <ctype.h>
 #include "orcania.h"
 
 /**
@@ -192,13 +193,37 @@ int nstrncasecmp(const char * p1, const char * p2, size_t n) {
 
 /**
  * nstrstr
- * a modified strstr function that don't crash when p1 is NULL or p2 us NULL
+ * a modified strstr function that don't crash when haystack is NULL or needle us NULL
  */
 char * nstrstr(const char * haystack, const char * needle) {
   if (haystack == NULL || needle == NULL) {
     return NULL;
   } else {
     return strstr(haystack, needle);
+  }
+}
+
+/**
+ * nstrchr
+ * a modified strchr function that don't crash when haystack is NULL
+ */
+char * nstrchr(const char * haystack, int c) {
+  if (haystack == NULL) {
+    return NULL;
+  } else {
+    return strchr(haystack, c);
+  }
+}
+
+/**
+ * nstrrchr
+ * a modified strrchr function that don't crash when haystack is NULL
+ */
+char * nstrrchr(const char * haystack, int c) {
+  if (haystack == NULL) {
+    return NULL;
+  } else {
+    return strrchr(haystack, c);
   }
 }
 
@@ -223,7 +248,7 @@ char *strnstr(const char *haystack, const char *needle, size_t len) {
 
 /**
  * nstrnstr
- * a modified strnstr function that don't crash when p1 is NULL or p2 us NULL
+ * a modified strnstr function that don't crash when haystack is NULL or needle us NULL
  */
 char * nstrnstr(const char * haystack, const char * needle, size_t len) {
   if (haystack == NULL || needle == NULL) {

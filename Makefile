@@ -23,7 +23,7 @@ CC=gcc
 CFLAGS=-c -fPIC -Wall -D_REENTRANT $(ADDITIONALFLAGS)
 LIBS=-lc -ljansson
 OUTPUT=liborcania.so
-VERSION=0.8
+VERSION=0.9
 
 all: release
 
