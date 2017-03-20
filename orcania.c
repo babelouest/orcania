@@ -419,3 +419,20 @@ char * trimwhitespace(char * str) {
 
   return str;
 }
+
+/**
+ * Check if an array of string has a specified value
+ */
+int string_array_has_value(const char ** array, const char * needle) {
+  int i;
+  if (array != NULL && needle != NULL) {
+    for (i=0; array[i] != NULL; i++) {
+      if (strcmp(array[i], needle) == 0) {
+        return 1;
+      }
+    }
+    return 0;
+  } else {
+    return 0;
+  }
+}

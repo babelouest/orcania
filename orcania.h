@@ -142,6 +142,11 @@ int split_string(const char * string, const char * separator, char *** return_ar
 void free_string_array(char ** array);
 
 /**
+ * Check if an array of string has a specified value
+ */
+int string_array_has_value(const char ** array, const char * needle);
+
+/**
  * Remove string of beginning and ending whitespaces
  */
 char * trimwhitespace(char * str);
