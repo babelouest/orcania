@@ -31,7 +31,7 @@ char * str_replace(const char * source, const char * str_old, const char * str_n
     return strdup(source);
   } else {
     pre_len = ptr-source;
-    pre = malloc((pre_len+1)*sizeof(char));
+    pre = o_malloc((pre_len+1)*sizeof(char));
     if (pre == NULL) {
       return NULL;
     }
@@ -40,24 +40,24 @@ char * str_replace(const char * source, const char * str_old, const char * str_n
     
     next = str_replace(source+strlen(pre)+strlen(str_old), str_old, str_new);
     if (next == NULL) {
-      free(pre);
+      o_free(pre);
       return NULL;
     }
     len = ((ptr-source)+strlen(str_new)+strlen(next));
-    to_return = malloc((len+1)*sizeof(char));
+    to_return = o_malloc((len+1)*sizeof(char));
     if (to_return == NULL) {
-      free(pre);
-      free(next);
+      o_free(pre);
+      o_free(next);
       return NULL;
     }
     if (snprintf(to_return, (len+1), "%s%s%s", pre, str_new, next) < 0) {
-      free(pre);
-      free(next);
-      free(to_return);
+      o_free(pre);
+      o_free(next);
+      o_free(to_return);
       return NULL;
     }
-    free(pre);
-    free(next);
+    o_free(pre);
+    o_free(next);
     return to_return;
   }
 }
@@ -75,7 +75,7 @@ char * msprintf(const char * message, ...) {
   va_start(argp, message);
   va_copy(argp_cpy, argp); // We make a copy because in some architectures, vsnprintf can modify argp
   out_len = vsnprintf(NULL, 0, message, argp);
-  out = malloc(out_len+sizeof(char));
+  out = o_malloc(out_len+sizeof(char));
   if (out == NULL) {
     return NULL;
   }
@@ -363,7 +363,7 @@ int split_string(const char * string, const char * separator, char *** return_ar
     token = strstr(begin, separator);
     while (token != NULL) {
       if (return_array != NULL) {
-        (*return_array) = realloc((*return_array), (result + 1)*sizeof(char*));
+        (*return_array) = o_realloc((*return_array), (result + 1)*sizeof(char*));
         if ((*return_array) != NULL) {
           (*return_array)[result-1] = nstrndup(begin, (token-begin));
           (*return_array)[result] = NULL;
@@ -374,7 +374,7 @@ int split_string(const char * string, const char * separator, char *** return_ar
       token = strstr(begin, separator);
     }
     if (return_array != NULL) {
-      (*return_array) = realloc((*return_array), (result + 1)*sizeof(char*));
+      (*return_array) = o_realloc((*return_array), (result + 1)*sizeof(char*));
       if ((*return_array) != NULL) {
         (*return_array)[result-1] = nstrdup(begin);
         (*return_array)[result] = NULL;
@@ -391,10 +391,10 @@ void free_string_array(char ** array) {
   int i;
   if (array != NULL) {
     for (i=0; array[i] != NULL; i++) {
-      free(array[i]);
+      o_free(array[i]);
       array[i] = NULL;
     }
-    free(array);
+    o_free(array);
   }
 }
 

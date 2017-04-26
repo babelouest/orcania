@@ -23,16 +23,19 @@ CC=gcc
 CFLAGS=-c -fPIC -Wall -D_REENTRANT $(ADDITIONALFLAGS)
 LIBS=-lc -ljansson
 OUTPUT=liborcania.so
-VERSION=0.9
+VERSION=1.1
 
 all: release
 
-liborcania.so: orcania.o
-	$(CC) -shared -Wl,-soname,$(OUTPUT) -o $(OUTPUT).$(VERSION) orcania.o $(LIBS)
+liborcania.so: memory.o orcania.o
+	$(CC) -shared -Wl,-soname,$(OUTPUT) -o $(OUTPUT).$(VERSION) orcania.o memory.o $(LIBS)
 	ln -sf $(OUTPUT).$(VERSION) $(OUTPUT)
 
 orcania.o: orcania.h orcania.c
 	$(CC) $(CFLAGS) orcania.c
+
+memory.o: orcania.h memory.c
+	$(CC) $(CFLAGS) memory.c
 
 clean:
 	rm -f *.o *.so $(OUTPUT) $(OUTPUT).*
