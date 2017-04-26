@@ -23,84 +23,84 @@
 char * str_replace(const char * source, const char * str_old, const char * str_new);
 
 /**
- * nstrdup
+ * o_strdup
  * a modified strdup function that don't crash when source is NULL, instead return NULL
  * Returned value must be free'd after use
  */
-char * nstrdup(const char * source);
+char * o_strdup(const char * source);
 
 /**
- * nstrndup
+ * o_strndup
  * a modified strndup function that don't crash when source is NULL, instead return NULL
  * Returned value must be free'd after use
  */
-char * nstrndup(const char * source, size_t len);
+char * o_strndup(const char * source, size_t len);
 
 /**
- * nstrcmp
+ * o_strcmp
  * a modified strcmp function that don't crash when p1 is NULL or p2 us NULL
  */
-int nstrcmp(const char * p1, const char * p2);
+int o_strcmp(const char * p1, const char * p2);
 
 /**
- * nstrncmp
+ * o_strncmp
  * a modified strncmp function that don't crash when p1 is NULL or p2 us NULL
  */
-int nstrncmp(const char * p1, const char * p2, size_t n);
+int o_strncmp(const char * p1, const char * p2, size_t n);
 
 /**
- * nstrcpy
+ * o_strcpy
  * a modified strcpy function that don't crash when p1 is NULL or p2 us NULL
  */
-char * nstrcpy(char * p1, const char * p2);
+char * o_strcpy(char * p1, const char * p2);
 
 /**
- * nstrncpy
+ * o_strncpy
  * a modified strncpy function that don't crash when p1 is NULL or p2 us NULL
  */
-char * nstrncpy(char * p1, const char * p2, size_t n);
+char * o_strncpy(char * p1, const char * p2, size_t n);
 
 /**
- * nstrcasecmp
+ * o_strcasecmp
  * a modified strcasecmp function that don't crash when p1 is NULL or p2 us NULL
  */
-int nstrcasecmp(const char * p1, const char * p2);
+int o_strcasecmp(const char * p1, const char * p2);
 
 /**
- * nstrncasecmp
+ * o_strncasecmp
  * a modified strncasecmp function that don't crash when p1 is NULL or p2 us NULL
  */
-int nstrncasecmp(const char * p1, const char * p2, size_t n);
+int o_strncasecmp(const char * p1, const char * p2, size_t n);
 
 /**
- * nstrstr
+ * o_strstr
  * a modified strstr function that don't crash when haystack is NULL or needle us NULL
  */
-char * nstrstr(const char * haystack, const char * needle);
+char * o_strstr(const char * haystack, const char * needle);
 
 /**
- * nstrnstr
+ * o_strnstr
  * a modified strnstr function that don't crash when haystack is NULL or needle us NULL
  */
-char * nstrnstr(const char * haystack, const char * needle, size_t len);
+char * o_strnstr(const char * haystack, const char * needle, size_t len);
 
 /**
- * nstrchr
+ * o_strchr
  * a modified strchr function that don't crash when haystack is NULL
  */
-char * nstrchr(const char * haystack, int c);
+char * o_strchr(const char * haystack, int c);
 
 /**
- * nstrrchr
+ * o_strrchr
  * a modified strrchr function that don't crash when haystack is NULL
  */
-char * nstrrchr(const char * haystack, int c);
+char * o_strrchr(const char * haystack, int c);
 
 /**
- * nstrlen
+ * o_strlen
  * a modified version of strlen that don't crash when s is NULL
  */
-size_t nstrlen(const char * s);
+size_t o_strlen(const char * s);
 
 /**
  * char * msprintf(const char * message, ...)
@@ -109,22 +109,6 @@ size_t nstrlen(const char * s);
  * but don't forget to free the returned value after use!
  */
 char * msprintf(const char * message, ...);
-
-/**
- * json_t * json_search(json_t * haystack, json_t * needle)
- * jansson library addon
- * This function could be removed if y pull request is accepted in jansson official repository:
- * https://github.com/akheron/jansson/pull/265
- * Look for an occurence of needle within haystack
- * If needle is present in haystack, return the reference to the json_t * that is equal to needle
- * If needle is not found, return NULL
- */
-json_t * json_search(json_t * haystack, json_t * needle);
-
-/**
- * Check if the result json object has a "result" element that is equal to value
- */
-int check_result_value(json_t * result, const int value);
 
 /**
  * Split a string into an array of strings using separator string
@@ -150,6 +134,24 @@ int string_array_has_value(const char ** array, const char * needle);
  * Remove string of beginning and ending whitespaces
  */
 char * trimwhitespace(char * str);
+
+#ifndef U_DISABLE_JANSSON
+/**
+ * json_t * json_search(json_t * haystack, json_t * needle)
+ * jansson library addon
+ * This function could be removed if y pull request is accepted in jansson official repository:
+ * https://github.com/akheron/jansson/pull/265
+ * Look for an occurence of needle within haystack
+ * If needle is present in haystack, return the reference to the json_t * that is equal to needle
+ * If needle is not found, return NULL
+ */
+json_t * json_search(json_t * haystack, json_t * needle);
+
+/**
+ * Check if the result json object has a "result" element that is equal to value
+ */
+int check_result_value(json_t * result, const int value);
+#endif
 
 /**
  * Memory functions

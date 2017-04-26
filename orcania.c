@@ -86,28 +86,41 @@ char * msprintf(const char * message, ...) {
 }
 
 /**
- * nstrdup
+ * o_strdup
  * a modified strdup function that don't crash when source is NULL, instead return NULL
  * Returned value must be free'd after use
  */
-char * nstrdup(const char * source) {
-  return (source==NULL?NULL:strdup(source));
+char * o_strdup(const char * source) {
+  return (source==NULL?NULL:o_strndup(source, strlen(source)));
 }
 
 /**
- * nstrndup
+ * o_strndup
  * a modified strndup function that don't crash when source is NULL, instead return NULL
  * Returned value must be free'd after use
  */
-char * nstrndup(const char * source, size_t len) {
-  return (source==NULL||len<=0?NULL:strndup(source, len));
+char * o_strndup(const char * source, size_t len) {
+  char *new_str;
+
+  if (source == NULL || len <= 0) {
+    return NULL;
+  } else {
+    new_str = o_malloc(len + 1);
+    if(!new_str) {
+      return NULL;
+    }
+
+    memcpy(new_str, source, len);
+    new_str[len] = '\0';
+    return new_str;
+  }
 }
 
 /**
- * nstrcmp
+ * o_strcmp
  * a modified strcmp function that don't crash when p1 is NULL or p2 us NULL
  */
-int nstrcmp(const char * p1, const char * p2) {
+int o_strcmp(const char * p1, const char * p2) {
   if (p1 == NULL && p2 == NULL) {
     return 0;
   } else if (p1 != NULL && p2 == NULL) {
@@ -120,10 +133,10 @@ int nstrcmp(const char * p1, const char * p2) {
 }
 
 /**
- * nstrncmp
+ * o_strncmp
  * a modified strncmp function that don't crash when p1 is NULL or p2 us NULL
  */
-int nstrncmp(const char * p1, const char * p2, size_t n) {
+int o_strncmp(const char * p1, const char * p2, size_t n) {
   if ((p1 == NULL && p2 == NULL) || n <= 0) {
     return 0;
   } else if (p1 != NULL && p2 == NULL) {
@@ -136,10 +149,10 @@ int nstrncmp(const char * p1, const char * p2, size_t n) {
 }
 
 /**
- * nstrcpy
+ * o_strcpy
  * a modified strcpy function that don't crash when p1 is NULL or p2 us NULL
  */
-char * nstrcpy(char * p1, const char * p2) {
+char * o_strcpy(char * p1, const char * p2) {
   if (p1 == NULL || p2 == NULL) {
     return NULL;
   } else {
@@ -148,10 +161,10 @@ char * nstrcpy(char * p1, const char * p2) {
 }
 
 /**
- * nstrncpy
+ * o_strncpy
  * a modified strncpy function that don't crash when p1 is NULL or p2 us NULL
  */
-char * nstrncpy(char * p1, const char * p2, size_t n) {
+char * o_strncpy(char * p1, const char * p2, size_t n) {
   if (p1 == NULL || p2 == NULL) {
     return NULL;
   } else {
@@ -160,10 +173,10 @@ char * nstrncpy(char * p1, const char * p2, size_t n) {
 }
 
 /**
- * nstrcasecmp
+ * o_strcasecmp
  * a modified strcasecmp function that don't crash when p1 is NULL or p2 us NULL
  */
-int nstrcasecmp(const char * p1, const char * p2) {
+int o_strcasecmp(const char * p1, const char * p2) {
   if (p1 == NULL && p2 == NULL) {
     return 0;
   } else if (p1 != NULL && p2 == NULL) {
@@ -176,10 +189,10 @@ int nstrcasecmp(const char * p1, const char * p2) {
 }
 
 /**
- * nstrncasecmp
+ * o_strncasecmp
  * a modified strncasecmp function that don't crash when p1 is NULL or p2 us NULL
  */
-int nstrncasecmp(const char * p1, const char * p2, size_t n) {
+int o_strncasecmp(const char * p1, const char * p2, size_t n) {
   if ((p1 == NULL && p2 == NULL) || n <= 0) {
     return 0;
   } else if (p1 != NULL && p2 == NULL) {
@@ -192,10 +205,10 @@ int nstrncasecmp(const char * p1, const char * p2, size_t n) {
 }
 
 /**
- * nstrstr
+ * o_strstr
  * a modified strstr function that don't crash when haystack is NULL or needle us NULL
  */
-char * nstrstr(const char * haystack, const char * needle) {
+char * o_strstr(const char * haystack, const char * needle) {
   if (haystack == NULL || needle == NULL) {
     return NULL;
   } else {
@@ -204,10 +217,10 @@ char * nstrstr(const char * haystack, const char * needle) {
 }
 
 /**
- * nstrchr
+ * o_strchr
  * a modified strchr function that don't crash when haystack is NULL
  */
-char * nstrchr(const char * haystack, int c) {
+char * o_strchr(const char * haystack, int c) {
   if (haystack == NULL) {
     return NULL;
   } else {
@@ -216,10 +229,10 @@ char * nstrchr(const char * haystack, int c) {
 }
 
 /**
- * nstrrchr
+ * o_strrchr
  * a modified strrchr function that don't crash when haystack is NULL
  */
-char * nstrrchr(const char * haystack, int c) {
+char * o_strrchr(const char * haystack, int c) {
   if (haystack == NULL) {
     return NULL;
   } else {
@@ -247,10 +260,10 @@ char *strnstr(const char *haystack, const char *needle, size_t len) {
 #endif
 
 /**
- * nstrnstr
+ * o_strnstr
  * a modified strnstr function that don't crash when haystack is NULL or needle us NULL
  */
-char * nstrnstr(const char * haystack, const char * needle, size_t len) {
+char * o_strnstr(const char * haystack, const char * needle, size_t len) {
   if (haystack == NULL || needle == NULL) {
     return NULL;
   } else {
@@ -259,10 +272,10 @@ char * nstrnstr(const char * haystack, const char * needle, size_t len) {
 }
 
 /**
- * nstrlen
+ * o_strlen
  * a modified version of strlen that don't crash when s is NULL
  */
-size_t nstrlen(const char * s) {
+size_t o_strlen(const char * s) {
   if (s == NULL) {
     return -1;
   } else {
@@ -270,6 +283,102 @@ size_t nstrlen(const char * s) {
   }
 }
 
+/**
+ * Split a string into an array of strings using separator string
+ * return the number of elements to be returned, 0 on error
+ * if return_array is not NULL, set the returned array in it
+ * return_array is an array of char * ending with a NULL value
+ * return_array must be free'd after use
+ * you can use free_string_array to free return_array
+ */
+int split_string(const char * string, const char * separator, char *** return_array) {
+  int result = 0;
+  char * token;
+  const char * begin = string;
+  
+  if (string != NULL && separator != NULL) {
+    if (return_array != NULL) {
+      *return_array = NULL;
+    }
+    result = 1;
+    token = strstr(begin, separator);
+    while (token != NULL) {
+      if (return_array != NULL) {
+        (*return_array) = o_realloc((*return_array), (result + 1)*sizeof(char*));
+        if ((*return_array) != NULL) {
+          (*return_array)[result-1] = o_strndup(begin, (token-begin));
+          (*return_array)[result] = NULL;
+        }
+      }
+      result++;
+      begin = token+strlen(separator);
+      token = strstr(begin, separator);
+    }
+    if (return_array != NULL) {
+      (*return_array) = o_realloc((*return_array), (result + 1)*sizeof(char*));
+      if ((*return_array) != NULL) {
+        (*return_array)[result-1] = o_strdup(begin);
+        (*return_array)[result] = NULL;
+      }
+    }
+  }
+  return result;
+}
+
+/**
+ * Clean an array of strings
+ */
+void free_string_array(char ** array) {
+  int i;
+  if (array != NULL) {
+    for (i=0; array[i] != NULL; i++) {
+      o_free(array[i]);
+      array[i] = NULL;
+    }
+    o_free(array);
+  }
+}
+
+/**
+ * Remove string of beginning and ending whitespaces
+ */
+char * trimwhitespace(char * str) {
+  char * end;
+
+  while(isspace((unsigned char)*str)) str++;
+
+  if(*str == 0) {
+    return str;
+  }
+
+  end = str + strlen(str) - 1;
+  while(end > str && isspace((unsigned char)*end)) {
+    end--;
+  }
+
+  *(end+1) = 0;
+
+  return str;
+}
+
+/**
+ * Check if an array of string has a specified value
+ */
+int string_array_has_value(const char ** array, const char * needle) {
+  int i;
+  if (array != NULL && needle != NULL) {
+    for (i=0; array[i] != NULL; i++) {
+      if (strcmp(array[i], needle) == 0) {
+        return 1;
+      }
+    }
+    return 0;
+  } else {
+    return 0;
+  }
+}
+
+#ifndef U_DISABLE_JANSSON
 /**
  * json_t * json_search(json_t * haystack, json_t * needle)
  * jansson library addon
@@ -341,98 +450,4 @@ int check_result_value(json_t * result, const int value) {
           json_is_integer(json_object_get(result, "result")) && 
           json_integer_value(json_object_get(result, "result")) == value);
 }
-
-/**
- * Split a string into an array of strings using separator string
- * return the number of elements to be returned, 0 on error
- * if return_array is not NULL, set the returned array in it
- * return_array is an array of char * ending with a NULL value
- * return_array must be free'd after use
- * you can use free_string_array to free return_array
- */
-int split_string(const char * string, const char * separator, char *** return_array) {
-  int result = 0;
-  char * token;
-  const char * begin = string;
-  
-  if (string != NULL && separator != NULL) {
-    if (return_array != NULL) {
-      *return_array = NULL;
-    }
-    result = 1;
-    token = strstr(begin, separator);
-    while (token != NULL) {
-      if (return_array != NULL) {
-        (*return_array) = o_realloc((*return_array), (result + 1)*sizeof(char*));
-        if ((*return_array) != NULL) {
-          (*return_array)[result-1] = nstrndup(begin, (token-begin));
-          (*return_array)[result] = NULL;
-        }
-      }
-      result++;
-      begin = token+strlen(separator);
-      token = strstr(begin, separator);
-    }
-    if (return_array != NULL) {
-      (*return_array) = o_realloc((*return_array), (result + 1)*sizeof(char*));
-      if ((*return_array) != NULL) {
-        (*return_array)[result-1] = nstrdup(begin);
-        (*return_array)[result] = NULL;
-      }
-    }
-  }
-  return result;
-}
-
-/**
- * Clean an array of strings
- */
-void free_string_array(char ** array) {
-  int i;
-  if (array != NULL) {
-    for (i=0; array[i] != NULL; i++) {
-      o_free(array[i]);
-      array[i] = NULL;
-    }
-    o_free(array);
-  }
-}
-
-/**
- * Remove string of beginning and ending whitespaces
- */
-char * trimwhitespace(char * str) {
-  char * end;
-
-  while(isspace((unsigned char)*str)) str++;
-
-  if(*str == 0) {
-    return str;
-  }
-
-  end = str + strlen(str) - 1;
-  while(end > str && isspace((unsigned char)*end)) {
-    end--;
-  }
-
-  *(end+1) = 0;
-
-  return str;
-}
-
-/**
- * Check if an array of string has a specified value
- */
-int string_array_has_value(const char ** array, const char * needle) {
-  int i;
-  if (array != NULL && needle != NULL) {
-    for (i=0; array[i] != NULL; i++) {
-      if (strcmp(array[i], needle) == 0) {
-        return 1;
-      }
-    }
-    return 0;
-  } else {
-    return 0;
-  }
-}
+#endif
