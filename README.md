@@ -1,7 +1,8 @@
 # Orcania
+
 Potluck with different functions for different purposes that can be shared among angharad programs
 
-Used other Angharad projects.
+Used my other projects.
 
 ## Installation
 
@@ -15,12 +16,19 @@ On a Debain based distribution, simply run the following command:
 $ sudo apt-get install libjansson-dev
 ```
 
+If you don't want `libjansson` specific functions, you can skip it with the build option `JANSSONFLAG=-DU_DISABLE_JANSSON`
+
+```
+$ cd src
+$ make JANSSONFLAG=-DU_DISABLE_JANSSON
+```
+
 ### Install Orcania library
 
-Download Orania source code fromm Github, compile and install:
+Download Orania source code from Github, compile and install:
 
 ```shell
 $ git clone https://github.com/babelouest/orcania.git
-$ cd orcania
+$ cd orcania/src
 $ make && sudo make install
 ```

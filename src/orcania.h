@@ -10,7 +10,9 @@
 #ifndef __ORCANIA_H__
 #define __ORCANIA_H__
 
+#ifndef U_DISABLE_JANSSON
 #include <jansson.h>
+#endif
 
 #define ORCANIA_VERSION 1.1
 /**

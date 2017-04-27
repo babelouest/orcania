@@ -27,7 +27,7 @@ LIBS=-lc -lorcania -ljansson -lcheck -lpthread -lm -lrt -lsubunit -L$(ORCANIA_LO
 all: test
 
 clean:
-	rm -f *.o str_test split_test memory_test valgrind.txt
+	rm -f *.o str_test split_test memory_test jansson_test valgrind.txt
 
 liborcania.so:
 	cd $(ORCANIA_LOCATION) && $(MAKE) debug
@@ -50,4 +50,10 @@ memory_test: memory_test.c
 test_memory_test: liborcania.so memory_test
 	-LD_LIBRARY_PATH=$(ORCANIA_LOCATION):${LD_LIBRARY_PATH} ./memory_test
 
-test: test_str_test test_split_test test_memory_test
+jansson_test: jansson_test.c
+	$(CC) $(CFLAGS) jansson_test.c -o jansson_test $(LIBS)
+
+test_jansson_test: liborcania.so jansson_test
+	-LD_LIBRARY_PATH=$(ORCANIA_LOCATION):${LD_LIBRARY_PATH} ./jansson_test
+
+test: test_str_test test_split_test test_jansson_test
