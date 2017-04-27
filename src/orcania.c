@@ -72,16 +72,18 @@ char * msprintf(const char * message, ...) {
   va_list argp, argp_cpy;
   size_t out_len = 0;
   char * out = NULL;
-  va_start(argp, message);
-  va_copy(argp_cpy, argp); // We make a copy because in some architectures, vsnprintf can modify argp
-  out_len = vsnprintf(NULL, 0, message, argp);
-  out = o_malloc(out_len+sizeof(char));
-  if (out == NULL) {
-    return NULL;
+  if (message != NULL) {
+    va_start(argp, message);
+    va_copy(argp_cpy, argp); // We make a copy because in some architectures, vsnprintf can modify argp
+    out_len = vsnprintf(NULL, 0, message, argp);
+    out = o_malloc(out_len+sizeof(char));
+    if (out == NULL) {
+      return NULL;
+    }
+    vsnprintf(out, (out_len+sizeof(char)), message, argp_cpy);
+    va_end(argp);
+    va_end(argp_cpy);
   }
-  vsnprintf(out, (out_len+sizeof(char)), message, argp_cpy);
-  va_end(argp);
-  va_end(argp_cpy);
   return out;
 }
 
@@ -102,7 +104,7 @@ char * o_strdup(const char * source) {
 char * o_strndup(const char * source, size_t len) {
   char *new_str;
 
-  if (source == NULL || len <= 0) {
+  if (source == NULL || len < 0) {
     return NULL;
   } else {
     new_str = o_malloc(len + 1);
@@ -345,11 +347,13 @@ void free_string_array(char ** array) {
 char * trimwhitespace(char * str) {
   char * end;
 
-  while(isspace((unsigned char)*str)) str++;
-
-  if(*str == 0) {
+  if (str == NULL) {
+    return NULL;
+  } else if(*str == 0) {
     return str;
   }
+
+  while(isspace((unsigned char)*str)) str++;
 
   end = str + strlen(str) - 1;
   while(end > str && isspace((unsigned char)*end)) {

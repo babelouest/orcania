@@ -25,7 +25,7 @@ void * o_malloc(size_t size) {
 }
 
 void * o_realloc(void * ptr, size_t size) {
-  if (!size || ptr == NULL) {
+  if (!size) {
     return NULL;
   } else {
     return (*do_realloc)(ptr, size);
