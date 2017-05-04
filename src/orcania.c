@@ -1,3 +1,4 @@
+#define _GNU_SOURCE
 #include <string.h>
 #include <ctype.h>
 #include "orcania.h"
@@ -270,6 +271,18 @@ char * o_strnstr(const char * haystack, const char * needle, size_t len) {
     return NULL;
   } else {
     return strnstr(haystack, needle, len);
+  }
+}
+
+/**
+ * o_strcasestr
+ * a modified strcasestr function that don't crash when haystack is NULL or needle us NULL
+ */
+char * o_strcasestr(const char * haystack, const char * needle) {
+  if (haystack == NULL || needle == NULL) {
+    return NULL;
+  } else {
+    return strcasestr(haystack, needle);
   }
 }
 

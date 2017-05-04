@@ -87,6 +87,12 @@ char * o_strstr(const char * haystack, const char * needle);
 char * o_strnstr(const char * haystack, const char * needle, size_t len);
 
 /**
+ * o_strcasestr
+ * a modified strcasestr function that don't crash when haystack is NULL or needle us NULL
+ */
+char * o_strcasestr(const char * haystack, const char * needle);
+
+/**
  * o_strchr
  * a modified strchr function that don't crash when haystack is NULL
  */
