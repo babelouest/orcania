@@ -139,6 +139,11 @@ void free_string_array(char ** array);
 int string_array_has_value(const char ** array, const char * needle);
 
 /**
+ * Check if an array of string has a specified trimmed value
+ */
+int string_array_has_trimmed_value(const char ** array, const char * needle);
+
+/**
  * Remove string of beginning and ending whitespaces
  */
 char * trimwhitespace(char * str);

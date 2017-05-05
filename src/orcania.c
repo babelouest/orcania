@@ -397,6 +397,40 @@ int string_array_has_value(const char ** array, const char * needle) {
   }
 }
 
+/**
+ * Check if an array of string has a specified trimmed value
+ */
+int string_array_has_trimmed_value(const char ** array, const char * needle) {
+  int i, to_return;
+  char * duplicate_needle, * trimmed_needle, * duplicate_value, * trimmed_value;
+  if (array != NULL && needle != NULL) {
+    duplicate_needle = o_strdup(needle);
+    if (duplicate_needle == NULL) {
+      to_return = 0;
+    } else {
+      trimmed_needle = trimwhitespace(duplicate_needle);
+      for (i=0; array[i] != NULL; i++) {
+        duplicate_value = o_strdup(array[i]);
+        if (duplicate_value == NULL) {
+          to_return = 0;
+          break;
+        } else {
+          trimmed_value = trimwhitespace(duplicate_value);
+          if (strcmp(trimmed_value, trimmed_needle) == 0) {
+            to_return = 1;
+          }
+        }
+        o_free(duplicate_value);
+      }
+      to_return = 0;
+    }
+    o_free(duplicate_needle);
+  } else {
+    to_return = 0;
+  }
+  return to_return;
+}
+
 #ifndef U_DISABLE_JANSSON
 /**
  * json_t * json_search(json_t * haystack, json_t * needle)
