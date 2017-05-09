@@ -17,10 +17,10 @@ $ sudo apt-get install libjansson-dev
 
 ### Install Orcania library
 
-Download Orania source code fromm Github, compile and install:
+Download Orania source code from Github, compile and install:
 
 ```shell
 $ git clone https://github.com/babelouest/orcania.git
-$ cd orcania
+$ cd orcania/
 $ make && sudo make install
 ```
