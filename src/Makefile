@@ -31,8 +31,8 @@ endif
 
 all: release
 
-liborcania.so: memory.o orcania.o
-	$(CC) -shared -Wl,-soname,$(OUTPUT) -o $(OUTPUT).$(VERSION) orcania.o memory.o $(LIBS)
+liborcania.so: memory.o orcania.o base64.o
+	$(CC) -shared -Wl,-soname,$(OUTPUT) -o $(OUTPUT).$(VERSION) orcania.o memory.o base64.o $(LIBS)
 	ln -sf $(OUTPUT).$(VERSION) $(OUTPUT)
 
 orcania.o: orcania.h orcania.c
@@ -40,6 +40,9 @@ orcania.o: orcania.h orcania.c
 
 memory.o: orcania.h memory.c
 	$(CC) $(CFLAGS) memory.c
+
+base64.o: orcania.h base64.c
+	$(CC) $(CFLAGS) base64.c
 
 clean:
 	rm -f *.o *.so $(OUTPUT) $(OUTPUT).*
