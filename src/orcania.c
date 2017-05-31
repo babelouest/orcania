@@ -31,7 +31,7 @@ char * str_replace(const char * source, const char * str_old, const char * str_n
   
   ptr = strstr(source, str_old);
   if (ptr == NULL) {
-    return strdup(source);
+    return o_strdup(source);
   } else {
     pre_len = ptr-source;
     pre = o_malloc((pre_len+1)*sizeof(char));
@@ -294,7 +294,7 @@ char * o_strcasestr(const char * haystack, const char * needle) {
  */
 size_t o_strlen(const char * s) {
   if (s == NULL) {
-    return -1;
+    return 0;
   } else {
     return strlen(s);
   }

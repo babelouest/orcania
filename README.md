@@ -2,7 +2,7 @@
 
 Potluck with different functions for different purposes that can be shared among angharad programs
 
-Used my other projects.
+Used for my other projects.
 
 ## Installation
 

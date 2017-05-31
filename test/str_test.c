@@ -114,7 +114,7 @@ END_TEST
 
 START_TEST(test_o_strncpy)
 {
-  char * src = "abcd", target[5];
+  char * src = "abcd", target[5] = {0};
   ck_assert_ptr_ne(o_strncpy(target, src, 3), NULL);
   ck_assert_str_eq(target, "abc");
   ck_assert_ptr_eq(o_strncpy(target, NULL, 4), NULL);
@@ -168,7 +168,7 @@ END_TEST
 START_TEST(test_o_strlen)
 {
   ck_assert_int_eq(o_strlen("abcdef"), 6);
-  ck_assert_int_eq(o_strlen(NULL), -1);
+  ck_assert_int_eq(o_strlen(NULL), 0);
   ck_assert_int_eq(o_strlen(""), 0);
 }
 END_TEST
@@ -196,6 +196,18 @@ START_TEST(test_trimwhitespace)
 }
 END_TEST
 
+START_TEST(test_base64)
+{
+  char * src = "source string", encoded[128], decoded[128];
+  size_t encoded_size, decoded_size;
+  ck_assert_int_eq(o_base64_encode((unsigned char *)src, strlen(src), (unsigned char *)encoded, &encoded_size), 1);
+  ck_assert_str_eq(encoded, "c291cmNlIHN0cmluZw==");
+  ck_assert_int_eq(o_base64_decode((unsigned char *)encoded, encoded_size, (unsigned char *)decoded, &decoded_size), 1);
+  ck_assert_str_eq(decoded, src);
+  ck_assert_int_eq(decoded_size, strlen(src));
+}
+END_TEST
+
 static Suite *orcania_suite(void)
 {
 	Suite *s;
@@ -219,6 +231,7 @@ static Suite *orcania_suite(void)
 	tcase_add_test(tc_core, test_o_strlen);
 	tcase_add_test(tc_core, test_msprintf);
 	tcase_add_test(tc_core, test_trimwhitespace);
+	tcase_add_test(tc_core, test_base64);
 	tcase_set_timeout(tc_core, 30);
 	suite_add_tcase(s, tc_core);
 
