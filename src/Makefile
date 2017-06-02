@@ -32,7 +32,7 @@ endif
 all: release
 
 liborcania.so: memory.o orcania.o base64.o
-	$(CC) -shared -Wl,-soname,$(OUTPUT) -o $(OUTPUT).$(VERSION) orcania.o memory.o base64.o $(LIBS)
+	$(CC) -shared -Wl,-soname,$(OUTPUT) -o $(OUTPUT).$(VERSION) orcania.o memory.o base64.o $(LIBS) -coverage
 	ln -sf $(OUTPUT).$(VERSION) $(OUTPUT)
 
 orcania.o: orcania.h orcania.c
