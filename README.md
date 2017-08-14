@@ -44,6 +44,10 @@ $ cd src
 $ make && make PREFIX=/tmp install
 ```
 
+You can install Orcania without root permission if your user has write access to `$(PREFIX)`.
+A `ldconfig` command is executed at the end of the install, it will probably fail if you don't have root permission, but this is harmless.
+If you choose to install Orcania in another directory, you must set your environment variable `LD_LIBRARY_PATH` properly.
+
 #### Install as a static archive
 
 To install Orcania library as a static archive, `liborcania.a`, use the make commands `make static*`:
