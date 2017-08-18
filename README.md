@@ -1,6 +1,6 @@
 # Orcania
 
-Potluck with different functions for different purposes that can be shared among angharad programs
+Potluck with different functions for different purposes that can be shared among c programs
 
 Used for my other projects.
 
