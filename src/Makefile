@@ -53,7 +53,7 @@ clean:
 install: all
 	cp $(OUTPUT).$(VERSION) $(PREFIX)/lib
 	cp orcania.h $(PREFIX)/include
-	/sbin/ldconfig
+	-ldconfig
 
 static-install: static
 	cp liborcania.a $(PREFIX)/lib
