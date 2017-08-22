@@ -6,7 +6,17 @@ Used for my other projects.
 
 ## Installation
 
-### Prerequisites
+### Debian package
+
+Orcania is now available in Debian Buster (testing), and Debian sid. To install it on your device, use the following command as root:
+
+```shell
+# apt install liborcania-dev # Or apt install liborcania1.1 if you don't need the development files
+```
+
+### Manual install
+
+#### Prerequisites
 
 You need [Jansson library](http://www.digip.org/jansson/) in order to install Orcania.
 
@@ -23,7 +33,7 @@ $ cd src
 $ make JANSSONFLAG=-DU_DISABLE_JANSSON
 ```
 
-### Install Orcania library
+#### Install Orcania library
 
 Download Orcania source code from Github, compile and install:
 
@@ -33,7 +43,7 @@ $ cd orcania/src
 $ make && sudo make install
 ```
 
-#### Install in a different directory
+##### Install in a different directory
 
 To install Orcania library on a dfferent library, use a different $(PREFIX) value during install.
 
@@ -48,7 +58,7 @@ You can install Orcania without root permission if your user has write access to
 A `ldconfig` command is executed at the end of the install, it will probably fail if you don't have root permission, but this is harmless.
 If you choose to install Orcania in another directory, you must set your environment variable `LD_LIBRARY_PATH` properly.
 
-#### Install as a static archive
+##### Install as a static archive
 
 To install Orcania library as a static archive, `liborcania.a`, use the make commands `make static*`:
 
