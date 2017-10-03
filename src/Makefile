@@ -21,13 +21,14 @@
 PREFIX=/usr/local
 CC=gcc
 CFLAGS=-c -fPIC -Wall -D_REENTRANT $(ADDITIONALFLAGS) $(JANSSONFLAG)
-LIBS=-lc -ljansson
 OUTPUT=liborcania.so
 VERSION=1.1
 
 ifneq (($(JANSSONFLAG)),"")
 LJANSSON=-ljansson
 endif
+
+LIBS=-lc $(LJANNSON)
 
 all: release
 
