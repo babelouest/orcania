@@ -28,7 +28,7 @@ ifneq (($(JANSSONFLAG)),"")
 LJANSSON=-ljansson
 endif
 
-LIBS=-lc $(LJANNSON)
+LIBS=-lc $(LJANSSON)
 
 all: release
 
