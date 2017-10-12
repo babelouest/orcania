@@ -24,7 +24,7 @@ CFLAGS=-c -fPIC -Wall -D_REENTRANT $(ADDITIONALFLAGS) $(JANSSONFLAG)
 OUTPUT=liborcania.so
 VERSION=1.1
 
-ifneq (($(JANSSONFLAG)),"")
+ifndef JANSSONFLAG
 LJANSSON=-ljansson
 endif
 
