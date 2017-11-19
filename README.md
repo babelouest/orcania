@@ -6,9 +6,11 @@ Used for my other projects.
 
 ## Installation
 
-### Debian and Ubuntu packages
+### Debian-ish packages
 
-Orcania is now available in Debian Buster (testing), Debian sid and since Ubuntu 17.10 "The Artful Aardvark". To install it on your device, use the following command as root:
+[![Packaging status](https://repology.org/badge/vertical-allrepos/orcania.svg)](https://repology.org/metapackage/orcania)
+
+Orcania is now available in Debian Buster (testing) and some Debian based distributions. To install it on your device, use the following command as root:
 
 ```shell
 # apt install liborcania-dev # Or apt install liborcania1.1 if you don't need the development files
