@@ -14,7 +14,7 @@
 #include <jansson.h>
 #endif
 
-#define ORCANIA_VERSION 1.1
+#define ORCANIA_VERSION 1.1.1
 /**
  * char * str_replace(const char * source, char * old, char * new)
  * replace all occurences of old by new in the string source
@@ -134,9 +134,24 @@ int split_string(const char * string, const char * separator, char *** return_ar
 void free_string_array(char ** array);
 
 /**
- * Check if an array of string has a specified value
+ * Check if an array of string has a specified value, case sensitive
  */
 int string_array_has_value(const char ** array, const char * needle);
+
+/**
+ * Check if an array of string has a specified value, case insensitive
+ */
+int string_array_has_value_case(const char ** array, const char * needle);
+
+/**
+ * Check if an array of string has a specified value, case sensitive, limit to len characters
+ */
+int string_array_has_value_n(const char ** array, const char * needle, size_t len);
+
+/**
+ * Check if an array of string has a specified value, case insensitive, limit to len characters
+ */
+int string_array_has_value_ncase(const char ** array, const char * needle, size_t len);
 
 /**
  * Check if an array of string has a specified trimmed value

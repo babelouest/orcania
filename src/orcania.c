@@ -381,13 +381,64 @@ char * trimwhitespace(char * str) {
 }
 
 /**
- * Check if an array of string has a specified value
+ * Check if an array of string has a specified value, case sensitive
  */
 int string_array_has_value(const char ** array, const char * needle) {
   int i;
   if (array != NULL && needle != NULL) {
     for (i=0; array[i] != NULL; i++) {
-      if (strcmp(array[i], needle) == 0) {
+      if (o_strcmp(array[i], needle) == 0) {
+        return 1;
+      }
+    }
+    return 0;
+  } else {
+    return 0;
+  }
+}
+
+/**
+ * Check if an array of string has a specified value, case insensitive
+ */
+int string_array_has_value_case(const char ** array, const char * needle) {
+  int i;
+  if (array != NULL && needle != NULL) {
+    for (i=0; array[i] != NULL; i++) {
+      if (o_strcasecmp(array[i], needle) == 0) {
+        return 1;
+      }
+    }
+    return 0;
+  } else {
+    return 0;
+  }
+}
+
+/**
+ * Check if an array of string has a specified value, case sensitive, limit to len characters
+ */
+int string_array_has_value_n(const char ** array, const char * needle, size_t len) {
+  int i;
+  if (array != NULL && needle != NULL) {
+    for (i=0; array[i] != NULL; i++) {
+      if (o_strncmp(array[i], needle, len) == 0) {
+        return 1;
+      }
+    }
+    return 0;
+  } else {
+    return 0;
+  }
+}
+
+/**
+ * Check if an array of string has a specified value, case insensitive, limit to len characters
+ */
+int string_array_has_value_ncase(const char ** array, const char * needle, size_t len) {
+  int i;
+  if (array != NULL && needle != NULL) {
+    for (i=0; array[i] != NULL; i++) {
+      if (o_strncasecmp(array[i], needle, len) == 0) {
         return 1;
       }
     }
@@ -416,7 +467,7 @@ int string_array_has_trimmed_value(const char ** array, const char * needle) {
           break;
         } else {
           trimmed_value = trimwhitespace(duplicate_value);
-          if (strcmp(trimmed_value, trimmed_needle) == 0) {
+          if (o_strcmp(trimmed_value, trimmed_needle) == 0) {
             to_return = 1;
           }
         }
