@@ -196,6 +196,25 @@ START_TEST(test_trimwhitespace)
 }
 END_TEST
 
+START_TEST(test_string_array)
+{
+	char ** array, * str_orig = "Alice,Bob,Carol,Dave,Eve,Isaac";
+	int size = split_string(str_orig, ",", &array);
+	
+	ck_assert_int_eq(size, 6);
+	ck_assert_int_eq(string_array_has_value((const char **)array, "Alice"), 1);
+	ck_assert_int_eq(string_array_has_value((const char **)array, "Mallory"), 0);
+	ck_assert_int_eq(string_array_has_value_case((const char **)array, "alice"), 1);
+	ck_assert_int_eq(string_array_has_value_case((const char **)array, "mallory"), 0);
+	ck_assert_int_eq(string_array_has_value_n((const char **)array, "Aliceeee", 5), 1);
+	ck_assert_int_eq(string_array_has_value_n((const char **)array, "Malloryyyy", 7), 0);
+	ck_assert_int_eq(string_array_has_value_ncase((const char **)array, "aliceeee", 5), 1);
+	ck_assert_int_eq(string_array_has_value_ncase((const char **)array, "malloryyyy", 7), 0);
+	
+	free_string_array(array);
+}
+END_TEST
+
 START_TEST(test_base64)
 {
   char * src = "source string", encoded[128], decoded[128];
@@ -232,6 +251,7 @@ static Suite *orcania_suite(void)
 	tcase_add_test(tc_core, test_msprintf);
 	tcase_add_test(tc_core, test_trimwhitespace);
 	tcase_add_test(tc_core, test_base64);
+	tcase_add_test(tc_core, test_string_array);
 	tcase_set_timeout(tc_core, 30);
 	suite_add_tcase(s, tc_core);
 
