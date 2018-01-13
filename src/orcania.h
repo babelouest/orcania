@@ -10,8 +10,8 @@
 #ifndef __ORCANIA_H__
 #define __ORCANIA_H__
 
-#if defined(__MINGW32__) || defined(__CYGWIN__)
-# define WIN
+#ifdef _WIN32
+#define _WIN
 #endif
 
 #ifndef U_DISABLE_JANSSON
