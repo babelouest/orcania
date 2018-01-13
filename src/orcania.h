@@ -10,6 +10,10 @@
 #ifndef __ORCANIA_H__
 #define __ORCANIA_H__
 
+#ifdef _WIN32
+# define _WIN
+#endif
+
 #ifndef U_DISABLE_JANSSON
 #include <jansson.h>
 #endif

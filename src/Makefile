@@ -18,9 +18,21 @@
 # You should have received a copy of the GNU General Public
 # License along with this library.	If not, see <http://www.gnu.org/licenses/>.
 #
-PREFIX=/usr/local
+
+ifeq ($(OS),Windows_NT)
+	PREFIX=/mingw32
+	CFLAGS=-D_WIN32
+	LIBS=
+	LDCONFIG=
+else
+	PREFIX=/usr/local
+	CFLAGS=-fPIC
+	LIBS=-lc
+	LDCONFIG=-ldconfig
+endif
+
 CC=gcc
-CFLAGS=-c -fPIC -Wall -D_REENTRANT $(ADDITIONALFLAGS) $(JANSSONFLAG)
+CFLAGS+=-c -Wall -D_REENTRANT $(ADDITIONALFLAGS) $(JANSSONFLAG)
 OUTPUT=liborcania.so
 VERSION=1.1.1
 
@@ -28,7 +40,7 @@ ifndef JANSSONFLAG
 LJANSSON=-ljansson
 endif
 
-LIBS=-lc $(LJANSSON)
+LIBS+=$(LJANSSON)
 
 all: release
 
@@ -43,7 +55,7 @@ orcania.o: orcania.h orcania.c
 	$(CC) $(CFLAGS) orcania.c
 
 memory.o: orcania.h memory.c
-	$(CC) $(CFLAGS) memory.c
+	$(CC) $(CFLAGS) memory.c $(LIBS)
 
 base64.o: orcania.h base64.c
 	$(CC) $(CFLAGS) base64.c
