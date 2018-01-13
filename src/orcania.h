@@ -11,7 +11,7 @@
 #define __ORCANIA_H__
 
 #ifdef _WIN32
-#define _WIN
+# define _WIN
 #endif
 
 #ifndef U_DISABLE_JANSSON

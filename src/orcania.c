@@ -273,7 +273,7 @@ static char *strcasestr(const char *haystack, const char *needle) {
   n = o_strlen(needle);
   while (*haystack) {
     if (!strnicmp(haystack++, needle, n)) {
-      return (char *) (haystack - sizeof(char));
+      return (char *)(haystack-sizeof(char));
     }
   }
   return NULL;
