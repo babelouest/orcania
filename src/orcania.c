@@ -245,7 +245,7 @@ char * o_strrchr(const char * haystack, int c) {
   }
 }
 
-#if defined(__linux__) || defined(__GLIBC__)
+#if defined(__linux__) || defined(__GLIBC__) || defined(WIN)
 static char *strnstr(const char *haystack, const char *needle, size_t len) {
   int i;
   size_t needle_len;
@@ -261,6 +261,19 @@ static char *strnstr(const char *haystack, const char *needle, size_t len) {
     haystack++;
   }
   return NULL;
+}
+#endif
+
+#ifdef WIN
+static const char *strcasestr(const char *s1, const char *s2) {
+  size_t n;
+  if (!s1 || !s2)
+    return NULL;
+  n = strlen(s2);
+  while (*s1)
+    if (!strnicmp(s1++, s2, n))
+      return s1 - 1;
+  return 0;
 }
 #endif
 
@@ -284,7 +297,11 @@ char * o_strcasestr(const char * haystack, const char * needle) {
   if (haystack == NULL || needle == NULL) {
     return NULL;
   } else {
+#ifdef WIN
+    return (char *) strcasestr(haystack, needle);
+#else
     return strcasestr(haystack, needle);
+#endif
   }
 }
 
