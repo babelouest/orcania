@@ -3,11 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <errno.h>
-#include <time.h>
 
 #include <check.h>
-#include "../src/orcania.h"
+#include <orcania.h>
 
 START_TEST(test_str_replace)
 {
@@ -176,8 +174,10 @@ END_TEST
 START_TEST(test_msprintf)
 {
   char * target;
+  char tmp[100];
   target = msprintf("target1 %s %d %p", "str1", 42, NULL);
-  ck_assert_str_eq(target, "target1 str1 42 (nil)");
+  sprintf(tmp, "target1 str1 42 %p", NULL);
+  ck_assert_str_eq(target, tmp);
   o_free(target);
   ck_assert_ptr_eq(msprintf(NULL, "str1", 42, NULL), NULL);
 }
@@ -258,7 +258,7 @@ static Suite *orcania_suite(void)
 	return s;
 }
 
-int main(int argc, char *argv[])
+int main()
 {
   int number_failed;
   Suite *s;

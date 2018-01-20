@@ -1,14 +1,10 @@
 /* Public domain, no copyright. Use at your own risk. */
 
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-#include <time.h>
 
 #include <check.h>
 #include <jansson.h>
-#include "../src/orcania.h"
+#include <orcania.h>
 
 START_TEST(test_json_search)
 {
@@ -52,7 +48,7 @@ static Suite *orcania_suite(void)
 	return s;
 }
 
-int main(int argc, char *argv[])
+int main()
 {
   int number_failed;
   Suite *s;
