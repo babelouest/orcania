@@ -2,20 +2,17 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-#include <time.h>
 
 #include <check.h>
-#include "../src/orcania.h"
+#include <orcania.h>
 
 START_TEST(test_o_malloc)
 {
   void * var;
-  var = malloc(8);
+  var = o_malloc(8);
   ck_assert_ptr_ne(var, NULL);
   o_free(var);
-  var = malloc(-1);
+  var = o_malloc(0);
   ck_assert_ptr_eq(var, NULL);
 }
 END_TEST
@@ -23,11 +20,11 @@ END_TEST
 START_TEST(test_o_realloc)
 {
   void * var, * new_var;
-  var = malloc(8);
+  var = o_malloc(8);
   ck_assert_ptr_ne(var, NULL);
-  var = realloc(var, 16);
+  var = o_realloc(var, 16);
   ck_assert_ptr_ne(var, NULL);
-  new_var = realloc(var, -1);
+  new_var = o_realloc(var, 0);
   ck_assert_ptr_eq(new_var, NULL);
   o_free(var);
 }
@@ -48,7 +45,7 @@ static Suite *orcania_suite(void)
 	return s;
 }
 
-int main(int argc, char *argv[])
+int main()
 {
   int number_failed;
   Suite *s;
