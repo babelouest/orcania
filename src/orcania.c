@@ -116,7 +116,7 @@ char * o_strdup(const char * source) {
 char * o_strndup(const char * source, size_t len) {
   char *new_str;
 
-  if (source == NULL || (int)len < 0) {
+  if (source == NULL) {
     return NULL;
   } else {
     new_str = o_malloc(len + 1);
