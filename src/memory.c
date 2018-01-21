@@ -9,7 +9,7 @@
  */
 
 #include <stdlib.h>
-#include "../include/orcania.h"
+#include "orcania.h"
 
 /* memory function pointers */
 static o_malloc_t do_malloc = malloc;
@@ -44,7 +44,7 @@ void o_set_alloc_funcs(o_malloc_t malloc_fn, o_realloc_t realloc_fn, o_free_t fr
   do_malloc = malloc_fn;
   do_realloc = realloc_fn;
   do_free = free_fn;
-#ifndef U_DISABLE_JANSSON
+#ifdef USE_JANSSON
   json_set_alloc_funcs(malloc_fn, free_fn);
 #endif
 }
