@@ -1,9 +1,11 @@
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
+#endif
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
 #include <stdarg.h>
-#include "orcania.h"
+#include "../include/orcania.h"
 
 /**
  * 
@@ -107,7 +109,7 @@ char * o_strdup(const char * source) {
 char * o_strndup(const char * source, size_t len) {
   char *new_str;
 
-  if (source == NULL || len < 0) {
+  if (source == NULL) {
     return NULL;
   } else {
     new_str = o_malloc(len + 1);
