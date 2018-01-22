@@ -20,9 +20,11 @@
 #
 PREFIX=/usr/local
 CC=gcc
-CFLAGS=-c -fPIC -Wall -Werror -Wextra -D_REENTRANT $(ADDITIONALFLAGS) $(JANSSONFLAG)
-OUTPUT=liborcania.so
+INC_DIR=../include
 VERSION=1.1.1
+CFLAGS=-I$(INC_DIR) -c -fPIC -Wall -DLIBRARY_VERSION=\"$(VERSION)\" -D_REENTRANT $(ADDITIONALFLAGS) $(JANSSONFLAG)
+DEPS=$(INC_DIR)/orcania.h
+OUTPUT=liborcania.so
 
 ifndef JANSSONFLAG
 LJANSSON=-ljansson
@@ -39,13 +41,13 @@ liborcania.so: memory.o orcania.o base64.o
 liborcania.a: memory.o orcania.o base64.o
 	ar rcs liborcania.a memory.o orcania.o base64.o
 
-orcania.o: ../include/orcania.h orcania.c
+orcania.o: $(DEPS) orcania.c
 	$(CC) $(CFLAGS) orcania.c
 
-memory.o: ../include/orcania.h memory.c
+memory.o: $(DEPS) memory.c
 	$(CC) $(CFLAGS) memory.c
 
-base64.o: ../include/orcania.h base64.c
+base64.o: $(DEPS) base64.c
 	$(CC) $(CFLAGS) base64.c
 
 clean:
@@ -53,12 +55,12 @@ clean:
 
 install: all
 	cp $(OUTPUT).$(VERSION) $(PREFIX)/lib
-	cp ../include/orcania.h $(PREFIX)/include
+	cp $(DEPS) $(PREFIX)/include
 	-ldconfig
 
 static-install: static
 	cp liborcania.a $(PREFIX)/lib
-	cp orcania.h $(PREFIX)/include
+	cp $(DEPS) $(PREFIX)/include
 
 uninstall:
 	rm -f $(PREFIX)/lib/$(OUTPUT) $(PREFIX)/lib/liborcania.a

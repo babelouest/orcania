@@ -5,7 +5,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdarg.h>
-#include "../include/orcania.h"
+#include "orcania.h"
 
 /**
  * 
@@ -15,6 +15,13 @@
  * other projects
  * 
  */
+
+/**
+ * Return the library version.
+ */
+const char *o_version() {
+  return ORCANIA_VERSION;
+}
 
 /**
  * char * str_replace(const char * source, char * str_old, char * str_new)
@@ -79,8 +86,8 @@ char * msprintf(const char * message, ...) {
   char * out = NULL;
   if (message != NULL) {
     va_start(argp, message);
-    va_copy(argp_cpy, argp); // We make a copy because in some architectures, vsnprintf can modify argp
-    out_len = vsnprintf(NULL, 0, message, argp);
+    va_copy(argp_cpy, argp); /* We make a copy because in some architectures, vsnprintf can modify argp */
+    out_len = (size_t)vsnprintf(NULL, 0, message, argp);
     out = o_malloc(out_len+sizeof(char));
     if (out == NULL) {
       return NULL;
@@ -132,7 +139,7 @@ int o_strcmp(const char * p1, const char * p2) {
     return 0;
   } else if (p1 != NULL && p2 == NULL) {
     return -1;
-  } else if (p1 == NULL && p2 != NULL) {
+  } else if (p1 == NULL) {
     return 1;
   } else {
     return strcmp(p1, p2);
@@ -148,7 +155,7 @@ int o_strncmp(const char * p1, const char * p2, size_t n) {
     return 0;
   } else if (p1 != NULL && p2 == NULL) {
     return -1;
-  } else if (p1 == NULL && p2 != NULL) {
+  } else if (p1 == NULL) {
     return 1;
   } else {
     return strncmp(p1, p2, n);
@@ -188,7 +195,7 @@ int o_strcasecmp(const char * p1, const char * p2) {
     return 0;
   } else if (p1 != NULL && p2 == NULL) {
     return -1;
-  } else if (p1 == NULL && p2 != NULL) {
+  } else if (p1 == NULL) {
     return 1;
   } else {
     return strcasecmp(p1, p2);
@@ -204,7 +211,7 @@ int o_strncasecmp(const char * p1, const char * p2, size_t n) {
     return 0;
   } else if (p1 != NULL && p2 == NULL) {
     return -1;
-  } else if (p1 == NULL && p2 != NULL) {
+  } else if (p1 == NULL) {
     return 1;
   } else {
     return strncasecmp(p1, p2, n);
@@ -247,7 +254,7 @@ char * o_strrchr(const char * haystack, int c) {
   }
 }
 
-#if defined(__linux__) || defined(__GLIBC__)
+#if defined(__linux__) || defined(__GLIBC__) || defined(_WIN32)
 static char *strnstr(const char *haystack, const char *needle, size_t len) {
   int i;
   size_t needle_len;
@@ -261,6 +268,22 @@ static char *strnstr(const char *haystack, const char *needle, size_t len) {
       return (char *)haystack;
 
     haystack++;
+  }
+  return NULL;
+}
+#endif
+
+#ifdef _WIN32
+static char *strcasestr(const char *haystack, const char *needle) {
+  size_t n;
+  if (haystack == NULL || needle == NULL) {
+    return NULL;
+  }
+  n = o_strlen(needle);
+  while (*haystack) {
+    if (!strnicmp(haystack++, needle, n)) {
+      return (char *)(haystack-sizeof(char));
+    }
   }
   return NULL;
 }
@@ -484,7 +507,7 @@ int string_array_has_trimmed_value(const char ** array, const char * needle) {
   return to_return;
 }
 
-#ifndef U_DISABLE_JANSSON
+#ifdef USE_JANSSON
 /**
  * json_t * json_search(json_t * haystack, json_t * needle)
  * jansson library addon
@@ -503,12 +526,12 @@ json_t * json_search(json_t * haystack, json_t * needle) {
   if (haystack == needle)
     return haystack;
 
-  // If both haystack and needle are the same type, test them
+  /* If both haystack and needle are the same type, test them */
   if (json_typeof(haystack) == json_typeof(needle) && !json_is_object(haystack))
     if (json_equal(haystack, needle))
       return haystack;
 
-  // If they are not equals, test json_search in haystack elements recursively if it's an array or an object
+  /* If they are not equals, test json_search in haystack elements recursively if it's an array or an object */
   if (json_is_array(haystack)) {
     json_array_foreach(haystack, index, value1) {
       if (json_equal(value1, needle)) {
@@ -549,7 +572,7 @@ json_t * json_search(json_t * haystack, json_t * needle) {
 /**
  * Check if the result json object has a "result" element that is equal to value
  */
-int check_result_value(json_t * result, const int value) {
+int check_result_value(json_t * result, int value) {
   return (result != NULL && 
           json_is_object(result) && 
           json_object_get(result, "result") != NULL && 
