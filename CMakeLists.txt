@@ -111,20 +111,21 @@ if (BUILD_TESTING)
     include(FindCheck)
     find_package(Check)
     if (CHECK_FOUND)
-        include(FindSubunit)
-        find_package(Subunit REQUIRED)
+        if (NOT WIN32)
+            include(FindSubunit)
+            find_package(Subunit REQUIRED)
+        endif ()
 
         enable_testing()
 
         set(CMAKE_CTEST_COMMAND ctest -V)
 
         set(TST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/test)
-        set(LIBS orcania ${LIBS} ${CHECK_LIBRARIES} ${SUBUNIT_LIBRARIES})
+        set(LIBS orcania ${LIBS} ${CHECK_LIBRARIES})
         if (NOT WIN32)
             find_package(Threads REQUIRED)
-            set(LIBS ${LIBS} ${CMAKE_THREAD_LIBS_INIT})
+            set(LIBS ${LIBS} ${SUBUNIT_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} m rt)
         endif ()
-        set(LIBS ${LIBS} m rt)
 
         set(TESTS
                 str_test
