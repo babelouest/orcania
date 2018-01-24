@@ -69,10 +69,14 @@ set(LIB_SRC
 
 # static library
 
-add_library(orcania_static STATIC ${LIB_SRC})
-target_compile_definitions(orcania_static PUBLIC -DO_STATIC_LIBRARY)
-set_target_properties(orcania_static PROPERTIES
-        OUTPUT_NAME orcania)
+option(BUILD_STATIC "Build static library." OFF)
+
+if (BUILD_STATIC)
+	add_library(orcania_static STATIC ${LIB_SRC})
+	target_compile_definitions(orcania_static PUBLIC -DO_STATIC_LIBRARY)
+	set_target_properties(orcania_static PROPERTIES
+					OUTPUT_NAME orcania)
+endif ()
 
 # shared library
 
@@ -149,17 +153,30 @@ endif ()
 
 # install target
 
+option(INSTALL_HEADER ON) # Install orcania.h or not
+
 configure_file(liborcania.pc.in liborcania.pc @ONLY)
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/liborcania.pc
         DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)
 
-install(TARGETS orcania orcania_static
+SET (TARGETS orcania)
+if (BUILD_STATIC)
+	SET (TARGETS ${TARGETS} orcania_static)
+endif ()
+
+if (INSTALL_HEADER)
+install(TARGETS ${TARGETS}
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
         PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-
+else ()
+install(TARGETS ${TARGETS}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+endif ()
 # uninstall target
 
 if (NOT TARGET uninstall)
@@ -177,10 +194,15 @@ set(CPACK_PACKAGE_VERSION_MAJOR ${LIBRARY_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${LIBRARY_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${LIBRARY_VERSION_PATCH})
 
+if (INSTALL_HEADER)
 set(PACKAGE_FILE_NAME
-        "${CMAKE_PROJECT_NAME}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
+        "lib${CMAKE_PROJECT_NAME}-dev${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
+else ()
+set(PACKAGE_FILE_NAME
+        "lib${CMAKE_PROJECT_NAME}${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
+endif ()
 set(PACKAGE_IGNORED_FILES
-        "${CMAKE_CURRENT_BINARY_DIR}/;/.git/;.gitignore;/.idea/;~$;${CPACK_SOURCE_IGNORE_FILES}")
+        "${CMAKE_CURRENT_BINARY_DIR}/;/.git/;.gitignore;~$;${CPACK_SOURCE_IGNORE_FILES}")
 
 set(CPACK_GENERATOR "TGZ;DEB;RPM")
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "mail@babelouest.org")
