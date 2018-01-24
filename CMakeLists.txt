@@ -3,7 +3,8 @@
 #
 # CMake file used to build all programs
 #
-# Copyright 2017 Nicolas Mora <mail@babelouest.org>
+# Copyright 2018 Silvio Clecio <silvioprog@gmail.com>
+# Copyright 2018 Nicolas Mora <mail@babelouest.org>
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the MIT License
@@ -12,9 +13,6 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 #
-
-# Written by Silvio Clecio <silvioprog@gmail.com>
-# Fri Jan 19 20:01:43 -03 2018
 
 cmake_minimum_required(VERSION 3.5)
 
