@@ -105,7 +105,7 @@ target_link_libraries(orcania ${LIBS})
 
 # tests
 
-option(BUILD_TESTING "Build the testing tree." OFF) # because we don not use include(CTest)
+option(BUILD_TESTING "Build the testing tree." ON) # because we don not use include(CTest)
 
 if (BUILD_TESTING)
     include(FindCheck)
@@ -186,9 +186,9 @@ set(PACKAGE_FILE_NAME
 set(PACKAGE_IGNORED_FILES
         "${CMAKE_CURRENT_BINARY_DIR}/;/.git/;.gitignore;/.idea/;~$;${CPACK_SOURCE_IGNORE_FILES}")
 
-#set(CPACK_GENERATOR "TGZ;DEB;RPM")
-#set(CPACK_DEBIAN_PACKAGE_MAINTAINER "silvioprog") # required
-#set(CPACK_PACKAGE_FILE_NAME ${PACKAGE_FILE_NAME})
+set(CPACK_GENERATOR "TGZ;DEB;RPM")
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "mail@babelouest.org")
+set(CPACK_PACKAGE_FILE_NAME ${PACKAGE_FILE_NAME})
 
 set(CPACK_SOURCE_GENERATOR "TGZ")
 set(CPACK_SOURCE_PACKAGE_FILE_NAME ${PACKAGE_FILE_NAME})
