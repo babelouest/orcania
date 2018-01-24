@@ -20,22 +20,19 @@ Orcania is now available in Debian Buster (testing) and some Debian based distri
 
 #### Prerequisites
 
-You need [Jansson library](http://www.digip.org/jansson/) in order to install Orcania.
+You should need [Jansson library](http://www.digip.org/jansson/) in order to install Orcania.
 
-On a Debain based distribution, simply run the following command:
+On a Debian based distribution, simply run the following command:
 
 ```shell
 $ sudo apt-get install libjansson-dev
 ```
 
-If you don't want `libjansson` specific functions, you can skip it with the build option `JANSSONFLAG=-DU_DISABLE_JANSSON`
-
-```
-$ cd src
-$ make JANSSONFLAG=-DU_DISABLE_JANSSON
-```
+If you know you don't need Jansson, refer to the install procedure (Makefile or CMake) for how to disable building Orcania with Jansson.
 
 #### Install Orcania library
+
+##### Good ol' Makefile
 
 Download Orcania source code from Github, compile and install:
 
@@ -45,26 +42,37 @@ $ cd orcania/src
 $ make && sudo make install
 ```
 
-##### Install in a different directory
+If you don't want `libjansson` specific functions, you can skip it with the build option `JANSSONFLAG=-DU_DISABLE_JANSSON`
 
-To install Orcania library on a dfferent library, use a different $(PREFIX) value during install.
-
-Example: install orcania in /tmp/lib directory
-
-```shell
+```
 $ cd src
-$ make && make PREFIX=/tmp install
+$ make JANSSONFLAG=-DU_DISABLE_JANSSON
 ```
 
-You can install Orcania without root permission if your user has write access to `$(PREFIX)`.
-A `ldconfig` command is executed at the end of the install, it will probably fail if you don't have root permission, but this is harmless.
-If you choose to install Orcania in another directory, you must set your environment variable `LD_LIBRARY_PATH` properly.
-
-##### Install as a static archive
-
-To install Orcania library as a static archive, `liborcania.a`, use the make commands `make static*`:
+To build and install as a static archive, use the make commands `make static*`:
 
 ```shell
 $ cd src
 $ make static && sudo make static-install # or make PREFIX=/tmp static-install if you want to install in `/tmp/lib`
 ```
+
+This will install Orcania's files under `/usr/local/` PREFIX.
+
+##### CMake
+
+Download Orcania source code from Github, and run the cmake script, example:
+
+```shell
+$ git clone https://github.com/babelouest/orcania.git
+$ cd orcania/
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make && sudo make install
+```
+
+The available options for cmake are:
+- `-DBUILD_STATIC=[on|off]` (default `off`): Build the static archive in addition to the shared library
+- `-DWITH_JANSSON=[on|off]` (default `on`): Build with Jansson dependency
+- `-DBUILD_TESTING=[on|off]` (default `off`): Build unit tests
+- `-DINSTALL_HEADER=[on|off]` (default `on`): Install header file `orcania.h`
