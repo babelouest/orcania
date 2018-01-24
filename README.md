@@ -1,8 +1,6 @@
 # Orcania
 
-Potluck with different functions for different purposes that can be shared among c programs
-
-Used for my other projects.
+Potluck with different functions for different purposes that can be shared among c programs.
 
 ## Installation
 
@@ -10,13 +8,20 @@ Used for my other projects.
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/orcania.svg)](https://repology.org/metapackage/orcania)
 
-Orcania is now available in Debian Buster (testing) and some Debian based distributions. To install it on your device, use the following command as root:
+Orcania is available in Debian Buster (testing), Debian Sid (unstable) and some Debian based distributions. To install it on your device, use the following command as root:
 
 ```shell
 # apt install liborcania-dev # Or apt install liborcania1.1 if you don't need the development files
 ```
 
-### Manual install
+### Build from source
+
+Download Orcania source code from Github:
+
+```shell
+$ git clone https://github.com/babelouest/orcania.git
+$ cd orcania
+```
 
 #### Prerequisites
 
@@ -28,21 +33,20 @@ On a Debian based distribution, simply run the following command:
 $ sudo apt-get install libjansson-dev
 ```
 
-If you know you don't need Jansson, refer to the install procedure (Makefile or CMake) for how to disable building Orcania with Jansson.
+If you know you don't need Jansson, refer to the install procedure (Makefile or CMake) on how to disable building Orcania without Jansson.
 
-#### Install Orcania library
+#### Good ol' Makefile
 
-##### Good ol' Makefile
-
-Download Orcania source code from Github, compile and install:
+Go to `src/` directory, compile and install:
 
 ```shell
-$ git clone https://github.com/babelouest/orcania.git
-$ cd orcania/src
+$ cd src
 $ make && sudo make install
 ```
 
-If you don't want `libjansson` specific functions, you can skip it with the build option `JANSSONFLAG=-DU_DISABLE_JANSSON`
+This will install Orcania's files under `/usr/local/` PREFIX.
+
+If you don't want/need `libjansson` specific functions, you can skip it with the build option `JANSSONFLAG=-DU_DISABLE_JANSSON`
 
 ```
 $ cd src
@@ -56,11 +60,9 @@ $ cd src
 $ make static && sudo make static-install # or make PREFIX=/tmp static-install if you want to install in `/tmp/lib`
 ```
 
-This will install Orcania's files under `/usr/local/` PREFIX.
+#### CMake
 
-##### CMake
-
-Download Orcania source code from Github, and run the cmake script, example:
+Run the cmake script in a subdirectory, example:
 
 ```shell
 $ git clone https://github.com/babelouest/orcania.git
