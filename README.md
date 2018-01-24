@@ -35,7 +35,7 @@ $ sudo apt-get install libjansson-dev
 
 If you know you don't need Jansson, refer to the install procedure (Makefile or CMake) on how to disable building Orcania without Jansson.
 
-#### Good ol' Makefile
+#### Good ol' Makefile - Linux only
 
 Go to `src/` directory, compile and install:
 
@@ -60,7 +60,9 @@ $ cd src
 $ make static && sudo make static-install # or make PREFIX=/tmp static-install if you want to install in `/tmp/lib`
 ```
 
-#### CMake
+#### CMake - Multi architecture
+
+[CMake](https://cmake.org/download/) minimum 3.5 is required.
 
 Run the cmake script in a subdirectory, example:
 
