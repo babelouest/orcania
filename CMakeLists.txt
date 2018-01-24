@@ -153,7 +153,7 @@ endif ()
 
 # install target
 
-option(INSTALL_HEADER ON) # Install orcania.h or not
+option(INSTALL_HEADER "Install the header files" ON) # Install orcania.h or not
 
 configure_file(liborcania.pc.in liborcania.pc @ONLY)
 
