@@ -80,3 +80,4 @@ The available options for cmake are:
 - `-DWITH_JANSSON=[on|off]` (default `on`): Build with Jansson dependency
 - `-DBUILD_TESTING=[on|off]` (default `off`): Build unit tests
 - `-DINSTALL_HEADER=[on|off]` (default `on`): Install header file `orcania.h`
+- `-DCMAKE_BUILD_TYPE=[Debug|Release]` (default `Release`): Compile with debugging symbols or not
