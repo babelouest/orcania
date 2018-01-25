@@ -75,8 +75,9 @@ if (WITH_JANSSON)
     find_package(Jansson ${JANSSON_MIN_VERSION} REQUIRED)
     if (JANSSON_FOUND)
         set(LIBS ${JANSSON_LIBRARIES})
-        add_definitions(-DUSE_JANSSON=1)
     endif ()
+else ()
+    add_definitions(-DU_DISABLE_JANSSON)
 endif ()
 
 # static library
@@ -87,7 +88,7 @@ if (BUILD_STATIC)
 	add_library(orcania_static STATIC ${LIB_SRC})
 	target_compile_definitions(orcania_static PUBLIC -DO_STATIC_LIBRARY)
 	set_target_properties(orcania_static PROPERTIES
-					OUTPUT_NAME orcania)
+					OUTPUT_NAME liborcania)
 endif ()
 
 # shared library
