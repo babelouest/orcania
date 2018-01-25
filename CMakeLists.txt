@@ -1,5 +1,5 @@
 #
-# Orcania Framework
+# Orcania library
 #
 # CMake file used to build all programs
 #
@@ -67,6 +67,18 @@ set(LIB_SRC
         ${SRC_DIR}/memory.c
         ${SRC_DIR}/orcania.c)
 
+option(WITH_JANSSON "Use jansson library" ON)
+
+if (WITH_JANSSON)
+    include(FindJansson)
+		set(JANSSON_MIN_VERSION 2.4)
+    find_package(Jansson ${JANSSON_MIN_VERSION} REQUIRED)
+    if (JANSSON_FOUND)
+        set(LIBS ${JANSSON_LIBRARIES})
+        add_definitions(-DUSE_JANSSON=1)
+    endif ()
+endif ()
+
 # static library
 
 option(BUILD_STATIC "Build static library." OFF)
@@ -79,18 +91,6 @@ if (BUILD_STATIC)
 endif ()
 
 # shared library
-
-option(WITH_JANSSON "Use jansson library" ON)
-
-if (WITH_JANSSON)
-    include(FindJansson)
-    find_package(Jansson)
-    set(WITH_JANSSON ${JANSSON_FOUND})
-    if (WITH_JANSSON)
-        set(LIBS ${JANSSON_LIBRARIES})
-        add_definitions(-DUSE_JANSSON=1)
-    endif ()
-endif ()
 
 add_library(orcania SHARED ${LIB_SRC})
 set_target_properties(orcania PROPERTIES
