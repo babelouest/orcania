@@ -1,6 +1,6 @@
 # Orcania
 
-Potluck with different functions for different purposes that can be shared among c programs.
+Potluck with different functions for different purposes that can be shared among C programs.
 
 ## Installation
 
