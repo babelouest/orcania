@@ -176,12 +176,10 @@ END_TEST
 START_TEST(test_msprintf)
 {
   char * target;
+  char tmp[100];
   target = msprintf("target1 %s %d %p", "str1", 42, NULL);
-#ifdef _WIN32
-  ck_assert_str_eq(target, "target1 str1 42 0000000000000000");
-#else
-  ck_assert_str_eq(target, "target1 str1 42 (nil)");
-#endif
+  sprintf(tmp, "target1 str1 42 %p", NULL);
+  ck_assert_str_eq(target, tmp);
   o_free(target);
   ck_assert_ptr_eq(msprintf(NULL, "str1", 42, NULL), NULL);
 }
