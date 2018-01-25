@@ -15,20 +15,16 @@ START_TEST(test_o_malloc)
   var = malloc(8);
   ck_assert_ptr_ne(var, NULL);
   o_free(var);
-  var = malloc(-1);
-  ck_assert_ptr_eq(var, NULL);
 }
 END_TEST
 
 START_TEST(test_o_realloc)
 {
-  void * var, * new_var;
+  void * var;
   var = malloc(8);
   ck_assert_ptr_ne(var, NULL);
   var = realloc(var, 16);
   ck_assert_ptr_ne(var, NULL);
-  new_var = realloc(var, -1);
-  ck_assert_ptr_eq(new_var, NULL);
   o_free(var);
 }
 END_TEST
