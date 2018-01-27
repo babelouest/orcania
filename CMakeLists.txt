@@ -67,11 +67,13 @@ set(LIB_SRC
         ${SRC_DIR}/memory.c
         ${SRC_DIR}/orcania.c)
 
+# dependencies
+
 option(WITH_JANSSON "Use jansson library" ON)
 
 if (WITH_JANSSON)
     include(FindJansson)
-		set(JANSSON_MIN_VERSION 2.4)
+    set(JANSSON_MIN_VERSION 2.4)
     find_package(Jansson ${JANSSON_MIN_VERSION} REQUIRED)
     if (JANSSON_FOUND)
         set(LIBS ${JANSSON_LIBRARIES})
@@ -85,10 +87,10 @@ endif ()
 option(BUILD_STATIC "Build static library." OFF)
 
 if (BUILD_STATIC)
-	add_library(orcania_static STATIC ${LIB_SRC})
-	target_compile_definitions(orcania_static PUBLIC -DO_STATIC_LIBRARY)
-	set_target_properties(orcania_static PROPERTIES
-					OUTPUT_NAME liborcania)
+    add_library(orcania_static STATIC ${LIB_SRC})
+    target_compile_definitions(orcania_static PUBLIC -DO_STATIC_LIBRARY)
+    set_target_properties(orcania_static PROPERTIES
+            OUTPUT_NAME liborcania)
 endif ()
 
 # shared library
@@ -161,23 +163,24 @@ configure_file(liborcania.pc.in liborcania.pc @ONLY)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/liborcania.pc
         DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)
 
-SET (TARGETS orcania)
+set(TARGETS orcania)
 if (BUILD_STATIC)
-	SET (TARGETS ${TARGETS} orcania_static)
+    set(TARGETS ${TARGETS} orcania_static)
 endif ()
 
 if (INSTALL_HEADER)
-install(TARGETS ${TARGETS}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+    install(TARGETS ${TARGETS}
+            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 else ()
-install(TARGETS ${TARGETS}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+    install(TARGETS ${TARGETS}
+            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
 endif ()
+
 # uninstall target
 
 if (NOT TARGET uninstall)
@@ -196,11 +199,11 @@ set(CPACK_PACKAGE_VERSION_MINOR ${LIBRARY_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${LIBRARY_VERSION_PATCH})
 
 if (INSTALL_HEADER)
-set(PACKAGE_FILE_NAME
-        "lib${CMAKE_PROJECT_NAME}-dev${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
+    set(PACKAGE_FILE_NAME
+            "lib${CMAKE_PROJECT_NAME}-dev${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
 else ()
-set(PACKAGE_FILE_NAME
-        "lib${CMAKE_PROJECT_NAME}${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
+    set(PACKAGE_FILE_NAME
+            "lib${CMAKE_PROJECT_NAME}${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
 endif ()
 set(PACKAGE_IGNORED_FILES
         "${CMAKE_CURRENT_BINARY_DIR}/;/.git/;.gitignore;~$;${CPACK_SOURCE_IGNORE_FILES}")
