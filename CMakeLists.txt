@@ -211,7 +211,7 @@ set(PACKAGE_IGNORED_FILES
 set(CPACK_GENERATOR "TGZ;DEB;RPM")
 
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "mail@babelouest.org")
-set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Potluck with different functions for different purposes that can be shared among C programs")
+set(CPACK_DEBIAN_PACKAGE_DESCRIPTION ${PROJECT_DESCRIPTION})
 set(CPACK_DEBIAN_PACKAGE_HOMEPAGE "https://github.com/babelouest/orcania")
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.4), libcurl3-gnutls (>= 7.16.2), libjansson4 (>= 2.1)")
 set(CPACK_PACKAGE_FILE_NAME ${PACKAGE_FILE_NAME})
