@@ -14,6 +14,10 @@ Orcania is available in Debian Buster (testing), Debian Sid (unstable) and some 
 # apt install liborcania-dev # Or apt install liborcania1.1 if you don't need the development files
 ```
 
+### Pre-compiled packages
+
+You can install Orcania with a pre-compiled package available in the [release pages](https://github.com/babelouest/orcania/releases/latest/). `jansson` development files packages is required to install Orcania.
+
 ### Build from source
 
 Download Orcania source code from Github:
