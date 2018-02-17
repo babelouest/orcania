@@ -56,4 +56,4 @@ jansson_test: jansson_test.c
 test_jansson_test: liborcania.so jansson_test
 	-LD_LIBRARY_PATH=$(ORCANIA_LOCATION):${LD_LIBRARY_PATH} ./jansson_test
 
-test: test_str_test test_split_test test_jansson_test
+test: test_str_test test_split_test test_jansson_test test_memory_test

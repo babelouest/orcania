@@ -1,8 +1,6 @@
 # Orcania
 
-Potluck with different functions for different purposes that can be shared among c programs
-
-Used for my other projects.
+Potluck with different functions for different purposes that can be shared among C programs.
 
 ## Installation
 
@@ -10,59 +8,78 @@ Used for my other projects.
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/orcania.svg)](https://repology.org/metapackage/orcania)
 
-Orcania is now available in Debian Buster (testing) and some Debian based distributions. To install it on your device, use the following command as root:
+Orcania is available in Debian Buster (testing), Debian Sid (unstable) and some Debian based distributions. To install it on your device, use the following command as root:
 
 ```shell
 # apt install liborcania-dev # Or apt install liborcania1.1 if you don't need the development files
 ```
 
-### Manual install
+### Pre-compiled packages
+
+You can install Orcania with a pre-compiled package available in the [release pages](https://github.com/babelouest/orcania/releases/latest/). `jansson` development files packages is required to install Orcania.
+
+### Build from source
+
+Download Orcania source code from Github:
+
+```shell
+$ git clone https://github.com/babelouest/orcania.git
+$ cd orcania
+```
 
 #### Prerequisites
 
-You need [Jansson library](http://www.digip.org/jansson/) in order to install Orcania.
+You should need [Jansson library](http://www.digip.org/jansson/) in order to install Orcania.
 
-On a Debain based distribution, simply run the following command:
+On a Debian based distribution, simply run the following command:
 
 ```shell
 $ sudo apt-get install libjansson-dev
 ```
 
-If you don't want `libjansson` specific functions, you can skip it with the build option `JANSSONFLAG=-DU_DISABLE_JANSSON`
+If you know you don't need Jansson, refer to the install procedure (Makefile or CMake) on how to disable building Orcania without Jansson.
+
+#### CMake - Multi architecture
+
+[CMake](https://cmake.org/download/) minimum 3.5 is required.
+
+Run the cmake script in a subdirectory, example:
+
+```shell
+$ git clone https://github.com/babelouest/orcania.git
+$ cd orcania/
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make && sudo make install
+```
+
+The available options for cmake are:
+- `-DBUILD_STATIC=[on|off]` (default `off`): Build the static archive in addition to the shared library
+- `-DWITH_JANSSON=[on|off]` (default `on`): Build with Jansson dependency
+- `-DBUILD_TESTING=[on|off]` (default `off`): Build unit tests
+- `-DINSTALL_HEADER=[on|off]` (default `on`): Install header file `orcania.h`
+- `-DCMAKE_BUILD_TYPE=[Debug|Release]` (default `Release`): Compile with debugging symbols or not
+
+#### Good ol' Makefile - Linux only
+
+Go to `src/` directory, compile and install:
+
+```shell
+$ cd src
+$ make && sudo make install
+```
+
+This will install Orcania's files under `/usr/local/` PREFIX.
+
+If you don't want/need `libjansson` specific functions, you can skip it with the build option `JANSSONFLAG=-DU_DISABLE_JANSSON`
 
 ```
 $ cd src
 $ make JANSSONFLAG=-DU_DISABLE_JANSSON
 ```
 
-#### Install Orcania library
-
-Download Orcania source code from Github, compile and install:
-
-```shell
-$ git clone https://github.com/babelouest/orcania.git
-$ cd orcania/src
-$ make && sudo make install
-```
-
-##### Install in a different directory
-
-To install Orcania library on a dfferent library, use a different $(PREFIX) value during install.
-
-Example: install orcania in /tmp/lib directory
-
-```shell
-$ cd src
-$ make && make PREFIX=/tmp install
-```
-
-You can install Orcania without root permission if your user has write access to `$(PREFIX)`.
-A `ldconfig` command is executed at the end of the install, it will probably fail if you don't have root permission, but this is harmless.
-If you choose to install Orcania in another directory, you must set your environment variable `LD_LIBRARY_PATH` properly.
-
-##### Install as a static archive
-
-To install Orcania library as a static archive, `liborcania.a`, use the make commands `make static*`:
+To build and install as a static archive, use the make commands `make static*`:
 
 ```shell
 $ cd src

@@ -1,9 +1,11 @@
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
+#endif
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
 #include <stdarg.h>
-#include "orcania.h"
+#include "../include/orcania.h"
 
 /**
  * 
@@ -107,7 +109,7 @@ char * o_strdup(const char * source) {
 char * o_strndup(const char * source, size_t len) {
   char *new_str;
 
-  if (source == NULL || len < 0) {
+  if (source == NULL) {
     return NULL;
   } else {
     new_str = o_malloc(len + 1);
@@ -245,7 +247,7 @@ char * o_strrchr(const char * haystack, int c) {
   }
 }
 
-#if defined(__linux__) || defined(__GLIBC__)
+#if defined(__linux__) || defined(__GLIBC__) || defined(_WIN32)
 static char *strnstr(const char *haystack, const char *needle, size_t len) {
   int i;
   size_t needle_len;
@@ -259,6 +261,22 @@ static char *strnstr(const char *haystack, const char *needle, size_t len) {
       return (char *)haystack;
 
     haystack++;
+  }
+  return NULL;
+}
+#endif
+
+#ifdef _WIN32
+static char *strcasestr(const char *haystack, const char *needle) {
+  size_t n;
+  if (haystack == NULL || needle == NULL) {
+    return NULL;
+  }
+  n = o_strlen(needle);
+  while (*haystack) {
+    if (!strnicmp(haystack++, needle, n)) {
+      return (char *)(haystack-sizeof(char));
+    }
   }
   return NULL;
 }
