@@ -14,6 +14,10 @@ Orcania is available in Debian Buster (testing), Debian Sid (unstable) and some 
 # apt install liborcania-dev # Or apt install liborcania1.1 if you don't need the development files
 ```
 
+### Pre-compiled packages
+
+You can install Orcania with a pre-compiled package available in the [release pages](https://github.com/babelouest/orcania/releases/latest/). `jansson` development files packages is required to install Orcania.
+
 ### Build from source
 
 Download Orcania source code from Github:
@@ -34,6 +38,28 @@ $ sudo apt-get install libjansson-dev
 ```
 
 If you know you don't need Jansson, refer to the install procedure (Makefile or CMake) on how to disable building Orcania without Jansson.
+
+#### CMake - Multi architecture
+
+[CMake](https://cmake.org/download/) minimum 3.5 is required.
+
+Run the cmake script in a subdirectory, example:
+
+```shell
+$ git clone https://github.com/babelouest/orcania.git
+$ cd orcania/
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make && sudo make install
+```
+
+The available options for cmake are:
+- `-DBUILD_STATIC=[on|off]` (default `off`): Build the static archive in addition to the shared library
+- `-DWITH_JANSSON=[on|off]` (default `on`): Build with Jansson dependency
+- `-DBUILD_TESTING=[on|off]` (default `off`): Build unit tests
+- `-DINSTALL_HEADER=[on|off]` (default `on`): Install header file `orcania.h`
+- `-DCMAKE_BUILD_TYPE=[Debug|Release]` (default `Release`): Compile with debugging symbols or not
 
 #### Good ol' Makefile - Linux only
 
@@ -59,25 +85,3 @@ To build and install as a static archive, use the make commands `make static*`:
 $ cd src
 $ make static && sudo make static-install # or make PREFIX=/tmp static-install if you want to install in `/tmp/lib`
 ```
-
-#### CMake - Multi architecture
-
-[CMake](https://cmake.org/download/) minimum 3.5 is required.
-
-Run the cmake script in a subdirectory, example:
-
-```shell
-$ git clone https://github.com/babelouest/orcania.git
-$ cd orcania/
-$ mkdir build
-$ cd build
-$ cmake ..
-$ make && sudo make install
-```
-
-The available options for cmake are:
-- `-DBUILD_STATIC=[on|off]` (default `off`): Build the static archive in addition to the shared library
-- `-DWITH_JANSSON=[on|off]` (default `on`): Build with Jansson dependency
-- `-DBUILD_TESTING=[on|off]` (default `off`): Build unit tests
-- `-DINSTALL_HEADER=[on|off]` (default `on`): Install header file `orcania.h`
-- `-DCMAKE_BUILD_TYPE=[Debug|Release]` (default `Release`): Compile with debugging symbols or not
