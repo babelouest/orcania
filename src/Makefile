@@ -58,7 +58,7 @@ install: all
 
 static-install: static
 	cp liborcania.a $(PREFIX)/lib
-	cp orcania.h $(PREFIX)/include
+	cp ../include/orcania.h $(PREFIX)/include
 
 uninstall:
 	rm -f $(PREFIX)/lib/$(OUTPUT) $(PREFIX)/lib/liborcania.a
