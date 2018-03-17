@@ -217,6 +217,22 @@ START_TEST(test_string_array)
 }
 END_TEST
 
+START_TEST(test_string_array_has_trimmed_value)
+{
+	char ** array, * str_orig = "Alice,Bob,Carol,Dave,Eve,Isaac", * str_match_ok = "Carol", * str_match_not_found = "Sam";
+	int size = split_string(str_orig, ",", &array);
+	
+	ck_assert_int_eq(size, 6);
+	ck_assert_int_eq(string_array_has_trimmed_value((const char **)array, str_match_ok), 1);
+	ck_assert_int_eq(string_array_has_trimmed_value((const char **)array, str_match_not_found), 0);
+	ck_assert_int_eq(string_array_has_trimmed_value((const char **)array, NULL), 0);
+	ck_assert_int_eq(string_array_has_trimmed_value(NULL, str_match_ok), 0);
+	ck_assert_int_eq(string_array_has_trimmed_value(NULL, NULL), 0);
+	
+	free_string_array(array);
+}
+END_TEST
+
 START_TEST(test_base64)
 {
   char * src = "source string", encoded[128], decoded[128];
@@ -254,6 +270,7 @@ static Suite *orcania_suite(void)
 	tcase_add_test(tc_core, test_trimwhitespace);
 	tcase_add_test(tc_core, test_base64);
 	tcase_add_test(tc_core, test_string_array);
+	tcase_add_test(tc_core, test_string_array_has_trimmed_value);
 	tcase_set_timeout(tc_core, 30);
 	suite_add_tcase(s, tc_core);
 
