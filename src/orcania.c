@@ -484,7 +484,6 @@ int string_array_has_trimmed_value(const char ** array, const char * needle) {
           trimmed_value = trimwhitespace(duplicate_value);
           if (o_strcmp(trimmed_value, trimmed_needle) == 0) {
             to_return = 1;
-            o_free(duplicate_value);
           }
         }
         o_free(duplicate_value);

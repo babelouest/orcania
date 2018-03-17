@@ -22,7 +22,7 @@ PREFIX=/usr/local
 CC=gcc
 CFLAGS=-c -fPIC -Wall -Werror -Wextra -D_REENTRANT $(ADDITIONALFLAGS) $(JANSSONFLAG)
 OUTPUT=liborcania.so
-VERSION=1.2.0
+VERSION=1.2.1
 
 ifndef JANSSONFLAG
 LJANSSON=-ljansson
