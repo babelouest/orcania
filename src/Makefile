@@ -18,9 +18,9 @@
 # You should have received a copy of the GNU General Public
 # License along with this library.	If not, see <http://www.gnu.org/licenses/>.
 #
-PREFIX=/usr/local
+DESTDIR=/usr/local
 CC=gcc
-CFLAGS=-c -fPIC -Wall -Werror -Wextra -D_REENTRANT $(ADDITIONALFLAGS) $(JANSSONFLAG)
+CFLAGS+=-c -fPIC -Wall -Werror -Wextra -D_REENTRANT $(ADDITIONALFLAGS) $(JANSSONFLAG)
 OUTPUT=liborcania.so
 VERSION=1.2.1
 
@@ -33,37 +33,31 @@ LIBS=-lc $(LJANSSON)
 all: release
 
 liborcania.so: memory.o orcania.o base64.o
-	$(CC) -shared -Wl,-soname,$(OUTPUT) -o $(OUTPUT).$(VERSION) orcania.o memory.o base64.o $(LIBS)
+	$(CC) -shared -Wl,-soname,$(OUTPUT).$(VERSION) -o $(OUTPUT).$(VERSION) orcania.o memory.o base64.o $(LIBS) $(LDFLAGS)
 	ln -sf $(OUTPUT).$(VERSION) $(OUTPUT)
 
 liborcania.a: memory.o orcania.o base64.o
 	ar rcs liborcania.a memory.o orcania.o base64.o
 
-orcania.o: ../include/orcania.h orcania.c
-	$(CC) $(CFLAGS) orcania.c
-
-memory.o: ../include/orcania.h memory.c
-	$(CC) $(CFLAGS) memory.c
-
-base64.o: ../include/orcania.h base64.c
-	$(CC) $(CFLAGS) base64.c
+%.o: %.c ../include/orcania.h
+	$(CC) $(CFLAGS) $(CPPFLAGS) $<
 
 clean:
 	rm -f *.o *.so *.a $(OUTPUT) $(OUTPUT).*
 
 install: all
-	cp $(OUTPUT).$(VERSION) $(PREFIX)/lib
-	cp ../include/orcania.h $(PREFIX)/include
+	install $(OUTPUT).$(VERSION) $(DESTDIR)/lib
+	install ../include/orcania.h $(DESTDIR)/include
 	-ldconfig
 
 static-install: static
-	cp liborcania.a $(PREFIX)/lib
-	cp ../include/orcania.h $(PREFIX)/include
+	install liborcania.a $(DESTDIR)/lib
+	install ../include/orcania.h $(DESTDIR)/include
 
 uninstall:
-	rm -f $(PREFIX)/lib/$(OUTPUT) $(PREFIX)/lib/liborcania.a
-	rm -f $(PREFIX)/lib/$(OUTPUT).*
-	rm -f $(PREFIX)/include/orcania.h
+	rm -f $(DESTDIR)/lib/$(OUTPUT) $(DESTDIR)/lib/liborcania.a
+	rm -f $(DESTDIR)/lib/$(OUTPUT).*
+	rm -f $(DESTDIR)/include/orcania.h
 
 debug: ADDITIONALFLAGS=-DDEBUG -g -O0
 
