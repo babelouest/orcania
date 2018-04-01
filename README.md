@@ -70,7 +70,7 @@ $ cd src
 $ make && sudo make install
 ```
 
-This will install Orcania's files under `/usr/local/` PREFIX.
+This will install Orcania's files under `/usr/local/` DESTDIR.
 
 If you don't want/need `libjansson` specific functions, you can skip it with the build option `JANSSONFLAG=-DU_DISABLE_JANSSON`
 
@@ -83,5 +83,5 @@ To build and install as a static archive, use the make commands `make static*`:
 
 ```shell
 $ cd src
-$ make static && sudo make static-install # or make PREFIX=/tmp static-install if you want to install in `/tmp/lib`
+$ make static && sudo make static-install # or make DESTDIR=/tmp static-install if you want to install in `/tmp/lib`
 ```
