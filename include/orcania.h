@@ -14,7 +14,7 @@
 #include <jansson.h>
 #endif
 
-#define ORCANIA_VERSION 1.2.2
+#define ORCANIA_VERSION 1.2.3
 /**
  * char * str_replace(const char * source, char * old, char * new)
  * replace all occurences of old by new in the string source

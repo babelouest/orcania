@@ -1,5 +1,9 @@
 # Orcania Changelog
 
+## 1.2.3
+
+- Fix Makefile soname
+
 ## 1.2.2
 
 - Upgrade Makefile

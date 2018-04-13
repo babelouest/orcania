@@ -1,9 +1,9 @@
 #
-# Ulfius Framework
+# Orcania Library
 #
 # Makefile used to build the software
 #
-# Copyright 2014-2017 Nicolas Mora <mail@babelouest.org>
+# Copyright 2014-2018 Nicolas Mora <mail@babelouest.org>
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public License
@@ -22,7 +22,7 @@ DESTDIR=/usr/local
 CC=gcc
 CFLAGS+=-c -fPIC -Wall -Werror -Wextra -D_REENTRANT $(ADDITIONALFLAGS) $(JANSSONFLAG)
 OUTPUT=liborcania.so
-VERSION=1.2.2
+VERSION=1.2.3
 
 ifndef JANSSONFLAG
 LJANSSON=-ljansson
@@ -33,7 +33,7 @@ LIBS=-lc $(LJANSSON)
 all: release
 
 liborcania.so: memory.o orcania.o base64.o
-	$(CC) -shared -Wl,-soname,$(OUTPUT).$(VERSION) -o $(OUTPUT).$(VERSION) orcania.o memory.o base64.o $(LIBS) $(LDFLAGS)
+	$(CC) -shared -fPIC -Wl,-soname,$(OUTPUT) -o $(OUTPUT).$(VERSION) orcania.o memory.o base64.o $(LIBS) $(LDFLAGS)
 	ln -sf $(OUTPUT).$(VERSION) $(OUTPUT)
 
 liborcania.a: memory.o orcania.o base64.o
