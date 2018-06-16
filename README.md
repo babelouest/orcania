@@ -4,15 +4,11 @@ Potluck with different functions for different purposes that can be shared among
 
 ## Installation
 
-### Debian-ish packages
+### Distribution packages
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/orcania.svg)](https://repology.org/metapackage/orcania)
 
-Orcania is available in Debian Buster (testing), Debian Sid (unstable) and some Debian based distributions. To install it on your device, use the following command as root:
-
-```shell
-# apt install liborcania-dev # Or apt install liborcania1.1 if you don't need the development files
-```
+Orcania is available in multiple distributions as official package. Check out your distribution documentation to install the package automatically.
 
 ### Pre-compiled packages
 
