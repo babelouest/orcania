@@ -7,7 +7,6 @@ Potluck with different functions for different purposes that can be shared among
 ### Distribution packages
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/orcania.svg)](https://repology.org/metapackage/orcania)
-[![Packaging status](https://repology.org/badge/vertical-allrepos/liborcania.svg)](https://repology.org/metapackage/liborcania)
 
 Orcania is available in multiple distributions as official package. Check out your distribution documentation to install the package automatically.
 
