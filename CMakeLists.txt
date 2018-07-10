@@ -90,7 +90,7 @@ if (BUILD_STATIC)
     add_library(orcania_static STATIC ${LIB_SRC})
     target_compile_definitions(orcania_static PUBLIC -DO_STATIC_LIBRARY)
     set_target_properties(orcania_static PROPERTIES
-            OUTPUT_NAME liborcania)
+            OUTPUT_NAME orcania)
 endif ()
 
 # shared library
