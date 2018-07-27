@@ -22,7 +22,7 @@ DESTDIR=/usr/local
 CC=gcc
 CFLAGS+=-c -fPIC -Wall -Werror -Wextra -D_REENTRANT $(ADDITIONALFLAGS) $(JANSSONFLAG)
 OUTPUT=liborcania.so
-VERSION=1.2.3
+VERSION=1.2.4
 
 ifndef JANSSONFLAG
 LJANSSON=-ljansson
