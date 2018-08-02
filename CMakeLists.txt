@@ -83,6 +83,14 @@ else ()
     add_definitions(-DU_DISABLE_JANSSON)
 endif ()
 
+if (WITH_JANSSON)
+  set(PKGCONF_REQ "jansson >= 2.1")
+  set(PKGCONF_REQ_PRIVATE ${PKGCONF_REQ})
+else ()
+  set(PKGCONF_REQ "")
+  set(PKGCONF_REQ_PRIVATE "")
+endif ()
+
 # static library
 
 option(BUILD_STATIC "Build static library." OFF)
@@ -215,7 +223,11 @@ set(CPACK_DEBIAN_PACKAGE_NAME "liborcania")
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "mail@babelouest.org")
 set(CPACK_DEBIAN_PACKAGE_DESCRIPTION ${PROJECT_DESCRIPTION})
 set(CPACK_DEBIAN_PACKAGE_HOMEPAGE "https://github.com/babelouest/orcania")
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.4), libcurl3-gnutls (>= 7.16.2), libjansson4 (>= 2.1)")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.4)")
+if (WITH_JANSSON)
+  set(CPACK_DEBIAN_PACKAGE_DEPENDS "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libjansson4 (>= 2.1)")
+endif ()
+set(CPACK_PACKAGE_FILE_NAME ${PACKAGE_FILE_NAME})
 set(CPACK_PACKAGE_FILE_NAME ${PACKAGE_FILE_NAME})
 
 set(CPACK_SOURCE_GENERATOR "TGZ")
