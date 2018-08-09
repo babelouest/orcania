@@ -170,7 +170,7 @@ option(INSTALL_HEADER "Install the header files" ON) # Install orcania.h or not
 configure_file(liborcania.pc.in liborcania.pc @ONLY)
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/liborcania.pc
-        DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
 
 set(TARGETS orcania)
 if (BUILD_STATIC)
