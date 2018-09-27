@@ -83,6 +83,8 @@ char * msprintf(const char * message, ...) {
     out_len = vsnprintf(NULL, 0, message, argp);
     out = o_malloc(out_len+sizeof(char));
     if (out == NULL) {
+      va_end(argp);
+      va_end(argp_cpy);
       return NULL;
     }
     vsnprintf(out, (out_len+sizeof(char)), message, argp_cpy);
@@ -503,9 +505,9 @@ int string_array_has_trimmed_value(const char ** array, const char * needle) {
  * If needle is not found, return NULL
  */
 json_t * json_search(json_t * haystack, json_t * needle) {
-  json_t * value1, * value2;
-  size_t index;
-  const char * key;
+  json_t * value1 = NULL, * value2 = NULL;
+  size_t index = 0;
+  const char * key = NULL;
 
   if (!haystack || !needle)
     return NULL;
