@@ -134,7 +134,7 @@ int o_strcmp(const char * p1, const char * p2) {
     return 0;
   } else if (p1 != NULL && p2 == NULL) {
     return -1;
-  } else if (p1 == NULL && p2 != NULL) {
+  } else if (p1 == NULL) {
     return 1;
   } else {
     return strcmp(p1, p2);
@@ -150,7 +150,7 @@ int o_strncmp(const char * p1, const char * p2, size_t n) {
     return 0;
   } else if (p1 != NULL && p2 == NULL) {
     return -1;
-  } else if (p1 == NULL && p2 != NULL) {
+  } else if (p1 == NULL) {
     return 1;
   } else {
     return strncmp(p1, p2, n);
