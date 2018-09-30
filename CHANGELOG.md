@@ -1,5 +1,10 @@
 # Orcania Changelog
 
+## 1.2.6
+
+- Add travis CI
+- Change cmake option BUILD_TESTING to BUILD_YDER_TESTING
+
 ## 1.2.5
 
 - Fix pkgconfig file
