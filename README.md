@@ -53,7 +53,7 @@ $ make && sudo make install
 The available options for cmake are:
 - `-DBUILD_STATIC=[on|off]` (default `off`): Build the static archive in addition to the shared library
 - `-DWITH_JANSSON=[on|off]` (default `on`): Build with Jansson dependency
-- `-DBUILD_TESTING=[on|off]` (default `off`): Build unit tests
+- `-DBUILD_ORCANIA_TESTING=[on|off]` (default `off`): Build unit tests
 - `-DINSTALL_HEADER=[on|off]` (default `on`): Install header file `orcania.h`
 - `-DCMAKE_BUILD_TYPE=[Debug|Release]` (default `Release`): Compile with debugging symbols or not
 

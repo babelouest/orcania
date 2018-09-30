@@ -28,7 +28,7 @@ set(PROJECT_BUGREPORT_PATH "https://github.com/babelouest/orcania/issues")
 
 set(LIBRARY_VERSION_MAJOR "1")
 set(LIBRARY_VERSION_MINOR "2")
-set(LIBRARY_VERSION_PATCH "5")
+set(LIBRARY_VERSION_PATCH "6")
 set(LIBRARY_VERSION "${LIBRARY_VERSION_MAJOR}.${LIBRARY_VERSION_MINOR}.${LIBRARY_VERSION_PATCH}")
 set(LIBRARY_SOVERSION "${LIBRARY_VERSION_MAJOR}.${LIBRARY_VERSION_MINOR}")
 
@@ -117,7 +117,7 @@ target_link_libraries(orcania ${LIBS})
 
 # tests
 
-option(BUILD_TESTING "Build the testing tree." OFF) # because we don not use include(CTest)
+option(BUILD_ORCANIA_TESTING "Build the testing tree." OFF) # because we don not use include(CTest)
 
 if (BUILD_TESTING)
     include(FindCheck)
