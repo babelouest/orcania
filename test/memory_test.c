@@ -25,7 +25,9 @@ START_TEST(test_o_realloc)
   ck_assert_ptr_ne(var, NULL);
   var = realloc(var, 16);
   ck_assert_ptr_ne(var, NULL);
-  o_free(var);
+  if (var != NULL) {
+    o_free(var);
+  }
 }
 END_TEST
 
