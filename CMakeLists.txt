@@ -24,8 +24,8 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror")
 # library info
 
 set(PROJECT_DESCRIPTION "Potluck with different functions for different purposes that can be shared among programs")
+set(PROJECT_HOMEPAGE_URL "https://github.com/babelouest/orcania/")
 set(PROJECT_BUGREPORT_PATH "https://github.com/babelouest/orcania/issues")
-
 set(LIBRARY_VERSION_MAJOR "1")
 set(LIBRARY_VERSION_MINOR "2")
 set(LIBRARY_VERSION_PATCH "6")
@@ -217,9 +217,20 @@ endif ()
 set(PACKAGE_IGNORED_FILES
         "${CMAKE_CURRENT_BINARY_DIR}/;/.git/;.gitignore;~$;${CPACK_SOURCE_IGNORE_FILES}")
 
+set(CPACK_PACKAGE_NAME "liborcania")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Potluck for C programs")
 set(CPACK_GENERATOR "TGZ;DEB")
+set(CPACK_PACKAGE_VERSION_MAJOR ${LIBRARY_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${LIBRARY_VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${LIBRARY_VERSION_PATCH})
 
-set(CPACK_DEBIAN_PACKAGE_NAME "liborcania")
+option(BUILD_RPM "Build a RPM for your system" OFF)
+if (BUILD_RPM)
+  set(CPACK_GENERATOR "TGZ;DEB;RPM")
+  set(CPACK_RPM_PACKAGE_LICENSE "LGPL")
+  set(CPACK_RPM_PACKAGE_URL "http://babelouest.github.io/orcania/")
+endif ()
+
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "mail@babelouest.org")
 set(CPACK_DEBIAN_PACKAGE_DESCRIPTION ${PROJECT_DESCRIPTION})
 set(CPACK_DEBIAN_PACKAGE_HOMEPAGE "https://github.com/babelouest/orcania")
