@@ -20,8 +20,9 @@
 #
 
 CC=gcc
-CFLAGS=-Wall -D_REENTRANT -DDEBUG -g -O0
+CFLAGS=-Wall -D_REENTRANT -DDEBUG -g -O0 -I$(INCLUDE_LOCATION)
 ORCANIA_LOCATION=../src
+INCLUDE_LOCATION=../include
 LIBS=-lc -lorcania -ljansson -lcheck -lpthread -lm -lrt -lsubunit -L$(ORCANIA_LOCATION)
 
 all: test

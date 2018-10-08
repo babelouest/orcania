@@ -7,7 +7,7 @@
 #include <time.h>
 
 #include <check.h>
-#include "../include/orcania.h"
+#include "orcania.h"
 
 START_TEST(test_str_replace)
 {

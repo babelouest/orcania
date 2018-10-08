@@ -8,7 +8,7 @@
 
 #include <check.h>
 #include <jansson.h>
-#include "../include/orcania.h"
+#include "orcania.h"
 
 START_TEST(test_json_search)
 {
