@@ -57,6 +57,7 @@ The available options for cmake are:
 - `-DWITH_JANSSON=[on|off]` (default `on`): Build with Jansson dependency
 - `-DBUILD_ORCANIA_TESTING=[on|off]` (default `off`): Build unit tests
 - `-DINSTALL_HEADER=[on|off]` (default `on`): Install header file `orcania.h`
+- `-DBUILD_RPM=[on|off]` (default `off`): Build RPM package when running `make package`
 - `-DCMAKE_BUILD_TYPE=[Debug|Release]` (default `Release`): Compile with debugging symbols or not
 
 #### Good ol' Makefile - Linux only
