@@ -5,16 +5,37 @@
  * Different functions for different purposes but that can be shared between
  * other projects
  * 
+ * orcania.h: public header file
+ * 
+ * Copyright 2015-2018 Nicolas Mora <mail@babelouest.org>
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public License
+ * as published by the Free Software Foundation;
+ * version 2.1 of the License.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ * 
  */
 
 #ifndef __ORCANIA_H__
 #define __ORCANIA_H__
 
+#include "orcania-cfg.h"
+
 #ifndef U_DISABLE_JANSSON
 #include <jansson.h>
+#else
+#include <stdio.h>
+#include <stdlib.h>
 #endif
 
-#define ORCANIA_VERSION 1.2.6
 /**
  * char * str_replace(const char * source, char * old, char * new)
  * replace all occurences of old by new in the string source

@@ -19,40 +19,59 @@
 # License along with this library.	If not, see <http://www.gnu.org/licenses/>.
 #
 DESTDIR=/usr/local
+ORCANIA_INCLUDE=../include
+CONFIG_TEMPLATE=$(ORCANIA_INCLUDE)/orcania-cfg.h.in
+CONFIG_FILE=$(ORCANIA_INCLUDE)/orcania-cfg.h
 CC=gcc
-CFLAGS+=-c -fPIC -Wall -Werror -Wextra -D_REENTRANT $(ADDITIONALFLAGS) $(JANSSONFLAG)
+CFLAGS+=-c -fPIC -Wall -Werror -Wextra -I$(ORCANIA_INCLUDE) -D_REENTRANT $(ADDITIONALFLAGS) $(JANSSONFLAG)
 OUTPUT=liborcania.so
-VERSION=1.2.6
+VERSION=1.2.7
 
 ifndef JANSSONFLAG
+DISABLE_JANSSON=0
 LJANSSON=-ljansson
+else
+DISABLE_JANSSON=1
 endif
 
 LIBS=-lc $(LJANSSON)
 
 all: release
 
-liborcania.so: memory.o orcania.o base64.o
+config:
+	@if [ -f $(CONFIG_FILE) ]; then rm -f $(CONFIG_FILE); fi
+	@cp $(CONFIG_TEMPLATE) $(CONFIG_FILE)
+	@sed -i -e 's/$${PROJECT_VERSION}/$(VERSION)/g' $(CONFIG_FILE)        
+	@if [ "$(DISABLE_JANSSON)" = "1" ]; then \
+		sed -i -e 's/\#cmakedefine DISABLE_JANSSON/\#define U_DISABLE_JANSSON/g' $(CONFIG_FILE); \
+	else \
+		sed -i -e 's/\#cmakedefine DISABLE_JANSSON/\/* #undef U_DISABLE_JANSSON *\//g' $(CONFIG_FILE); \
+	fi
+	@echo Config file $(CONFIG_FILE) generated
+
+liborcania.so: config memory.o orcania.o base64.o
 	$(CC) -shared -fPIC -Wl,-soname,$(OUTPUT) -o $(OUTPUT).$(VERSION) orcania.o memory.o base64.o $(LIBS) $(LDFLAGS)
 	ln -sf $(OUTPUT).$(VERSION) $(OUTPUT)
 
-liborcania.a: memory.o orcania.o base64.o
+liborcania.a: config memory.o orcania.o base64.o
 	ar rcs liborcania.a memory.o orcania.o base64.o
 
 %.o: %.c ../include/orcania.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) $<
 
 clean:
-	rm -f *.o *.so *.a $(OUTPUT) $(OUTPUT).*
+	rm -f *.o *.so *.a $(OUTPUT) $(OUTPUT).* $(CONFIG_FILE)
 
 install: all
 	install $(OUTPUT).$(VERSION) $(DESTDIR)/lib
 	install ../include/orcania.h $(DESTDIR)/include
+	install $(CONFIG_FILE) $(DESTDIR)/include
 	-ldconfig
 
 static-install: static
 	install liborcania.a $(DESTDIR)/lib
 	install ../include/orcania.h $(DESTDIR)/include
+	install $(CONFIG_FILE) $(DESTDIR)/include
 
 uninstall:
 	rm -f $(DESTDIR)/lib/$(OUTPUT) $(DESTDIR)/lib/liborcania.a

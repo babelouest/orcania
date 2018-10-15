@@ -1,5 +1,9 @@
 # Orcania Changelog
 
+## 1.2.7
+
+- Add config file orcania-cfg.h dynamicaly built with the options
+
 ## 1.2.6
 
 - Add Travis CI

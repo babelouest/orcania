@@ -28,7 +28,7 @@ set(PROJECT_HOMEPAGE_URL "https://github.com/babelouest/orcania/")
 set(PROJECT_BUGREPORT_PATH "https://github.com/babelouest/orcania/issues")
 set(LIBRARY_VERSION_MAJOR "1")
 set(LIBRARY_VERSION_MINOR "2")
-set(LIBRARY_VERSION_PATCH "6")
+set(LIBRARY_VERSION_PATCH "7")
 
 set(PROJECT_VERSION "${LIBRARY_VERSION_MAJOR}.${LIBRARY_VERSION_MINOR}.${LIBRARY_VERSION_PATCH}")
 set(LIBRARY_VERSION "${LIBRARY_VERSION_MAJOR}.${LIBRARY_VERSION_MINOR}.${LIBRARY_VERSION_PATCH}")
@@ -80,9 +80,11 @@ if (WITH_JANSSON)
     if (JANSSON_FOUND)
         set(LIBS ${JANSSON_LIBRARIES})
         include_directories(${JANSSON_INCLUDE_DIRS})
+        set(DISABLE_JANSSON OFF)
     endif ()
 else ()
     add_definitions(-DU_DISABLE_JANSSON)
+    set(DISABLE_JANSSON ON)
 endif ()
 
 if (WITH_JANSSON)
@@ -92,6 +94,11 @@ else ()
   set(PKGCONF_REQ "")
   set(PKGCONF_REQ_PRIVATE "")
 endif ()
+
+# build orcania-cfg.h file
+configure_file(${INC_DIR}/orcania-cfg.h.in ${PROJECT_BINARY_DIR}/orcania-cfg.h)
+set (CMAKE_EXTRA_INCLUDE_FILES ${PROJECT_BINARY_DIR})
+include_directories(${PROJECT_BINARY_DIR})
 
 # static library
 
@@ -109,7 +116,7 @@ endif ()
 add_library(orcania SHARED ${LIB_SRC})
 set_target_properties(orcania PROPERTIES
         COMPILE_OPTIONS -Wextra
-        PUBLIC_HEADER ${INC_DIR}/orcania.h
+        PUBLIC_HEADER "${INC_DIR}/orcania.h;${PROJECT_BINARY_DIR}/orcania-cfg.h"
         VERSION "${LIBRARY_VERSION}"
         SOVERSION "${LIBRARY_SOVERSION}")
 if (WIN32)
@@ -251,3 +258,9 @@ include(CPack)
 
 add_custom_target(dist_o
         COMMAND ${CMAKE_MAKE_PROGRAM} package_source)
+
+message(STATUS "Jansson library support: ${WITH_JANSSON}")
+message(STATUS "Build static library: ${BUILD_STATIC}")
+message(STATUS "Build testing tree: ${BUILD_ULFIUS_TESTING}")
+message(STATUS "Install the header files: ${INSTALL_HEADER}")
+message(STATUS "Build RPM package: ${BUILD_RPM}")
