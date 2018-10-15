@@ -5,7 +5,7 @@
  * Different functions for different purposes but that can be shared between
  * other projects
  * 
- * orcania-cfg.h.in: template for configuration file
+ * orcania-cfg.h.in: configuration file
  * 
  * Copyright 2018 Nicolas Mora <mail@babelouest.org>
  *
@@ -23,6 +23,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
+
 #ifndef _ORCANIA_CFG_H_
 #define _ORCANIA_CFG_H_
 
