@@ -2,7 +2,7 @@
 
 ## 1.2.7
 
-- Add config file orcania-cfg.h dynamicaly built with the options
+- Add config file orcania-cfg.h dynamically built with the options
 
 ## 1.2.6
 
