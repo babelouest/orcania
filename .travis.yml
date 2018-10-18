@@ -20,5 +20,9 @@ script:
   - mkdir build && cd build
   - cmake -DBUILD_ORCANIA_TESTING=on ..
   - make test package
+  - sudo make install
   - cmake -DBUILD_ORCANIA_TESTING=on -DWITH_JANSSON=off ..
   - make test package
+  - cd ../src
+  - make
+  - make JANSSONFLAG=-DU_DISABLE_JANSSON
