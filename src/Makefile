@@ -38,8 +38,7 @@ LIBS=-lc $(LJANSSON)
 
 all: release
 
-config:
-	@if [ -f $(CONFIG_FILE) ]; then rm -f $(CONFIG_FILE); fi
+$(CONFIG_FILE):
 	@cp $(CONFIG_TEMPLATE) $(CONFIG_FILE)
 	@sed -i -e 's/$${PROJECT_VERSION}/$(VERSION)/g' $(CONFIG_FILE)        
 	@if [ "$(DISABLE_JANSSON)" = "1" ]; then \
@@ -49,11 +48,11 @@ config:
 	fi
 	@echo Config file $(CONFIG_FILE) generated
 
-liborcania.so: config memory.o orcania.o base64.o
+liborcania.so: $(CONFIG_FILE) memory.o orcania.o base64.o
 	$(CC) -shared -fPIC -Wl,-soname,$(OUTPUT) -o $(OUTPUT).$(VERSION) orcania.o memory.o base64.o $(LIBS) $(LDFLAGS)
 	ln -sf $(OUTPUT).$(VERSION) $(OUTPUT)
 
-liborcania.a: config memory.o orcania.o base64.o
+liborcania.a: $(CONFIG_FILE) memory.o orcania.o base64.o
 	ar rcs liborcania.a memory.o orcania.o base64.o
 
 %.o: %.c ../include/orcania.h
@@ -64,19 +63,20 @@ clean:
 
 install: all
 	install $(OUTPUT).$(VERSION) $(DESTDIR)/lib
-	install ../include/orcania.h $(DESTDIR)/include
-	install $(CONFIG_FILE) $(DESTDIR)/include
+	install -m644 ../include/orcania.h $(DESTDIR)/include
+	install -m644 $(CONFIG_FILE) $(DESTDIR)/include
 	-ldconfig
 
 static-install: static
 	install liborcania.a $(DESTDIR)/lib
-	install ../include/orcania.h $(DESTDIR)/include
-	install $(CONFIG_FILE) $(DESTDIR)/include
+	install -m644 ../include/orcania.h $(DESTDIR)/include
+	install -m644 $(CONFIG_FILE) $(DESTDIR)/include
 
 uninstall:
 	rm -f $(DESTDIR)/lib/$(OUTPUT) $(DESTDIR)/lib/liborcania.a
 	rm -f $(DESTDIR)/lib/$(OUTPUT).*
 	rm -f $(DESTDIR)/include/orcania.h
+	rm -f $(DESTDIR)/include/orcania-cfg.h
 
 debug: ADDITIONALFLAGS=-DDEBUG -g -O0
 
