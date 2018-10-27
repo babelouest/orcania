@@ -1,5 +1,10 @@
 # Orcania Changelog
 
+## 1.2.8
+
+- Fix build with Makefile
+- Improve build config file and install headers 
+
 ## 1.2.7
 
 - Add config file orcania-cfg.h dynamically built with the options
