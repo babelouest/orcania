@@ -34,5 +34,5 @@ install:
 uninstall:
 	cd $(LIBORCANIA_LOCATION) && $(MAKE) uninstall
 
-liborcania.so:
+release:
 	cd $(LIBORCANIA_LOCATION) && $(MAKE)

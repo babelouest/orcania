@@ -55,6 +55,7 @@ $ make && sudo make install
 The available options for cmake are:
 - `-DBUILD_STATIC=[on|off]` (default `off`): Build the static archive in addition to the shared library
 - `-DWITH_JANSSON=[on|off]` (default `on`): Build with Jansson dependency
+- `-DWITH_STRSTR=[on|off]` (default `off`): Force using inline implementation of strstr
 - `-DBUILD_ORCANIA_TESTING=[on|off]` (default `off`): Build unit tests
 - `-DINSTALL_HEADER=[on|off]` (default `on`): Install header file `orcania.h`
 - `-DBUILD_RPM=[on|off]` (default `off`): Build RPM package when running `make package`
@@ -71,11 +72,18 @@ $ make && sudo make install
 
 This will install Orcania's files under `/usr/local/` DESTDIR.
 
-If you don't want/need `libjansson` specific functions, you can skip it with the build option `JANSSONFLAG=-DU_DISABLE_JANSSON`
+If you don't want/need `libjansson` specific functions, you can skip it with the build option `JANSSONFLAG=1`
 
 ```
 $ cd src
-$ make JANSSONFLAG=-DU_DISABLE_JANSSON
+$ make JANSSONFLAG=1
+```
+
+If you want to force using inline implementation of `strstr`, you can append the build option `STRSTRFLAG=1`. This is useful if your systemdoesn't have an implementation of the function `strstr` but isn't listed as one in Orcania. Like FreeRTOS.
+
+```
+$ cd src
+$ make STRSTRFLAG=1
 ```
 
 To build and install as a static archive, use the make commands `make static*`:

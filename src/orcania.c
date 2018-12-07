@@ -275,7 +275,7 @@ char * o_strrchr(const char * haystack, int c) {
   }
 }
 
-#if defined(__linux__) || defined(__GLIBC__) || defined(_WIN32)
+#if defined(__linux__) || defined(__GLIBC__) || defined(_WIN32) || defined(O_STRSTR)
 static char *strnstr(const char *haystack, const char *needle, size_t len) {
   int i;
   size_t needle_len;

@@ -25,4 +25,4 @@ script:
   - make test package
   - cd ../src
   - make
-  - make JANSSONFLAG=-DU_DISABLE_JANSSON
+  - make JANSSONFLAG=1

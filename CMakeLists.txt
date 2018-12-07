@@ -28,7 +28,7 @@ set(PROJECT_HOMEPAGE_URL "https://github.com/babelouest/orcania/")
 set(PROJECT_BUGREPORT_PATH "https://github.com/babelouest/orcania/issues")
 set(LIBRARY_VERSION_MAJOR "1")
 set(LIBRARY_VERSION_MINOR "2")
-set(LIBRARY_VERSION_PATCH "8")
+set(LIBRARY_VERSION_PATCH "9")
 
 set(PROJECT_VERSION "${LIBRARY_VERSION_MAJOR}.${LIBRARY_VERSION_MINOR}.${LIBRARY_VERSION_PATCH}")
 set(LIBRARY_VERSION "${LIBRARY_VERSION_MAJOR}.${LIBRARY_VERSION_MINOR}.${LIBRARY_VERSION_PATCH}")
@@ -68,6 +68,13 @@ set(LIB_SRC
         ${SRC_DIR}/base64.c
         ${SRC_DIR}/memory.c
         ${SRC_DIR}/orcania.c)
+
+option(WITH_STRSTR "Use inline implementation of strstr" OFF)
+if (WITH_STRSTR)
+    set(STRSTR ON)
+else ()
+    set(STRSTR OFF)
+endif ()
 
 # dependencies
 
@@ -260,6 +267,7 @@ add_custom_target(dist_o
         COMMAND ${CMAKE_MAKE_PROGRAM} package_source)
 
 message(STATUS "Jansson library support: ${WITH_JANSSON}")
+message(STATUS "Force inline implementation of strstr: ${WITH_STRSTR}")
 message(STATUS "Build static library: ${BUILD_STATIC}")
 message(STATUS "Build testing tree: ${BUILD_ULFIUS_TESTING}")
 message(STATUS "Install the header files: ${INSTALL_HEADER}")

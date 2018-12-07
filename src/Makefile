@@ -25,35 +25,50 @@ CONFIG_FILE=$(ORCANIA_INCLUDE)/orcania-cfg.h
 CC=gcc
 CFLAGS+=-c -fPIC -Wall -Werror -Wextra -I$(ORCANIA_INCLUDE) -D_REENTRANT $(ADDITIONALFLAGS) $(CPPFLAGS)
 OUTPUT=liborcania.so
-VERSION=1.2.8
+VERSION=1.2.9
+OBJECTS=orcania.o memory.o base64.o
+LIBS=-lc
 
 ifndef JANSSONFLAG
 DISABLE_JANSSON=0
-LJANSSON=-ljansson
+LIBS+= -ljansson
 else
 DISABLE_JANSSON=1
 endif
 
-LIBS=-lc $(LJANSSON)
+ifdef STRSTRFLAG
+STRSTR=1
+else
+STRSTR=0
+endif
 
 all: release
 
 $(CONFIG_FILE):
 	@cp $(CONFIG_TEMPLATE) $(CONFIG_FILE)
+	@echo Config file $(CONFIG_FILE) generated
 	@sed -i -e 's/$${PROJECT_VERSION}/$(VERSION)/g' $(CONFIG_FILE)        
 	@if [ "$(DISABLE_JANSSON)" = "1" ]; then \
 		sed -i -e 's/\#cmakedefine DISABLE_JANSSON/\#define U_DISABLE_JANSSON/g' $(CONFIG_FILE); \
+		echo "JANSSON SUPPORT         DISABLED"; \
 	else \
 		sed -i -e 's/\#cmakedefine DISABLE_JANSSON/\/* #undef U_DISABLE_JANSSON *\//g' $(CONFIG_FILE); \
+		echo "JANSSON SUPPORT         ENABLED"; \
 	fi
-	@echo Config file $(CONFIG_FILE) generated
+	@if [ "$(STRSTR)" = "1" ]; then \
+		sed -i -e 's/\#cmakedefine STRSTR/\#define O_STRSTR/g' $(CONFIG_FILE); \
+		echo "FORCE IMPLEMENT STRSTR  ENABLED"; \
+	else \
+		sed -i -e 's/\#cmakedefine STRSTR/\/* #undef O_STRSTR *\//g' $(CONFIG_FILE); \
+		echo "FORCE IMPLEMENT STRSTR  DISABLED"; \
+	fi
 
-liborcania.so: $(CONFIG_FILE) memory.o orcania.o base64.o
-	$(CC) -shared -fPIC -Wl,-soname,$(OUTPUT) -o $(OUTPUT).$(VERSION) orcania.o memory.o base64.o $(LIBS) $(LDFLAGS)
+liborcania.so: $(CONFIG_FILE) $(OBJECTS)
+	$(CC) -shared -fPIC -Wl,-soname,$(OUTPUT) -o $(OUTPUT).$(VERSION) $(OBJECTS) $(LIBS) $(LDFLAGS)
 	ln -sf $(OUTPUT).$(VERSION) $(OUTPUT)
 
-liborcania.a: $(CONFIG_FILE) memory.o orcania.o base64.o
-	ar rcs liborcania.a memory.o orcania.o base64.o
+liborcania.a: $(CONFIG_FILE) $(OBJECTS)
+	ar rcs liborcania.a $(OBJECTS)
 
 %.o: %.c ../include/orcania.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) $<
