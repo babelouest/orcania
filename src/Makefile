@@ -63,14 +63,14 @@ $(CONFIG_FILE):
 		echo "FORCE IMPLEMENT STRSTR  DISABLED"; \
 	fi
 
-liborcania.so: $(CONFIG_FILE) $(OBJECTS)
+liborcania.so: $(OBJECTS)
 	$(CC) -shared -fPIC -Wl,-soname,$(OUTPUT) -o $(OUTPUT).$(VERSION) $(OBJECTS) $(LIBS) $(LDFLAGS)
 	ln -sf $(OUTPUT).$(VERSION) $(OUTPUT)
 
-liborcania.a: $(CONFIG_FILE) $(OBJECTS)
+liborcania.a: $(OBJECTS)
 	ar rcs liborcania.a $(OBJECTS)
 
-%.o: %.c ../include/orcania.h
+%.o: %.c $(CONFIG_FILE) ../include/orcania.h
 	$(CC) $(CFLAGS) $(CPPFLAGS) $<
 
 clean:
