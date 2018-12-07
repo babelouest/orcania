@@ -5,6 +5,7 @@
 - Add build flag to force inline implementation of strstr if the host system is
   not known to implement strstr but isn't listed as so, like FreeRTOS
   Thanks to Dirk Uhlemann
+- Avoid babelouest/ulfius#84
 
 ## 1.2.8
 
