@@ -16,23 +16,26 @@
 LIBORCANIA_LOCATION=./src
 TESTS_LOCATION=./test
 
-all: liborcania.so
+all: target
+
+target:
+	cd $(LIBORCANIA_LOCATION) && $(MAKE) $*
 
 debug:
-	cd $(LIBORCANIA_LOCATION) && $(MAKE) debug
+	cd $(LIBORCANIA_LOCATION) && $(MAKE) debug $*
 
 clean:
 	cd $(LIBORCANIA_LOCATION) && $(MAKE) clean
 	cd $(TESTS_LOCATION) && $(MAKE) clean
 
-run_test:
-	cd $(TESTS_LOCATION) && $(MAKE) test
+check:
+	cd $(LIBORCANIA_LOCATION) && $(MAKE) debug $*
+	cd $(TESTS_LOCATION) && $(MAKE) test $*
 
 install:
-	cd $(LIBORCANIA_LOCATION) && $(MAKE) install
+	cd $(LIBORCANIA_LOCATION) && $(MAKE) install $*
 
 uninstall:
-	cd $(LIBORCANIA_LOCATION) && $(MAKE) uninstall
+	cd $(LIBORCANIA_LOCATION) && $(MAKE) uninstall $*
 
-release:
-	cd $(LIBORCANIA_LOCATION) && $(MAKE)
+release: target
