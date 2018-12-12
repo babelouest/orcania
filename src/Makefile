@@ -71,7 +71,7 @@ liborcania.a: $(OBJECTS)
 	ar rcs liborcania.a $(OBJECTS)
 
 %.o: %.c $(CONFIG_FILE) ../include/orcania.h
-	$(CC) $(CFLAGS) $(CPPFLAGS) $<
+	$(CC) $(CFLAGS) $<
 
 clean:
 	rm -f *.o *.so *.a $(OUTPUT) $(OUTPUT).* $(CONFIG_FILE)
