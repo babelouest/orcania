@@ -27,4 +27,4 @@ script:
   - make
   - make clean
   - make JANSSONFLAG=1
-  - make check
+  - make clean check
