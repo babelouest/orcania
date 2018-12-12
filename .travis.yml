@@ -23,6 +23,8 @@ script:
   - sudo make install
   - cmake -DBUILD_ORCANIA_TESTING=on -DWITH_JANSSON=off ..
   - make test package
-  - cd ../src
+  - cd ../
   - make
+  - make clean
   - make JANSSONFLAG=1
+  - make check
