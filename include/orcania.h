@@ -184,6 +184,60 @@ int string_array_has_trimmed_value(const char ** array, const char * needle);
  */
 char * trimwhitespace(char * str);
 
+/**
+ * _pointer_list structure
+ * 
+ */
+struct _pointer_list {
+  size_t size;
+  void ** list;
+};
+
+/**
+ * pointer_list_init
+ * Initialize a pointer list structure
+ */
+void pointer_list_init(struct _pointer_list * pointer_list);
+
+/**
+ * pointer_list_clean
+ * Clean a pointer list structure
+ */
+void pointer_list_clean(struct _pointer_list * pointer_list);
+
+/**
+ * pointer_list_size
+ * Return the size of a pointer list
+ */
+size_t pointer_list_size(struct _pointer_list * pointer_list);
+
+/**
+ * pointer_list_append
+ * Appends an element at the end of a pointer list
+ * Return 1 on success, 0 on error
+ */
+int pointer_list_append(struct _pointer_list * pointer_list, void * element);
+
+/**
+ * pointer_list_get_at
+ * Returns an element of a pointer list at the specified index or NULL if non valid index
+ */
+void * pointer_list_get_at(struct _pointer_list * pointer_list, size_t index);
+
+/**
+ * pointer_list_remove_at
+ * Removes an element of a pointer list at the specified index
+ * Return 1 on success, 0 on error or non valid index
+ */
+int pointer_list_remove_at(struct _pointer_list * pointer_list, size_t index);
+
+/**
+ * pointer_list_remove_at
+ * Removes an element of a pointer list corresponding to the specified element
+ * Return 1 on success, 0 on error or non valid element
+ */
+int pointer_list_remove_pointer(struct _pointer_list * pointer_list, void * element);
+
 #ifndef U_DISABLE_JANSSON
 /**
  * json_t * json_search(json_t * haystack, json_t * needle)

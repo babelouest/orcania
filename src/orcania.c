@@ -522,6 +522,118 @@ int string_array_has_trimmed_value(const char ** array, const char * needle) {
   return to_return;
 }
 
+/**
+ * pointer_list_init
+ * Initialize a pointer list structure
+ */
+void pointer_list_init(struct _pointer_list * pointer_list) {
+  if (pointer_list != NULL) {
+    pointer_list->size = 0;
+    pointer_list->list = NULL;
+  }
+}
+
+/**
+ * pointer_list_clean
+ * Clean a pointer list structure
+ */
+void pointer_list_clean(struct _pointer_list * pointer_list) {
+  size_t i;
+  if (pointer_list != NULL) {
+    for (i=pointer_list_size(pointer_list); i; i--) {
+      pointer_list_remove_at(pointer_list, (i-1));
+    }
+  }
+}
+
+/**
+ * pointer_list_size
+ * Return the size of a pointer list
+ */
+size_t pointer_list_size(struct _pointer_list * pointer_list) {
+  if (pointer_list != NULL) {
+    return pointer_list->size;
+  } else {
+    return 0;
+  }
+}
+
+/**
+ * pointer_list_append
+ * Appends an element at the end of a pointer list
+ * Return 1 on success, 0 on error
+ */
+int pointer_list_append(struct _pointer_list * pointer_list, void * element) {
+  if (pointer_list) {
+    pointer_list->list = o_realloc(pointer_list->list, (pointer_list->size+1)*sizeof(void *));
+    if (pointer_list->list != NULL) {
+      pointer_list->list[pointer_list->size] = element;
+      pointer_list->size++;
+      return 1;
+    } else {
+      o_free(pointer_list->list);
+      pointer_list->list = NULL;
+      return 0;
+    }
+  } else {
+    return 0;
+  }
+}
+
+/**
+ * pointer_list_get_at
+ * Returns an element of a pointer list at the specified index or NULL if non valid index
+ */
+void * pointer_list_get_at(struct _pointer_list * pointer_list, size_t index) {
+  if (pointer_list != NULL && index < pointer_list->size) {
+    return pointer_list->list[index];
+  } else {
+    return NULL;
+  }
+}
+
+/**
+ * pointer_list_remove_at
+ * Removes an element of a pointer list at the specified index
+ * Return 1 on success, 0 on error or non valid index
+ */
+int pointer_list_remove_at(struct _pointer_list * pointer_list, size_t index) {
+  size_t i;
+  if (pointer_list != NULL && index < pointer_list->size) {
+    for (i=index; i<pointer_list->size-1; i++) {
+      pointer_list->list[i] = pointer_list->list[i+1];
+    }
+    if (pointer_list->size > 1) {
+      pointer_list->list = o_realloc(pointer_list->list, (pointer_list->size-1)*sizeof(void *));
+    } else {
+      o_free(pointer_list->list);
+    }
+    pointer_list->size--;
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
+/**
+ * pointer_list_remove_at
+ * Removes an element of a pointer list corresponding to the specified element
+ * Return 1 on success, 0 on error or non valid element
+ */
+int pointer_list_remove_pointer(struct _pointer_list * pointer_list, void * element) {
+  size_t index;
+  if (pointer_list != NULL) {
+    for (index=0; index<pointer_list->size; index++) {
+      if (pointer_list->list[index] == element) {
+        return pointer_list_remove_at(pointer_list, index);
+      }
+    }
+    return 0;
+  } else {
+    return 0;
+  }
+}
+
 #ifndef U_DISABLE_JANSSON
 /**
  * json_t * json_search(json_t * haystack, json_t * needle)

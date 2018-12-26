@@ -1,5 +1,9 @@
 # Orcania Changelog
 
+## 1.3.0
+
+- Add struct _pointer_list to manage arrays of pointers
+
 ## 1.2.9
 
 - Add build flag to force inline implementation of strstr if the host system is

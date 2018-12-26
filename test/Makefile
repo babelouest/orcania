@@ -57,4 +57,10 @@ jansson_test: jansson_test.c
 test_jansson_test: liborcania.so jansson_test
 	-LD_LIBRARY_PATH=$(ORCANIA_LOCATION):${LD_LIBRARY_PATH} ./jansson_test
 
+pointer_list_test: pointer_list_test.c
+	$(CC) $(CFLAGS) pointer_list_test.c -o pointer_list_test $(LIBS)
+
+test_pointer_list_test: liborcania.so pointer_list_test
+	-LD_LIBRARY_PATH=$(ORCANIA_LOCATION):${LD_LIBRARY_PATH} ./pointer_list_test
+
 test: test_str_test test_split_test test_jansson_test test_memory_test
