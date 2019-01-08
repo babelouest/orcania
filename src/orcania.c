@@ -616,6 +616,30 @@ int pointer_list_remove_at(struct _pointer_list * pointer_list, size_t index) {
 }
 
 /**
+ * pointer_list_insert_at
+ * Inserts an element at the specified index of a pointer list
+ * Return 1 on success, 0 on error or non valid index
+ */
+int pointer_list_insert_at(struct _pointer_list * pointer_list, void * element, size_t index) {
+  size_t i;
+  if (pointer_list != NULL && index <= pointer_list->size) {
+    pointer_list->list = o_realloc(pointer_list->list, (pointer_list->size + 1)*sizeof(void *));
+    if (pointer_list != NULL) {
+      for (i=pointer_list->size; i>index; i--) {
+        pointer_list->list[i] = pointer_list->list[i-1];
+      }
+      pointer_list->list[index] = element;
+      pointer_list->size++;
+      return 1;
+    } else {
+      return 0;
+    }
+  } else {
+    return 0;
+  }
+}
+
+/**
  * pointer_list_remove_at
  * Removes an element of a pointer list corresponding to the specified element
  * Return 1 on success, 0 on error or non valid element

@@ -232,6 +232,13 @@ void * pointer_list_get_at(struct _pointer_list * pointer_list, size_t index);
 int pointer_list_remove_at(struct _pointer_list * pointer_list, size_t index);
 
 /**
+ * pointer_list_insert_at
+ * Inserts an element at the specified index of a pointer list
+ * Return 1 on success, 0 on error or non valid index
+ */
+int pointer_list_insert_at(struct _pointer_list * pointer_list, void * element, size_t index);
+
+/**
  * pointer_list_remove_at
  * Removes an element of a pointer list corresponding to the specified element
  * Return 1 on success, 0 on error or non valid element

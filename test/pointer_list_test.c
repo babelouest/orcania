@@ -64,8 +64,11 @@ START_TEST(test_pointer_list_get_at)
   ck_assert_int_eq(pointer_list_append(pointer_list, (void *)0x44), 1);
   ck_assert_int_eq(pointer_list->size, 3);
   ck_assert_ptr_ne(pointer_list_get_at(pointer_list, 0), NULL);
+  ck_assert_ptr_eq(pointer_list_get_at(pointer_list, 0), (void *)0x42);
   ck_assert_ptr_ne(pointer_list_get_at(pointer_list, 1), NULL);
+  ck_assert_ptr_eq(pointer_list_get_at(pointer_list, 1), (void *)0x43);
   ck_assert_ptr_ne(pointer_list_get_at(pointer_list, 2), NULL);
+  ck_assert_ptr_eq(pointer_list_get_at(pointer_list, 2), (void *)0x44);
   ck_assert_ptr_eq(pointer_list_get_at(pointer_list, 3), NULL);
   pointer_list_clean(pointer_list);
   o_free(pointer_list);
@@ -84,6 +87,30 @@ START_TEST(test_pointer_list_remove_at)
   ck_assert_int_eq(pointer_list_remove_at(pointer_list, 0), 1);
   ck_assert_int_eq(pointer_list_remove_at(pointer_list, 4), 0);
   ck_assert_int_eq(pointer_list->size, 2);
+  pointer_list_clean(pointer_list);
+  o_free(pointer_list);
+}
+END_TEST
+
+START_TEST(test_pointer_list_insert_at)
+{
+  struct _pointer_list * pointer_list = o_malloc(sizeof(struct _pointer_list));
+  
+  pointer_list_init(pointer_list);
+  ck_assert_int_eq(pointer_list_append(pointer_list, (void *)0x42), 1);
+  ck_assert_int_eq(pointer_list_append(pointer_list, (void *)0x43), 1);
+  ck_assert_int_eq(pointer_list_append(pointer_list, (void *)0x44), 1);
+  ck_assert_int_eq(pointer_list->size, 3);
+  ck_assert_int_eq(pointer_list_insert_at(pointer_list, (void *)0x45, 0), 1);
+  ck_assert_int_eq(pointer_list->size, 4);
+  ck_assert_ptr_eq(pointer_list_get_at(pointer_list, 0), (void *)0x45);
+  ck_assert_ptr_eq(pointer_list_get_at(pointer_list, 1), (void *)0x42);
+  ck_assert_int_eq(pointer_list_insert_at(pointer_list, (void *)0x46, 3), 1);
+  ck_assert_int_eq(pointer_list->size, 5);
+  ck_assert_ptr_eq(pointer_list_get_at(pointer_list, 0), (void *)0x45);
+  ck_assert_ptr_eq(pointer_list_get_at(pointer_list, 1), (void *)0x42);
+  ck_assert_ptr_eq(pointer_list_get_at(pointer_list, 3), (void *)0x46);
+  ck_assert_int_eq(pointer_list_insert_at(pointer_list, (void *)0x47, 10), 0);
   pointer_list_clean(pointer_list);
   o_free(pointer_list);
 }
@@ -136,6 +163,7 @@ static Suite *orcania_suite(void)
 	tcase_add_test(tc_core, test_pointer_list_size);
 	tcase_add_test(tc_core, test_pointer_list_get_at);
 	tcase_add_test(tc_core, test_pointer_list_remove_at);
+	tcase_add_test(tc_core, test_pointer_list_insert_at);
 	tcase_add_test(tc_core, test_pointer_list_remove_pointer);
 	tcase_add_test(tc_core, test_pointer_list_clean);
 	tcase_set_timeout(tc_core, 30);
