@@ -624,7 +624,7 @@ int pointer_list_insert_at(struct _pointer_list * pointer_list, void * element, 
   size_t i;
   if (pointer_list != NULL && index <= pointer_list->size) {
     pointer_list->list = o_realloc(pointer_list->list, (pointer_list->size + 1)*sizeof(void *));
-    if (pointer_list != NULL) {
+    if (pointer_list->list != NULL) {
       for (i=pointer_list->size; i>index; i--) {
         pointer_list->list[i] = pointer_list->list[i-1];
       }
