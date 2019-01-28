@@ -180,6 +180,11 @@ int string_array_has_value_ncase(const char ** array, const char * needle, size_
 int string_array_has_trimmed_value(const char ** array, const char * needle);
 
 /**
+ * Join a string array into a single string
+ */
+char * string_array_join(const char ** array, const char * separator);
+
+/**
  * Remove string of beginning and ending whitespaces
  */
 char * trimwhitespace(char * str);

@@ -403,6 +403,27 @@ void free_string_array(char ** array) {
 }
 
 /**
+ * Join a string array into a single string
+ */
+char * string_array_join(const char ** array, const char * separator) {
+  char * to_return = NULL, * tmp;
+  int i;
+  
+  if (array != NULL && separator != NULL) {
+    for (i=0; array[i] != NULL; i++) {
+      if (to_return == NULL) {
+        to_return = o_strdup(array[i]);
+      } else {
+        tmp = msprintf("%s%s%s", to_return, separator, array[i]);
+        o_free(to_return);
+        to_return = tmp;
+      }
+    }
+  }
+  return to_return;
+}
+
+/**
  * Remove string of beginning and ending whitespaces
  */
 char * trimwhitespace(char * str) {

@@ -34,6 +34,20 @@ START_TEST(test_string_array_has_value)
 }
 END_TEST
 
+START_TEST(test_string_array_join)
+{
+  char * str = "ab,cd,ef,gghhii,jkl", * separator = ",", * join, ** splitted;
+  ck_assert_int_eq(split_string(str, separator, &splitted), 5);
+  join = string_array_join((const char **)splitted, " ");
+  ck_assert_str_eq(join, "ab cd ef gghhii jkl");
+  ck_assert_ptr_eq(string_array_join(NULL, " "), NULL);
+  ck_assert_ptr_eq(string_array_join((const char **)splitted, NULL), NULL);
+  ck_assert_ptr_eq(string_array_join(NULL, NULL), NULL);
+  free_string_array(splitted);
+  o_free(join);
+}
+END_TEST
+
 static Suite *orcania_suite(void)
 {
 	Suite *s;
@@ -43,6 +57,7 @@ static Suite *orcania_suite(void)
 	tc_core = tcase_create("test_orcania_split");
 	tcase_add_test(tc_core, test_split_string);
 	tcase_add_test(tc_core, test_string_array_has_value);
+	tcase_add_test(tc_core, test_string_array_join);
 	tcase_set_timeout(tc_core, 30);
 	suite_add_tcase(s, tc_core);
 

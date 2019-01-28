@@ -3,6 +3,7 @@
 ## 1.3.0
 
 - Add struct _pointer_list to manage arrays of pointers
+- Add string_array_join
 
 ## 1.2.9
 
