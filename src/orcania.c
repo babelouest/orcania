@@ -33,6 +33,11 @@
 #include <stdarg.h>
 #include "../include/orcania.h"
 
+#ifdef _MSC_VER
+#define strncasecmp _strnicmp
+#define strcasecmp _stricmp
+#endif
+
 /**
  * 
  * Orcania library
