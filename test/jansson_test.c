@@ -12,15 +12,22 @@
 
 START_TEST(test_json_search)
 {
-  json_t * haystack = json_pack("{sss{sssss{si}}}", "a", "b", "c", "d", "e", "f", "g", "h", "i", 42),
+  json_t * haystack = json_pack("{sss{sssss{si}s[ss]s{ss}s[{ss}]}}", "a", "b", "c", "d", "e", "f", "g", "h", "i", 42, "j", "k", "l", "m", "n", "o", "p", "q" ,"r"),
          * needle_found = json_string("e"),
+         * needle_in_array = json_string("k"),
+         * needle_as_object = json_pack("{ss}", "n", "o"),
+         * needla_as_object_in_array = json_pack("{ss}", "q" ,"r"),
          * needle_not_found = json_string("nope");
   ck_assert_ptr_ne(json_search(haystack, needle_found), NULL);
+  ck_assert_ptr_ne(json_search(haystack, needle_in_array), NULL);
+  ck_assert_ptr_ne(json_search(haystack, needle_as_object), NULL);
+  ck_assert_ptr_ne(json_search(haystack, needla_as_object_in_array), NULL);
   ck_assert_ptr_eq(json_search(haystack, needle_not_found), NULL);
   ck_assert_ptr_eq(json_search(haystack, NULL), NULL);
   ck_assert_ptr_eq(json_search(NULL, needle_found), NULL);
   json_decref(haystack);
   json_decref(needle_found);
+  json_decref(needle_in_array);
   json_decref(needle_not_found);
 }
 END_TEST
