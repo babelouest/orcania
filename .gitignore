@@ -5,6 +5,5 @@
 str_test
 split_test
 memory_test
-jansson_test
 pointer_list_test
 orcania-cfg.h

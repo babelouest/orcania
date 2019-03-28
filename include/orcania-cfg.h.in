@@ -28,7 +28,6 @@
 #define _ORCANIA_CFG_H_
 
 #define ORCANIA_VERSION ${PROJECT_VERSION}
-#cmakedefine DISABLE_JANSSON
 #cmakedefine STRSTR
 
 #endif /* _ORCANIA_CFG_H_ */

@@ -23,12 +23,12 @@ CC=gcc
 CFLAGS+=-Wall -D_REENTRANT -DDEBUG -g -O0 -I$(INCLUDE_LOCATION) $(CPPFLAGS)
 ORCANIA_LOCATION=../src
 INCLUDE_LOCATION=../include
-LIBS=-lc -lorcania -ljansson -lcheck -lpthread -lm -lrt -lsubunit -L$(ORCANIA_LOCATION)
+LIBS=-lc -lorcania -lcheck -lpthread -lm -lrt -lsubunit -L$(ORCANIA_LOCATION)
 
 all: test
 
 clean:
-	rm -f *.o str_test split_test memory_test jansson_test valgrind.txt
+	rm -f *.o str_test split_test memory_test valgrind.txt
 
 liborcania.so:
 	cd $(ORCANIA_LOCATION) && $(MAKE) debug
@@ -51,18 +51,12 @@ memory_test: memory_test.c
 test_memory_test: liborcania.so memory_test
 	-LD_LIBRARY_PATH=$(ORCANIA_LOCATION):${LD_LIBRARY_PATH} ./memory_test
 
-jansson_test: jansson_test.c
-	$(CC) $(CFLAGS) jansson_test.c -o jansson_test $(LIBS)
-
-test_jansson_test: liborcania.so jansson_test
-	-LD_LIBRARY_PATH=$(ORCANIA_LOCATION):${LD_LIBRARY_PATH} ./jansson_test
-
 pointer_list_test: pointer_list_test.c
 	$(CC) $(CFLAGS) pointer_list_test.c -o pointer_list_test $(LIBS)
 
 test_pointer_list_test: liborcania.so pointer_list_test
 	-LD_LIBRARY_PATH=$(ORCANIA_LOCATION):${LD_LIBRARY_PATH} ./pointer_list_test
 
-test: test_str_test test_split_test test_jansson_test test_memory_test test_pointer_list_test
+test: test_str_test test_split_test test_memory_test test_pointer_list_test
 
 check: test

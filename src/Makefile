@@ -29,13 +29,6 @@ VERSION=1.3.0
 OBJECTS=orcania.o memory.o base64.o
 LIBS=-lc
 
-ifndef JANSSONFLAG
-DISABLE_JANSSON=0
-LIBS+= -ljansson
-else
-DISABLE_JANSSON=1
-endif
-
 ifdef STRSTRFLAG
 STRSTR=1
 else
@@ -48,13 +41,6 @@ $(CONFIG_FILE):
 	@cp $(CONFIG_TEMPLATE) $(CONFIG_FILE)
 	@echo Config file $(CONFIG_FILE) generated
 	@sed -i -e 's/$${PROJECT_VERSION}/$(VERSION)/g' $(CONFIG_FILE)        
-	@if [ "$(DISABLE_JANSSON)" = "1" ]; then \
-		sed -i -e 's/\#cmakedefine DISABLE_JANSSON/\#define U_DISABLE_JANSSON/g' $(CONFIG_FILE); \
-		echo "JANSSON SUPPORT         DISABLED"; \
-	else \
-		sed -i -e 's/\#cmakedefine DISABLE_JANSSON/\/* #undef U_DISABLE_JANSSON *\//g' $(CONFIG_FILE); \
-		echo "JANSSON SUPPORT         ENABLED"; \
-	fi
 	@if [ "$(STRSTR)" = "1" ]; then \
 		sed -i -e 's/\#cmakedefine STRSTR/\#define O_STRSTR/g' $(CONFIG_FILE); \
 		echo "FORCE IMPLEMENT STRSTR  ENABLED"; \

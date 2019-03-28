@@ -78,31 +78,8 @@ else ()
     set(STRSTR OFF)
 endif ()
 
-# dependencies
-
-option(WITH_JANSSON "Use jansson library" ON)
-
-if (WITH_JANSSON)
-    include(FindJansson)
-    set(JANSSON_MIN_VERSION 2.4)
-    find_package(Jansson ${JANSSON_MIN_VERSION} REQUIRED)
-    if (JANSSON_FOUND)
-        set(LIBS ${JANSSON_LIBRARIES})
-        include_directories(${JANSSON_INCLUDE_DIRS})
-        set(DISABLE_JANSSON OFF)
-    endif ()
-else ()
-    add_definitions(-DU_DISABLE_JANSSON)
-    set(DISABLE_JANSSON ON)
-endif ()
-
-if (WITH_JANSSON)
-  set(PKGCONF_REQ "")
-  set(PKGCONF_REQ_PRIVATE "jansson >= 2.1")
-else ()
-  set(PKGCONF_REQ "")
-  set(PKGCONF_REQ_PRIVATE "")
-endif ()
+set(PKGCONF_REQ "")
+set(PKGCONF_REQ_PRIVATE "")
 
 # build orcania-cfg.h file
 configure_file(${INC_DIR}/orcania-cfg.h.in ${PROJECT_BINARY_DIR}/orcania-cfg.h)
@@ -163,9 +140,6 @@ if (BUILD_ORCANIA_TESTING)
                 str_test
                 split_test
                 memory_test)
-        if (WITH_JANSSON)
-            set(TESTS ${TESTS} jansson_test)
-        endif ()
 
         configure_file(
                 "${CMAKE_MODULE_PATH}/CTestCustom.cmake.in"
@@ -255,9 +229,6 @@ set(CPACK_DEBIAN_PACKAGE_MAINTAINER "mail@babelouest.org")
 set(CPACK_DEBIAN_PACKAGE_DESCRIPTION ${PROJECT_DESCRIPTION})
 set(CPACK_DEBIAN_PACKAGE_HOMEPAGE "https://github.com/babelouest/orcania")
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.4)")
-if (WITH_JANSSON)
-  set(CPACK_DEBIAN_PACKAGE_DEPENDS "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libjansson4 (>= 2.1)")
-endif ()
 set(CPACK_PACKAGE_FILE_NAME ${PACKAGE_FILE_NAME})
 set(CPACK_PACKAGE_FILE_NAME ${PACKAGE_FILE_NAME})
 
@@ -270,7 +241,6 @@ include(CPack)
 add_custom_target(dist_o
         COMMAND ${CMAKE_MAKE_PROGRAM} package_source)
 
-message(STATUS "Jansson library support: ${WITH_JANSSON}")
 message(STATUS "Force inline implementation of strstr: ${WITH_STRSTR}")
 message(STATUS "Build static library: ${BUILD_STATIC}")
 message(STATUS "Build testing tree: ${BUILD_ULFIUS_TESTING}")

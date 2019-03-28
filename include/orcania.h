@@ -29,12 +29,8 @@
 
 #include "orcania-cfg.h"
 
-#ifndef U_DISABLE_JANSSON
-#include <jansson.h>
-#else
 #include <stdio.h>
 #include <stdlib.h>
-#endif
 
 /**
  * char * str_replace(const char * source, char * old, char * new)
@@ -249,24 +245,6 @@ int pointer_list_insert_at(struct _pointer_list * pointer_list, void * element, 
  * Return 1 on success, 0 on error or non valid element
  */
 int pointer_list_remove_pointer(struct _pointer_list * pointer_list, void * element);
-
-#ifndef U_DISABLE_JANSSON
-/**
- * json_t * json_search(json_t * haystack, json_t * needle)
- * jansson library addon
- * This function could be removed if y pull request is accepted in jansson official repository:
- * https://github.com/akheron/jansson/pull/265
- * Look for an occurence of needle within haystack
- * If needle is present in haystack, return the reference to the json_t * that is equal to needle
- * If needle is not found, return NULL
- */
-json_t * json_search(json_t * haystack, json_t * needle);
-
-/**
- * Check if the result json object has a "result" element that is equal to value
- */
-int check_result_value(json_t * result, const int value);
-#endif
 
 /**
  * Memory functions
