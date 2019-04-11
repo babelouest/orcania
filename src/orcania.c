@@ -408,6 +408,17 @@ void free_string_array(char ** array) {
 }
 
 /**
+ * Count the number of elements in an array of strings
+ */
+size_t string_array_size(char ** array) {
+  size_t ret = 0;
+  if (array != NULL) {
+    for (;array[ret] != NULL; ret++);
+  }
+  return ret;
+}
+
+/**
  * Join a string array into a single string
  */
 char * string_array_join(const char ** array, const char * separator) {
