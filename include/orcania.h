@@ -151,6 +151,11 @@ int split_string(const char * string, const char * separator, char *** return_ar
 void free_string_array(char ** array);
 
 /**
+ * Count the number of elements in an array of strings
+ */
+size_t string_array_size(char ** array);
+
+/**
  * Check if an array of string has a specified value, case sensitive
  */
 int string_array_has_value(const char ** array, const char * needle);

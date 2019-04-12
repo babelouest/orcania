@@ -3,7 +3,7 @@
 ## 2.0.0
 
 - Add struct _pointer_list to manage arrays of pointers
-- Add string_array_join
+- Add string_array_join, string_array_size
 - Remove jansson related functions and dependency
 
 ## 1.2.9
