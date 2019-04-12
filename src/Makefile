@@ -25,7 +25,7 @@ CONFIG_FILE=$(ORCANIA_INCLUDE)/orcania-cfg.h
 CC=gcc
 CFLAGS+=-c -fPIC -Wall -Werror -Wextra -I$(ORCANIA_INCLUDE) -D_REENTRANT $(ADDITIONALFLAGS) $(CPPFLAGS)
 OUTPUT=liborcania.so
-VERSION=1.3.0
+VERSION=2.0.0
 OBJECTS=orcania.o memory.o base64.o
 LIBS=-lc
 
