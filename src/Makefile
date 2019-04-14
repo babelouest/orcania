@@ -19,10 +19,10 @@
 # License along with this library.	If not, see <http://www.gnu.org/licenses/>.
 #
 PROJECT_NAME=orcania
-PROJECT_DESCRIPTION="Potluck with different functions for different purposes that can be shared among programs"
-PROJECT_BUGREPORT_PATH="https://github.com/babelouest/orcania/issues"
-PKGCONF_REQ=""
-PKGCONF_REQ_PRIVATE=""
+PROJECT_DESCRIPTION=Potluck with different functions for different purposes that can be shared among programs
+PROJECT_BUGREPORT_PATH=https://github.com/babelouest/orcania/issues
+PKGCONF_REQ=
+PKGCONF_REQ_PRIVATE=
 DESTDIR=/usr/local
 ORCANIA_INCLUDE=../include
 CONFIG_TEMPLATE=$(ORCANIA_INCLUDE)/orcania-cfg.h.in
@@ -84,13 +84,14 @@ clean:
 
 install: all $(PKGCONFIG_FILE)
 	install $(OUTPUT).$(VERSION) $(DESTDIR)/lib
-	install $(PKGCONFIG_FILE) $(DESTDIR)/lib/pkgconfig
+	install -m644 $(PKGCONFIG_FILE) $(DESTDIR)/lib/pkgconfig
 	install -m644 ../include/orcania.h $(DESTDIR)/include
 	install -m644 $(CONFIG_FILE) $(DESTDIR)/include
 	-ldconfig
 
 static-install: static
 	install liborcania.a $(DESTDIR)/lib
+	install -m644 $(PKGCONFIG_FILE) $(DESTDIR)/lib/pkgconfig
 	install -m644 ../include/orcania.h $(DESTDIR)/include
 	install -m644 $(CONFIG_FILE) $(DESTDIR)/include
 
