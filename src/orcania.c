@@ -602,7 +602,7 @@ size_t pointer_list_size(struct _pointer_list * pointer_list) {
  */
 int pointer_list_append(struct _pointer_list * pointer_list, void * element) {
   if (pointer_list) {
-    pointer_list->list = o_realloc(pointer_list->list, (pointer_list->size+1)*sizeof(char *));
+    pointer_list->list = o_realloc(pointer_list->list, (pointer_list->size+1)*sizeof(void *));
     if (pointer_list->list != NULL) {
       pointer_list->list[pointer_list->size] = element;
       pointer_list->size++;
