@@ -136,6 +136,15 @@ size_t o_strlen(const char * s);
 char * msprintf(const char * message, ...);
 
 /**
+ * char * mstrcatf((char * source, const char * message, ...)
+ * A combination of strcat and msprintf that will concat source and message formatted
+ * and return the combination as a new allocated char *
+ * and will o_free source
+ * but don't forget to free the returned value after use!
+ */
+char * mstrcatf(char * source, const char * message, ...);
+
+/**
  * Split a string into an array of strings using separator string
  * return the number of elements to be returned, 0 on error
  * if return_array is not NULL, set the returned array in it

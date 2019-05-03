@@ -185,6 +185,24 @@ START_TEST(test_msprintf)
 }
 END_TEST
 
+START_TEST(test_mstrcatf)
+{
+  char * target;
+  char tmp[200];
+  target = msprintf("target1 %s %d %p", "str1", 42, NULL);
+  target = mstrcatf(target, "target2 %s %d %p", "str2", 42, NULL);
+  sprintf(tmp, "target1 str1 42 %ptarget2 %s 42 %p", NULL, "str2", NULL);
+  ck_assert_str_eq(target, tmp);
+  o_free(target);
+  ck_assert_ptr_eq(msprintf(NULL, NULL, "str1", 42, NULL), NULL);
+  target = NULL;
+  target = mstrcatf(target, "target2 %s %d %p", "str2", 42, NULL);
+  sprintf(tmp, "target2 %s 42 %p", "str2", NULL);
+  ck_assert_str_eq(target, tmp);
+  o_free(target);
+}
+END_TEST
+
 START_TEST(test_trimwhitespace)
 {
   char * test1 = o_strdup(" bob trimmed  "), * test2 = o_strdup(" \t \t"), * test3 = o_strdup("");
@@ -267,6 +285,7 @@ static Suite *orcania_suite(void)
 	tcase_add_test(tc_core, test_o_strrchr);
 	tcase_add_test(tc_core, test_o_strlen);
 	tcase_add_test(tc_core, test_msprintf);
+	tcase_add_test(tc_core, test_mstrcatf);
 	tcase_add_test(tc_core, test_trimwhitespace);
 	tcase_add_test(tc_core, test_base64);
 	tcase_add_test(tc_core, test_string_array);

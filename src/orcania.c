@@ -126,6 +126,54 @@ char * msprintf(const char * message, ...) {
 }
 
 /**
+ * char * mstrcatf((char * source, const char * message, ...)
+ * A combination of strcat and msprintf that will concat source and message formatted
+ * and return the combination as a new allocated char *
+ * and will o_free source
+ * but don't forget to free the returned value after use!
+ */
+char * mstrcatf(char * source, const char * message, ...) {
+  va_list argp, argp_cpy;
+  size_t out_len = 0;
+  char * out = NULL, * new_format;
+  
+  if (message != NULL) {
+    if (source != NULL) {
+      new_format = msprintf("%s%s", source, message);
+      if (new_format != NULL) {
+        va_start(argp, message);
+        va_copy(argp_cpy, argp); // We make a copy because in some architectures, vsnprintf can modify argp
+        out_len = vsnprintf(NULL, 0, new_format, argp);
+        out = o_malloc(out_len+sizeof(char));
+        if (out == NULL) {
+          va_end(argp);
+          va_end(argp_cpy);
+          return NULL;
+        }
+        vsnprintf(out, (out_len+sizeof(char)), new_format, argp_cpy);
+        va_end(argp);
+        va_end(argp_cpy);
+        o_free(new_format);
+      }
+    } else {
+      va_start(argp, message);
+      va_copy(argp_cpy, argp); // We make a copy because in some architectures, vsnprintf can modify argp
+      out_len = vsnprintf(NULL, 0, message, argp);
+      out = o_malloc(out_len+sizeof(char));
+      if (out == NULL) {
+        va_end(argp);
+        va_end(argp_cpy);
+        return NULL;
+      }
+      vsnprintf(out, (out_len+sizeof(char)), message, argp_cpy);
+      va_end(argp);
+      va_end(argp_cpy);
+    }
+  }
+  return out;
+}
+
+/**
  * o_strdup
  * a modified strdup function that don't crash when source is NULL, instead return NULL
  * Returned value must be free'd after use
