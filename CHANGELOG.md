@@ -4,6 +4,7 @@
 
 - Add struct _pointer_list to manage arrays of pointers
 - Add string_array_join, string_array_size
+- Add o_base64url_encode and o_base64url_decode
 - Remove jansson related functions and dependency
 - Install pkgconfig file when using Makefile
 

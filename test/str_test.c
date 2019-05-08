@@ -255,11 +255,23 @@ START_TEST(test_base64)
 {
   char * src = "source string", encoded[128], decoded[128];
   size_t encoded_size, decoded_size;
-  ck_assert_int_eq(o_base64_encode((unsigned char *)src, strlen(src), (unsigned char *)encoded, &encoded_size), 1);
+  ck_assert_int_eq(o_base64_encode((unsigned char *)src, o_strlen(src), (unsigned char *)encoded, &encoded_size), 1);
   ck_assert_str_eq(encoded, "c291cmNlIHN0cmluZw==");
   ck_assert_int_eq(o_base64_decode((unsigned char *)encoded, encoded_size, (unsigned char *)decoded, &decoded_size), 1);
   ck_assert_str_eq(decoded, src);
-  ck_assert_int_eq(decoded_size, strlen(src));
+  ck_assert_int_eq(decoded_size, o_strlen(src));
+}
+END_TEST
+
+START_TEST(test_base64url)
+{
+  char * src = "source string", encoded[128], decoded[128];
+  size_t encoded_size, decoded_size;
+  ck_assert_int_eq(o_base64url_encode((unsigned char *)src, o_strlen(src), (unsigned char *)encoded, &encoded_size), 1);
+  ck_assert_str_eq(encoded, "c291cmNlIHN0cmluZw");
+  ck_assert_int_eq(o_base64url_decode((unsigned char *)encoded, encoded_size, (unsigned char *)decoded, &decoded_size), 1);
+  ck_assert_str_eq(decoded, src);
+  ck_assert_int_eq(decoded_size, o_strlen(src));
 }
 END_TEST
 
@@ -288,6 +300,7 @@ static Suite *orcania_suite(void)
 	tcase_add_test(tc_core, test_mstrcatf);
 	tcase_add_test(tc_core, test_trimwhitespace);
 	tcase_add_test(tc_core, test_base64);
+	tcase_add_test(tc_core, test_base64url);
 	tcase_add_test(tc_core, test_string_array);
 	tcase_add_test(tc_core, test_string_array_has_trimmed_value);
 	tcase_set_timeout(tc_core, 30);

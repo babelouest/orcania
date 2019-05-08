@@ -137,3 +137,79 @@ int o_base64_decode(const unsigned char *src, size_t len, unsigned char * out, s
 	*out_len = pos - out;
 	return 1;
 }
+
+/**
+ * o_base64url_encode - Base64url encode
+ * @src: Data to be encoded
+ * @len: Length of the data to be encoded
+ * @out: Pointer to output variable
+ * @out_len: Pointer to output length variable
+ * Returns: 1 on success, 0 on failure
+ *
+ * The nul terminator is not included in out_len.
+ */
+int o_base64url_encode(const unsigned char * src, size_t len, unsigned char * out, size_t * out_len) {
+  int res = o_base64_encode(src, len, out, out_len);
+  size_t index;
+  
+  if (res) {
+    if (*out_len >= 2 && out[*out_len - 2] == '=') {
+      out[*out_len - 2] = '\0';
+      (*out_len) -= 2;
+    } else if (*out_len && out[*out_len - 1] == '=') {
+      out[*out_len - 1] = '\0';
+      (*out_len)--;
+    }
+    for (index = 0; index < *out_len; index++) {
+      if (out[index] == '+') {
+        out[index] = '-';
+      } else if (out[index] == '/') {
+        out[index] = '_';
+      }
+    }
+  }
+  return res;
+}
+
+/**
+ * o_base64url_decode - Base64 decode
+ * @src: Data to be decoded
+ * @len: Length of the data to be decoded
+ * @out: Pointer to output variable
+ * @out_len: Pointer to output length variable
+ * Returns: 1 on success, 0 on failure
+ *
+ * The nul terminator is not included in out_len.
+ */
+int o_base64url_decode(const unsigned char *src, size_t len, unsigned char * out, size_t * out_len) {
+  int res = 0;
+  size_t index;
+  unsigned char * src_cpy;
+  
+  if (src) {
+    src_cpy = o_malloc(len+2);
+    if (src_cpy != NULL) {
+      memcpy(src_cpy, src, len);
+      for (index = 0; index < len; index++) {
+        if (src_cpy[index] == '-') {
+          src_cpy[index] = '+';
+        } else if (src_cpy[index] == '_') {
+          src_cpy[index] = '/';
+        }
+      }
+      if (len % 4 == 2) {
+        src_cpy[len] = '=';
+        src_cpy[len+1] = '=';
+        len += 2;
+      } else if (len % 4 == 3) {
+        src_cpy[len] = '=';
+        len++;
+      }
+      res = o_base64_decode(src_cpy, len, out, out_len);
+      o_free(src_cpy);
+    } else {
+      res = 0;
+    }
+  }
+  return res;
+}
