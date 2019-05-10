@@ -307,7 +307,7 @@ int o_base64_encode(const unsigned char * src, size_t len, unsigned char * out, 
 int o_base64_decode(const unsigned char *src, size_t len, unsigned char * out, size_t * out_len);
 
 /**
- * o_base64url_encode - Base64url encode
+ * o_base64url_encode - Base64url encode (url format)
  * @src: Data to be encoded
  * @len: Length of the data to be encoded
  * @out: Pointer to output variable
@@ -319,7 +319,7 @@ int o_base64_decode(const unsigned char *src, size_t len, unsigned char * out, s
 int o_base64url_encode(const unsigned char * src, size_t len, unsigned char * out, size_t * out_len);
 
 /**
- * o_base64url_decode - Base64 decode
+ * o_base64url_decode - Base64 decode (url format)
  * @src: Data to be decoded
  * @len: Length of the data to be decoded
  * @out: Pointer to output variable
@@ -329,5 +329,18 @@ int o_base64url_encode(const unsigned char * src, size_t len, unsigned char * ou
  * The nul terminator is not included in out_len.
  */
 int o_base64url_decode(const unsigned char *src, size_t len, unsigned char * out, size_t * out_len);
+
+/**
+ * o_base64url_2_base64 - Convert a base64 url format to base64 format
+ * @src: Data to be decoded
+ * @len: Length of the data to be decoded
+ * @out: Pointer to output variable
+ * @out_len: Pointer to output length variable
+ * Returns: 1 on success, 0 on failure
+ *
+ * The nul terminator is not included in out_len.
+ * out must be at least len+2
+ */
+int o_base64url_2_base64(const unsigned char *src, size_t len, unsigned char * out, size_t * out_len);
 
 #endif

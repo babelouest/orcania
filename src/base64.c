@@ -139,7 +139,7 @@ int o_base64_decode(const unsigned char *src, size_t len, unsigned char * out, s
 }
 
 /**
- * o_base64url_encode - Base64url encode
+ * o_base64url_encode - Base64url encode (url format)
  * @src: Data to be encoded
  * @len: Length of the data to be encoded
  * @out: Pointer to output variable
@@ -172,7 +172,7 @@ int o_base64url_encode(const unsigned char * src, size_t len, unsigned char * ou
 }
 
 /**
- * o_base64url_decode - Base64 decode
+ * o_base64url_decode - Base64 decode (url format)
  * @src: Data to be decoded
  * @len: Length of the data to be decoded
  * @out: Pointer to output variable
@@ -183,33 +183,59 @@ int o_base64url_encode(const unsigned char * src, size_t len, unsigned char * ou
  */
 int o_base64url_decode(const unsigned char *src, size_t len, unsigned char * out, size_t * out_len) {
   int res = 0;
-  size_t index;
+  size_t src_cpy_len;
   unsigned char * src_cpy;
   
   if (src) {
     src_cpy = o_malloc(len+2);
     if (src_cpy != NULL) {
-      memcpy(src_cpy, src, len);
-      for (index = 0; index < len; index++) {
-        if (src_cpy[index] == '-') {
-          src_cpy[index] = '+';
-        } else if (src_cpy[index] == '_') {
-          src_cpy[index] = '/';
-        }
+      if (o_base64url_2_base64(src, len, src_cpy, &src_cpy_len)) {
+        res = o_base64_decode(src_cpy, src_cpy_len, out, out_len);
+      } else {
+        res = 1;
       }
-      if (len % 4 == 2) {
-        src_cpy[len] = '=';
-        src_cpy[len+1] = '=';
-        len += 2;
-      } else if (len % 4 == 3) {
-        src_cpy[len] = '=';
-        len++;
-      }
-      res = o_base64_decode(src_cpy, len, out, out_len);
       o_free(src_cpy);
     } else {
       res = 0;
     }
+  }
+  return res;
+}
+
+/**
+ * o_base64url_2_base64 - Convert a base64 url format to base64 format
+ * @src: Data to be decoded
+ * @len: Length of the data to be decoded
+ * @out: Pointer to output variable
+ * @out_len: Pointer to output length variable
+ * Returns: 1 on success, 0 on failure
+ *
+ * The nul terminator is not included in out_len.
+ * out must be at least len+2
+ */
+int o_base64url_2_base64(const unsigned char *src, size_t len, unsigned char * out, size_t * out_len) {
+  int res = 0;
+  size_t index;
+  
+  if (src) {
+    memcpy(out, src, len);
+    *out_len = len;
+    for (index = 0; index < len; index++) {
+      if (out[index] == '-') {
+        out[index] = '+';
+      } else if (out[index] == '_') {
+        out[index] = '/';
+      }
+    }
+    if (len % 4 == 2) {
+      out[len] = '=';
+      out[len+1] = '=';
+      (*out_len) += 2;
+    } else if (len % 4 == 3) {
+      out[len] = '=';
+      (*out_len)++;
+    }
+    res = 1;
   }
   return res;
 }
