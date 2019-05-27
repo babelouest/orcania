@@ -34,7 +34,7 @@ CFLAGS+=-c -fPIC -Wall -Werror -Wextra -I$(ORCANIA_INCLUDE) -D_REENTRANT $(ADDIT
 OUTPUT=liborcania.so
 VERSION=2.0.0
 OBJECTS=orcania.o memory.o base64.o
-LIBS=-lc
+LIBS=-lc -lm
 
 ifdef STRSTRFLAG
 STRSTR=1
