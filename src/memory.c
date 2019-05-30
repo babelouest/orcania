@@ -9,7 +9,7 @@
  */
 
 #include <stdlib.h>
-#include "../include/orcania.h"
+#include "orcania.h"
 
 /* memory function pointers */
 static o_malloc_t do_malloc = malloc;

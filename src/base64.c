@@ -8,7 +8,7 @@
 
 #include <string.h>
 #include <math.h>
-#include "../include/orcania.h"
+#include "orcania.h"
 
 static const unsigned char base64_table[65] =
   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";

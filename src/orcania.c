@@ -31,7 +31,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdarg.h>
-#include "../include/orcania.h"
+#include "orcania.h"
 
 #ifdef _MSC_VER
 #define strncasecmp _strnicmp
