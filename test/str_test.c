@@ -305,7 +305,6 @@ START_TEST(test_base64_2_base64url)
   ck_assert_str_ne((const char *)encoded_url, (const char *)encoded);
   ck_assert_int_eq(o_base64_2_base64url(encoded_url, encoded_size, encoded_new, &encoded_new_size), 1);
   encoded_new[encoded_new_size] = '\0';
-  fprintf(stderr, "encoded_new %s, encoded %s\n", encoded_new, encoded);
   ck_assert_str_eq((const char *)encoded_new, (const char *)encoded);
 }
 END_TEST
