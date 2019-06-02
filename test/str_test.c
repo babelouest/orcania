@@ -292,6 +292,24 @@ START_TEST(test_base64url_2_base64)
 }
 END_TEST
 
+START_TEST(test_base64_2_base64url)
+{
+  unsigned char src[10] = {0x6f, 0x5b, 0x70, 0x29, 0x27, 0x2d, 0x3d, 0x40, 0x7e, 0x0}, encoded[21] = {0}, encoded_url[21] = {0}, encoded_new[19] = {0};
+  size_t encoded_size = 0, encoded_new_size = 0;
+  ck_assert_int_eq(o_base64url_encode(src, 10, encoded, &encoded_size), 1);
+  ck_assert_int_gt(encoded_size, 0);
+  encoded[encoded_size] = '\0'; // should be "b1twKSctPUB-AA"
+  ck_assert_int_eq(o_base64_encode(src, 10, encoded_url, &encoded_size), 1);
+  ck_assert_int_gt(encoded_size, 0);
+  encoded_url[encoded_size] = '\0'; // should be "b1twKSctPUB+AA=="
+  ck_assert_str_ne((const char *)encoded_url, (const char *)encoded);
+  ck_assert_int_eq(o_base64_2_base64url(encoded_url, encoded_size, encoded_new, &encoded_new_size), 1);
+  encoded_new[encoded_new_size] = '\0';
+  fprintf(stderr, "encoded_new %s, encoded %s\n", encoded_new, encoded);
+  ck_assert_str_eq((const char *)encoded_new, (const char *)encoded);
+}
+END_TEST
+
 START_TEST(test_base64_len)
 {
   char * src1 = "a", * src2 = "aa", * src3 = "aaa", * src4 = "aaaa", * src5 = "aaaaa", * src = "source string", encoded[128];
@@ -383,6 +401,7 @@ static Suite *orcania_suite(void)
 	tcase_add_test(tc_core, test_base64);
 	tcase_add_test(tc_core, test_base64url);
 	tcase_add_test(tc_core, test_base64url_2_base64);
+	tcase_add_test(tc_core, test_base64_2_base64url);
 	tcase_add_test(tc_core, test_base64_len);
 	tcase_add_test(tc_core, test_string_array);
 	tcase_add_test(tc_core, test_string_array_has_trimmed_value);
