@@ -155,6 +155,7 @@ char * mstrcatf(char * source, const char * message, ...) {
         va_end(argp_cpy);
         o_free(new_format);
       }
+      o_free(source);
     } else {
       va_start(argp, message);
       va_copy(argp_cpy, argp); // We make a copy because in some architectures, vsnprintf can modify argp
