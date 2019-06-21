@@ -134,39 +134,31 @@ char * msprintf(const char * message, ...) {
  */
 char * mstrcatf(char * source, const char * message, ...) {
   va_list argp, argp_cpy;
-  size_t out_len = 0;
-  char * out = NULL, * new_format;
+  char * out = NULL, * message_formatted = NULL;
+  size_t message_formatted_len = 0, out_len = 0;
   
   if (message != NULL) {
     if (source != NULL) {
-      new_format = msprintf("%s%s", source, message);
-      if (new_format != NULL) {
-        va_start(argp, message);
-        va_copy(argp_cpy, argp); // We make a copy because in some architectures, vsnprintf can modify argp
-        out_len = vsnprintf(NULL, 0, new_format, argp);
-        out = o_malloc(out_len+sizeof(char));
-        if (out == NULL) {
-          va_end(argp);
-          va_end(argp_cpy);
-          return NULL;
-        }
-        vsnprintf(out, (out_len+sizeof(char)), new_format, argp_cpy);
-        va_end(argp);
-        va_end(argp_cpy);
-        o_free(new_format);
+      va_start(argp, message);
+      va_copy(argp_cpy, argp); // We make a copy because in some architectures, vsnprintf can modify argp
+      message_formatted_len = vsnprintf(NULL, 0, message, argp);
+      message_formatted = o_malloc(message_formatted_len+sizeof(char));
+      if (message_formatted != NULL) {
+        vsnprintf(message_formatted, (message_formatted_len+sizeof(char)), message, argp_cpy);
+        out = msprintf("%s%s", source, message_formatted);
+        o_free(message_formatted);
+        o_free(source);
       }
-      o_free(source);
+      va_end(argp);
+      va_end(argp_cpy);
     } else {
       va_start(argp, message);
       va_copy(argp_cpy, argp); // We make a copy because in some architectures, vsnprintf can modify argp
       out_len = vsnprintf(NULL, 0, message, argp);
       out = o_malloc(out_len+sizeof(char));
-      if (out == NULL) {
-        va_end(argp);
-        va_end(argp_cpy);
-        return NULL;
+      if (out != NULL) {
+        vsnprintf(out, (out_len+sizeof(char)), message, argp_cpy);
       }
-      vsnprintf(out, (out_len+sizeof(char)), message, argp_cpy);
       va_end(argp);
       va_end(argp_cpy);
     }
