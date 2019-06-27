@@ -19,16 +19,19 @@ cmake_minimum_required(VERSION 3.5)
 project(orcania C)
 
 set(CMAKE_C_STANDARD 99)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror")
+if (NOT MSVC)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror")
+endif()
 
 # library info
 
 set(PROJECT_DESCRIPTION "Potluck with different functions for different purposes that can be shared among programs")
 set(PROJECT_HOMEPAGE_URL "https://github.com/babelouest/orcania/")
 set(PROJECT_BUGREPORT_PATH "https://github.com/babelouest/orcania/issues")
-set(LIBRARY_VERSION_MAJOR "1")
-set(LIBRARY_VERSION_MINOR "2")
-set(LIBRARY_VERSION_PATCH "9")
+set(LIBRARY_VERSION_MAJOR "2")
+set(LIBRARY_VERSION_MINOR "0")
+set(LIBRARY_VERSION_PATCH "0")
+set(LIBS "-lm")
 
 set(PROJECT_VERSION "${LIBRARY_VERSION_MAJOR}.${LIBRARY_VERSION_MINOR}.${LIBRARY_VERSION_PATCH}")
 set(LIBRARY_VERSION "${LIBRARY_VERSION_MAJOR}.${LIBRARY_VERSION_MINOR}.${LIBRARY_VERSION_PATCH}")
@@ -76,31 +79,8 @@ else ()
     set(STRSTR OFF)
 endif ()
 
-# dependencies
-
-option(WITH_JANSSON "Use jansson library" ON)
-
-if (WITH_JANSSON)
-    include(FindJansson)
-    set(JANSSON_MIN_VERSION 2.4)
-    find_package(Jansson ${JANSSON_MIN_VERSION} REQUIRED)
-    if (JANSSON_FOUND)
-        set(LIBS ${JANSSON_LIBRARIES})
-        include_directories(${JANSSON_INCLUDE_DIRS})
-        set(DISABLE_JANSSON OFF)
-    endif ()
-else ()
-    add_definitions(-DU_DISABLE_JANSSON)
-    set(DISABLE_JANSSON ON)
-endif ()
-
-if (WITH_JANSSON)
-  set(PKGCONF_REQ "")
-  set(PKGCONF_REQ_PRIVATE "jansson >= 2.1")
-else ()
-  set(PKGCONF_REQ "")
-  set(PKGCONF_REQ_PRIVATE "")
-endif ()
+set(PKGCONF_REQ "")
+set(PKGCONF_REQ_PRIVATE "")
 
 # build orcania-cfg.h file
 configure_file(${INC_DIR}/orcania-cfg.h.in ${PROJECT_BINARY_DIR}/orcania-cfg.h)
@@ -121,11 +101,13 @@ endif ()
 # shared library
 
 add_library(orcania SHARED ${LIB_SRC})
-set_target_properties(orcania PROPERTIES
-        COMPILE_OPTIONS -Wextra
-        PUBLIC_HEADER "${INC_DIR}/orcania.h;${PROJECT_BINARY_DIR}/orcania-cfg.h"
-        VERSION "${LIBRARY_VERSION}"
-        SOVERSION "${LIBRARY_SOVERSION}")
+if (NOT MSVC)
+    set_target_properties(orcania PROPERTIES
+            COMPILE_OPTIONS -Wextra
+            PUBLIC_HEADER "${INC_DIR}/orcania.h;${PROJECT_BINARY_DIR}/orcania-cfg.h"
+            VERSION "${LIBRARY_VERSION}"
+            SOVERSION "${LIBRARY_SOVERSION}")
+endif()
 if (WIN32)
     set_target_properties(orcania PROPERTIES SUFFIX "-${LIBRARY_VERSION_MAJOR}.dll")
 endif ()
@@ -159,9 +141,6 @@ if (BUILD_ORCANIA_TESTING)
                 str_test
                 split_test
                 memory_test)
-        if (WITH_JANSSON)
-            set(TESTS ${TESTS} jansson_test)
-        endif ()
 
         configure_file(
                 "${CMAKE_MODULE_PATH}/CTestCustom.cmake.in"
@@ -251,9 +230,6 @@ set(CPACK_DEBIAN_PACKAGE_MAINTAINER "mail@babelouest.org")
 set(CPACK_DEBIAN_PACKAGE_DESCRIPTION ${PROJECT_DESCRIPTION})
 set(CPACK_DEBIAN_PACKAGE_HOMEPAGE "https://github.com/babelouest/orcania")
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.4)")
-if (WITH_JANSSON)
-  set(CPACK_DEBIAN_PACKAGE_DEPENDS "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libjansson4 (>= 2.1)")
-endif ()
 set(CPACK_PACKAGE_FILE_NAME ${PACKAGE_FILE_NAME})
 set(CPACK_PACKAGE_FILE_NAME ${PACKAGE_FILE_NAME})
 
@@ -266,7 +242,6 @@ include(CPack)
 add_custom_target(dist_o
         COMMAND ${CMAKE_MAKE_PROGRAM} package_source)
 
-message(STATUS "Jansson library support: ${WITH_JANSSON}")
 message(STATUS "Force inline implementation of strstr: ${WITH_STRSTR}")
 message(STATUS "Build static library: ${BUILD_STATIC}")
 message(STATUS "Build testing tree: ${BUILD_ULFIUS_TESTING}")

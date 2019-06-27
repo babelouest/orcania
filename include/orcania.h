@@ -29,12 +29,8 @@
 
 #include "orcania-cfg.h"
 
-#ifndef U_DISABLE_JANSSON
-#include <jansson.h>
-#else
 #include <stdio.h>
 #include <stdlib.h>
-#endif
 
 /**
  * char * str_replace(const char * source, char * old, char * new)
@@ -140,6 +136,15 @@ size_t o_strlen(const char * s);
 char * msprintf(const char * message, ...);
 
 /**
+ * char * mstrcatf((char * source, const char * message, ...)
+ * A combination of strcat and msprintf that will concat source and message formatted
+ * and return the combination as a new allocated char *
+ * and will o_free source
+ * but don't forget to free the returned value after use!
+ */
+char * mstrcatf(char * source, const char * message, ...);
+
+/**
  * Split a string into an array of strings using separator string
  * return the number of elements to be returned, 0 on error
  * if return_array is not NULL, set the returned array in it
@@ -153,6 +158,11 @@ int split_string(const char * string, const char * separator, char *** return_ar
  * Clean an array of strings
  */
 void free_string_array(char ** array);
+
+/**
+ * Count the number of elements in an array of strings
+ */
+size_t string_array_size(char ** array);
 
 /**
  * Check if an array of string has a specified value, case sensitive
@@ -180,27 +190,75 @@ int string_array_has_value_ncase(const char ** array, const char * needle, size_
 int string_array_has_trimmed_value(const char ** array, const char * needle);
 
 /**
+ * Join a string array into a single string
+ */
+char * string_array_join(const char ** array, const char * separator);
+
+/**
  * Remove string of beginning and ending whitespaces
  */
 char * trimwhitespace(char * str);
 
-#ifndef U_DISABLE_JANSSON
 /**
- * json_t * json_search(json_t * haystack, json_t * needle)
- * jansson library addon
- * This function could be removed if y pull request is accepted in jansson official repository:
- * https://github.com/akheron/jansson/pull/265
- * Look for an occurence of needle within haystack
- * If needle is present in haystack, return the reference to the json_t * that is equal to needle
- * If needle is not found, return NULL
+ * _pointer_list structure
+ * 
  */
-json_t * json_search(json_t * haystack, json_t * needle);
+struct _pointer_list {
+  size_t size;
+  void ** list;
+};
 
 /**
- * Check if the result json object has a "result" element that is equal to value
+ * pointer_list_init
+ * Initialize a pointer list structure
  */
-int check_result_value(json_t * result, const int value);
-#endif
+void pointer_list_init(struct _pointer_list * pointer_list);
+
+/**
+ * pointer_list_clean
+ * Clean a pointer list structure
+ */
+void pointer_list_clean(struct _pointer_list * pointer_list);
+
+/**
+ * pointer_list_size
+ * Return the size of a pointer list
+ */
+size_t pointer_list_size(struct _pointer_list * pointer_list);
+
+/**
+ * pointer_list_append
+ * Appends an element at the end of a pointer list
+ * Return 1 on success, 0 on error
+ */
+int pointer_list_append(struct _pointer_list * pointer_list, void * element);
+
+/**
+ * pointer_list_get_at
+ * Returns an element of a pointer list at the specified index or NULL if non valid index
+ */
+void * pointer_list_get_at(struct _pointer_list * pointer_list, size_t index);
+
+/**
+ * pointer_list_remove_at
+ * Removes an element of a pointer list at the specified index
+ * Return 1 on success, 0 on error or non valid index
+ */
+int pointer_list_remove_at(struct _pointer_list * pointer_list, size_t index);
+
+/**
+ * pointer_list_insert_at
+ * Inserts an element at the specified index of a pointer list
+ * Return 1 on success, 0 on error or non valid index
+ */
+int pointer_list_insert_at(struct _pointer_list * pointer_list, void * element, size_t index);
+
+/**
+ * pointer_list_remove_at
+ * Removes an element of a pointer list corresponding to the specified element
+ * Return 1 on success, 0 on error or non valid element
+ */
+int pointer_list_remove_pointer(struct _pointer_list * pointer_list, void * element);
 
 /**
  * Memory functions
@@ -247,5 +305,55 @@ int o_base64_encode(const unsigned char * src, size_t len, unsigned char * out, 
  * The nul terminator is not included in out_len.
  */
 int o_base64_decode(const unsigned char *src, size_t len, unsigned char * out, size_t * out_len);
+
+/**
+ * o_base64url_encode - Base64url encode (url format)
+ * @src: Data to be encoded
+ * @len: Length of the data to be encoded
+ * @out: Pointer to output variable
+ * @out_len: Pointer to output length variable
+ * Returns: 1 on success, 0 on failure
+ *
+ * The nul terminator is not included in out_len.
+ */
+int o_base64url_encode(const unsigned char * src, size_t len, unsigned char * out, size_t * out_len);
+
+/**
+ * o_base64url_decode - Base64 decode (url format)
+ * @src: Data to be decoded
+ * @len: Length of the data to be decoded
+ * @out: Pointer to output variable
+ * @out_len: Pointer to output length variable
+ * Returns: 1 on success, 0 on failure
+ *
+ * The nul terminator is not included in out_len.
+ */
+int o_base64url_decode(const unsigned char *src, size_t len, unsigned char * out, size_t * out_len);
+
+/**
+ * o_base64url_2_base64 - Convert a base64 url format to base64 format
+ * @src: Data to be decoded
+ * @len: Length of the data to be decoded
+ * @out: Pointer to output variable
+ * @out_len: Pointer to output length variable
+ * Returns: 1 on success, 0 on failure
+ *
+ * The nul terminator is not included in out_len.
+ * out must be at least len+2
+ */
+int o_base64url_2_base64(const unsigned char *src, size_t len, unsigned char * out, size_t * out_len);
+
+/**
+ * o_base64url_2_base64 - Convert a base64 format to base64 url format
+ * @src: Data to be decoded
+ * @len: Length of the data to be decoded
+ * @out: Pointer to output variable
+ * @out_len: Pointer to output length variable
+ * Returns: 1 on success, 0 on failure
+ *
+ * The nul terminator is not included in out_len.
+ * out must be at least len+2
+ */
+int o_base64_2_base64url(const unsigned char *src, size_t len, unsigned char * out, size_t * out_len);
 
 #endif

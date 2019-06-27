@@ -14,7 +14,7 @@ Orcania is available in multiple distributions as official package. Check out yo
 
 ### Pre-compiled packages
 
-You can install Orcania with a pre-compiled package available in the [release pages](https://github.com/babelouest/orcania/releases/latest/). `jansson` development files packages is required to install Orcania.
+You can install Orcania with a pre-compiled package available in the [release pages](https://github.com/babelouest/orcania/releases/latest/).
 
 ### Build from source
 
@@ -24,18 +24,6 @@ Download Orcania source code from Github:
 $ git clone https://github.com/babelouest/orcania.git
 $ cd orcania
 ```
-
-#### Prerequisites
-
-You should need [Jansson library](http://www.digip.org/jansson/) in order to install Orcania.
-
-On a Debian based distribution, simply run the following command:
-
-```shell
-$ sudo apt-get install libjansson-dev
-```
-
-If you know you don't need Jansson, refer to the install procedure (Makefile or CMake) on how to disable building Orcania without Jansson.
 
 #### CMake - Multi architecture
 
@@ -54,7 +42,6 @@ $ make && sudo make install
 
 The available options for cmake are:
 - `-DBUILD_STATIC=[on|off]` (default `off`): Build the static archive in addition to the shared library
-- `-DWITH_JANSSON=[on|off]` (default `on`): Build with Jansson dependency
 - `-DWITH_STRSTR=[on|off]` (default `off`): Force using inline implementation of strstr
 - `-DBUILD_ORCANIA_TESTING=[on|off]` (default `off`): Build unit tests
 - `-DINSTALL_HEADER=[on|off]` (default `on`): Install header file `orcania.h`
@@ -71,13 +58,6 @@ $ make && sudo make install
 ```
 
 This will install Orcania's files under `/usr/local/` DESTDIR.
-
-If you don't want/need `libjansson` specific functions, you can skip it with the build option `JANSSONFLAG=1`
-
-```
-$ cd src
-$ make JANSSONFLAG=1
-```
 
 If you want to force using inline implementation of `strstr`, you can append the build option `STRSTRFLAG=1`. This is useful if your systemdoesn't have an implementation of the function `strstr` but isn't listed as one in Orcania. Like FreeRTOS.
 

@@ -31,7 +31,12 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdarg.h>
-#include "../include/orcania.h"
+#include "orcania.h"
+
+#ifdef _MSC_VER
+#define strncasecmp _strnicmp
+#define strcasecmp _stricmp
+#endif
 
 /**
  * 
@@ -116,6 +121,47 @@ char * msprintf(const char * message, ...) {
     vsnprintf(out, (out_len+sizeof(char)), message, argp_cpy);
     va_end(argp);
     va_end(argp_cpy);
+  }
+  return out;
+}
+
+/**
+ * char * mstrcatf((char * source, const char * message, ...)
+ * A combination of strcat and msprintf that will concat source and message formatted
+ * and return the combination as a new allocated char *
+ * and will o_free source
+ * but don't forget to free the returned value after use!
+ */
+char * mstrcatf(char * source, const char * message, ...) {
+  va_list argp, argp_cpy;
+  char * out = NULL, * message_formatted = NULL;
+  size_t message_formatted_len = 0, out_len = 0;
+  
+  if (message != NULL) {
+    if (source != NULL) {
+      va_start(argp, message);
+      va_copy(argp_cpy, argp); // We make a copy because in some architectures, vsnprintf can modify argp
+      message_formatted_len = vsnprintf(NULL, 0, message, argp);
+      message_formatted = o_malloc(message_formatted_len+sizeof(char));
+      if (message_formatted != NULL) {
+        vsnprintf(message_formatted, (message_formatted_len+sizeof(char)), message, argp_cpy);
+        out = msprintf("%s%s", source, message_formatted);
+        o_free(message_formatted);
+        o_free(source);
+      }
+      va_end(argp);
+      va_end(argp_cpy);
+    } else {
+      va_start(argp, message);
+      va_copy(argp_cpy, argp); // We make a copy because in some architectures, vsnprintf can modify argp
+      out_len = vsnprintf(NULL, 0, message, argp);
+      out = o_malloc(out_len+sizeof(char));
+      if (out != NULL) {
+        vsnprintf(out, (out_len+sizeof(char)), message, argp_cpy);
+      }
+      va_end(argp);
+      va_end(argp_cpy);
+    }
   }
   return out;
 }
@@ -403,6 +449,38 @@ void free_string_array(char ** array) {
 }
 
 /**
+ * Count the number of elements in an array of strings
+ */
+size_t string_array_size(char ** array) {
+  size_t ret = 0;
+  if (array != NULL) {
+    for (;array[ret] != NULL; ret++);
+  }
+  return ret;
+}
+
+/**
+ * Join a string array into a single string
+ */
+char * string_array_join(const char ** array, const char * separator) {
+  char * to_return = NULL, * tmp;
+  int i;
+  
+  if (array != NULL && separator != NULL) {
+    for (i=0; array[i] != NULL; i++) {
+      if (to_return == NULL) {
+        to_return = o_strdup(array[i]);
+      } else {
+        tmp = msprintf("%s%s%s", to_return, separator, array[i]);
+        o_free(to_return);
+        to_return = tmp;
+      }
+    }
+  }
+  return to_return;
+}
+
+/**
  * Remove string of beginning and ending whitespaces
  */
 char * trimwhitespace(char * str) {
@@ -522,76 +600,138 @@ int string_array_has_trimmed_value(const char ** array, const char * needle) {
   return to_return;
 }
 
-#ifndef U_DISABLE_JANSSON
 /**
- * json_t * json_search(json_t * haystack, json_t * needle)
- * jansson library addon
- * Look for an occurence of needle within haystack
- * If needle is present in haystack, return the reference to the json_t * that is equal to needle
- * If needle is not found, return NULL
+ * pointer_list_init
+ * Initialize a pointer list structure
  */
-json_t * json_search(json_t * haystack, json_t * needle) {
-  json_t * value1 = NULL, * value2 = NULL;
-  size_t index = 0;
-  const char * key = NULL;
+void pointer_list_init(struct _pointer_list * pointer_list) {
+  if (pointer_list != NULL) {
+    pointer_list->size = 0;
+    pointer_list->list = NULL;
+  }
+}
 
-  if (!haystack || !needle)
-    return NULL;
-
-  if (haystack == needle)
-    return haystack;
-
-  // If both haystack and needle are the same type, test them
-  if (json_typeof(haystack) == json_typeof(needle) && !json_is_object(haystack))
-    if (json_equal(haystack, needle))
-      return haystack;
-
-  // If they are not equals, test json_search in haystack elements recursively if it's an array or an object
-  if (json_is_array(haystack)) {
-    json_array_foreach(haystack, index, value1) {
-      if (json_equal(value1, needle)) {
-        return value1;
-      } else {
-        value2 = json_search(value1, needle);
-        if (value2 != NULL) {
-          return value2;
-        }
-      }
-    }
-  } else if (json_is_object(haystack) && json_is_object(needle)) {
-    int same = 1;
-    json_object_foreach(needle, key, value1) {
-      value2 = json_object_get(haystack, key);
-      if (!json_equal(value1, value2)) {
-        same = 0;
-      }
-    }
-    if (same) {
-      return haystack;
-    }
-  } else if (json_is_object(haystack)) {
-    json_object_foreach(haystack, key, value1) {
-      if (json_equal(value1, needle)) {
-        return value1;
-      } else {
-        value2 = json_search(value1, needle);
-        if (value2 != NULL) {
-          return value2;
-        }
-      }
+/**
+ * pointer_list_clean
+ * Clean a pointer list structure
+ */
+void pointer_list_clean(struct _pointer_list * pointer_list) {
+  size_t i;
+  if (pointer_list != NULL) {
+    for (i=pointer_list_size(pointer_list); i; i--) {
+      pointer_list_remove_at(pointer_list, (i-1));
     }
   }
-  return NULL;
 }
 
 /**
- * Check if the result json object has a "result" element that is equal to value
+ * pointer_list_size
+ * Return the size of a pointer list
  */
-int check_result_value(json_t * result, const int value) {
-  return (result != NULL && 
-          json_is_object(result) && 
-          json_object_get(result, "result") != NULL && 
-          json_is_integer(json_object_get(result, "result")) && 
-          json_integer_value(json_object_get(result, "result")) == value);
+size_t pointer_list_size(struct _pointer_list * pointer_list) {
+  if (pointer_list != NULL) {
+    return pointer_list->size;
+  } else {
+    return 0;
+  }
 }
-#endif
+
+/**
+ * pointer_list_append
+ * Appends an element at the end of a pointer list
+ * Return 1 on success, 0 on error
+ */
+int pointer_list_append(struct _pointer_list * pointer_list, void * element) {
+  if (pointer_list) {
+    pointer_list->list = o_realloc(pointer_list->list, (pointer_list->size+1)*sizeof(void *));
+    if (pointer_list->list != NULL) {
+      pointer_list->list[pointer_list->size] = element;
+      pointer_list->size++;
+      return 1;
+    } else {
+      o_free(pointer_list->list);
+      pointer_list->list = NULL;
+      return 0;
+    }
+  } else {
+    return 0;
+  }
+}
+
+/**
+ * pointer_list_get_at
+ * Returns an element of a pointer list at the specified index or NULL if non valid index
+ */
+void * pointer_list_get_at(struct _pointer_list * pointer_list, size_t index) {
+  if (pointer_list != NULL && index < pointer_list->size) {
+    return pointer_list->list[index];
+  } else {
+    return NULL;
+  }
+}
+
+/**
+ * pointer_list_remove_at
+ * Removes an element of a pointer list at the specified index
+ * Return 1 on success, 0 on error or non valid index
+ */
+int pointer_list_remove_at(struct _pointer_list * pointer_list, size_t index) {
+  size_t i;
+  if (pointer_list != NULL && index < pointer_list->size) {
+    for (i=index; i<pointer_list->size-1; i++) {
+      pointer_list->list[i] = pointer_list->list[i+1];
+    }
+    if (pointer_list->size > 1) {
+      pointer_list->list = o_realloc(pointer_list->list, (pointer_list->size-1)*sizeof(void *));
+    } else {
+      o_free(pointer_list->list);
+    }
+    pointer_list->size--;
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
+/**
+ * pointer_list_insert_at
+ * Inserts an element at the specified index of a pointer list
+ * Return 1 on success, 0 on error or non valid index
+ */
+int pointer_list_insert_at(struct _pointer_list * pointer_list, void * element, size_t index) {
+  size_t i;
+  if (pointer_list != NULL && index <= pointer_list->size) {
+    pointer_list->list = o_realloc(pointer_list->list, (pointer_list->size + 1)*sizeof(void *));
+    if (pointer_list->list != NULL) {
+      for (i=pointer_list->size; i>index; i--) {
+        pointer_list->list[i] = pointer_list->list[i-1];
+      }
+      pointer_list->list[index] = element;
+      pointer_list->size++;
+      return 1;
+    } else {
+      return 0;
+    }
+  } else {
+    return 0;
+  }
+}
+
+/**
+ * pointer_list_remove_at
+ * Removes an element of a pointer list corresponding to the specified element
+ * Return 1 on success, 0 on error or non valid element
+ */
+int pointer_list_remove_pointer(struct _pointer_list * pointer_list, void * element) {
+  size_t index;
+  if (pointer_list != NULL) {
+    for (index=0; index<pointer_list->size; index++) {
+      if (pointer_list->list[index] == element) {
+        return pointer_list_remove_at(pointer_list, index);
+      }
+    }
+    return 0;
+  } else {
+    return 0;
+  }
+}
