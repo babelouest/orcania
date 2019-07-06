@@ -5,18 +5,35 @@ sudo: required
 language: c
 addons:
   apt:
-    packages: [ check, libsubunit-dev, cppcheck ]
+    packages: [ check, libsubunit-dev, cppcheck, pkg-config ]
 matrix:
   include:
-    - os: linux
+    - env: LABEL=linux-gcc
+      os: linux
       compiler: gcc
-    - os: linux
+    - env: LABEL=lnux-clang
+      os: linux
       compiler: clang
     - env: LABEL=cppcheck
+      os: osx
+      addons:
+        homebrew:
+          packages:
+          - check
+          - pkg-config
+          update: true
+      script:
+        - mkdir build && cd build
+        - cmake -DBUILD_ORCANIA_TESTING=on ..
+        - make test
+    - env: LABEL=osx
       os: linux
       script:
         - cppcheck --force --enable=warning,missingInclude --error-exitcode=1 . >build.log 2>&1 || (cat build.log && exit 1)
 script:
+  - pushd test
+  - make test
+  - popd
   - mkdir build && cd build
   - cmake -DBUILD_ORCANIA_TESTING=on ..
   - make test package

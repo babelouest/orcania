@@ -115,13 +115,13 @@ target_link_libraries(orcania ${LIBS})
 
 # tests
 
-option(BUILD_ORCANIA_TESTING "Build the testing tree." OFF) # because we don not use include(CTest)
+option(BUILD_ORCANIA_TESTING "Build the testing tree." OFF) # because we do not use include(CTest)
 
 if (BUILD_ORCANIA_TESTING)
     include(FindCheck)
     find_package(Check)
     if (CHECK_FOUND)
-        if (NOT WIN32)
+        if (NOT WIN32 AND NOT APPLE)
             include(FindSubunit)
             find_package(Subunit REQUIRED)
         endif ()
@@ -134,13 +134,20 @@ if (BUILD_ORCANIA_TESTING)
         set(LIBS orcania ${LIBS} ${CHECK_LIBRARIES})
         if (NOT WIN32)
             find_package(Threads REQUIRED)
-            set(LIBS ${LIBS} ${SUBUNIT_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} m rt)
+            set(LIBS ${LIBS} ${CMAKE_THREAD_LIBS_INIT} m)
+        endif ()
+        if (NOT APPLE)
+            set(LIBS ${LIBS} rt)
+        endif ()
+        if (NOT WIN32 AND NOT APPLE)
+            set(LIBS ${LIBS} ${SUBUNIT_LIBRARIES} rt)
         endif ()
 
         set(TESTS
                 str_test
                 split_test
-                memory_test)
+                memory_test
+                pointer_list_test)
 
         configure_file(
                 "${CMAKE_MODULE_PATH}/CTestCustom.cmake.in"

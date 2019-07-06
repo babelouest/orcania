@@ -23,7 +23,7 @@ CC=gcc
 CFLAGS+=-Wall -D_REENTRANT -DDEBUG -g -O0 -I$(INCLUDE_LOCATION) $(CPPFLAGS)
 ORCANIA_LOCATION=../src
 INCLUDE_LOCATION=../include
-LIBS=-lc -lorcania -lcheck -lpthread -lm -lrt -lsubunit -L$(ORCANIA_LOCATION)
+LIBS=-lc -lorcania $(shell pkg-config --libs check) -L$(ORCANIA_LOCATION)
 
 all: test
 
