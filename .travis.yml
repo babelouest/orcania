@@ -8,15 +8,14 @@ addons:
     packages: [ check, libsubunit-dev, cppcheck ]
 matrix:
   include:
-    - os: linux
+    - env: LABEL=linux-gcc
+      os: linux
       compiler: gcc
-    - os: linux
+    - env: LABEL=lnux-clang
+      os: linux
       compiler: clang
     - env: LABEL=cppcheck
-      os: linux
-      script:
-        - cppcheck --force --enable=warning,missingInclude --error-exitcode=1 . >build.log 2>&1 || (cat build.log && exit 1)
-    - os: osx
+      os: osx
       addons:
         homebrew:
           packages:
@@ -26,7 +25,14 @@ matrix:
         - mkdir build && cd build
         - cmake -DBUILD_ORCANIA_TESTING=on -DWITH_JOURNALD=off ..
         - make test
+    - env: LABEL=osx
+      os: linux
+      script:
+        - cppcheck --force --enable=warning,missingInclude --error-exitcode=1 . >build.log 2>&1 || (cat build.log && exit 1)
 script:
+  - pushd test
+  - make test
+  - popd test
   - mkdir build && cd build
   - cmake -DBUILD_ORCANIA_TESTING=on ..
   - make test package
