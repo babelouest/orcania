@@ -146,7 +146,8 @@ if (BUILD_ORCANIA_TESTING)
         set(TESTS
                 str_test
                 split_test
-                memory_test)
+                memory_test
+                pointer_list_test)
 
         configure_file(
                 "${CMAKE_MODULE_PATH}/CTestCustom.cmake.in"
