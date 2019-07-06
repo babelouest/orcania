@@ -115,7 +115,7 @@ target_link_libraries(orcania ${LIBS})
 
 # tests
 
-option(BUILD_ORCANIA_TESTING "Build the testing tree." OFF) # because we don not use include(CTest)
+option(BUILD_ORCANIA_TESTING "Build the testing tree." OFF) # because we do not use include(CTest)
 
 if (BUILD_ORCANIA_TESTING)
     include(FindCheck)
