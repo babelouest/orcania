@@ -23,9 +23,6 @@ matrix:
           - pkg-config
           update: true
       script:
-        - pushd test
-        - make test
-        - popd
         - mkdir build && cd build
         - cmake -DBUILD_ORCANIA_TESTING=on ..
         - make test
