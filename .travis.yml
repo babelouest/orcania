@@ -5,7 +5,7 @@ sudo: required
 language: c
 addons:
   apt:
-    packages: [ check, libsubunit-dev, cppcheck ]
+    packages: [ check, libsubunit-dev, cppcheck, pkg-config ]
 matrix:
   include:
     - env: LABEL=linux-gcc
@@ -20,10 +20,14 @@ matrix:
         homebrew:
           packages:
           - check
+          - pkg-config
           update: true
       script:
+        - pushd test
+        - make test
+        - popd
         - mkdir build && cd build
-        - cmake -DBUILD_ORCANIA_TESTING=on -DWITH_JOURNALD=off ..
+        - cmake -DBUILD_ORCANIA_TESTING=on ..
         - make test
     - env: LABEL=osx
       os: linux
