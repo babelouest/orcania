@@ -36,6 +36,11 @@ VERSION=2.0.0
 OBJECTS=orcania.o memory.o base64.o
 LIBS=-lc -lm
 
+SONAME = -soname
+ifeq ($(shell uname -s),Darwin)
+       SONAME = -install_name
+endif
+
 ifdef STRSTRFLAG
 STRSTR=1
 else
@@ -70,7 +75,7 @@ $(PKGCONFIG_FILE):
 	@sed -i -e 's/@PKGCONF_REQ_PRIVATE@/$(PKGCONF_REQ_PRIVATE)/g' $(PKGCONFIG_FILE)
 
 liborcania.so: $(OBJECTS)
-	$(CC) -shared -fPIC -Wl,-soname,$(OUTPUT) -o $(OUTPUT).$(VERSION) $(OBJECTS) $(LIBS) $(LDFLAGS)
+	$(CC) -shared -fPIC -Wl,$(SONAME),$(OUTPUT) -o $(OUTPUT).$(VERSION) $(OBJECTS) $(LIBS) $(LDFLAGS)
 	ln -sf $(OUTPUT).$(VERSION) $(OUTPUT)
 
 liborcania.a: $(OBJECTS)
