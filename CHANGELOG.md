@@ -1,5 +1,11 @@
 # Orcania Changelog
 
+## 2.0.1
+
+- Fix double free() on `pointer_list_remove_at`
+- Fix build for MacOSX (thanks JohnAZoidberg!)
+- Clean build process
+
 ## 2.0.0
 
 - Add struct _pointer_list to manage arrays of pointers

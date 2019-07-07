@@ -32,7 +32,7 @@ PKGCONFIG_TEMPLATE=../liborcania.pc.in
 CC=gcc
 CFLAGS+=-c -fPIC -Wall -Werror -Wextra -I$(ORCANIA_INCLUDE) -D_REENTRANT $(ADDITIONALFLAGS) $(CPPFLAGS)
 OUTPUT=liborcania.so
-VERSION=2.0.0
+VERSION=2.0.1
 OBJECTS=orcania.o memory.o base64.o
 LIBS=-lc -lm
 
