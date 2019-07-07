@@ -685,6 +685,7 @@ int pointer_list_remove_at(struct _pointer_list * pointer_list, size_t index) {
       pointer_list->list = o_realloc(pointer_list->list, (pointer_list->size-1)*sizeof(void *));
     } else {
       o_free(pointer_list->list);
+      pointer_list->list = NULL;
     }
     pointer_list->size--;
     return 1;
