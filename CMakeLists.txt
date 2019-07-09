@@ -74,9 +74,9 @@ set(LIB_SRC
 
 option(WITH_STRSTR "Use inline implementation of strstr" OFF)
 if (WITH_STRSTR)
-    set(STRSTR ON)
+    set(O_STRSTR ON)
 else ()
-    set(STRSTR OFF)
+    set(O_STRSTR OFF)
 endif ()
 
 set(PKGCONF_REQ "")

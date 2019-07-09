@@ -54,10 +54,10 @@ $(CONFIG_FILE):
 	@echo Config file $(CONFIG_FILE) generated
 	@sed -i -e 's/$${PROJECT_VERSION}/$(VERSION)/g' $(CONFIG_FILE)
 	@if [ "$(STRSTR)" = "1" ]; then \
-		sed -i -e 's/\#cmakedefine STRSTR/\#define O_STRSTR/g' $(CONFIG_FILE); \
+		sed -i -e 's/\#cmakedefine O_STRSTR/\#define O_STRSTR/g' $(CONFIG_FILE); \
 		echo "FORCE IMPLEMENT STRSTR  ENABLED"; \
 	else \
-		sed -i -e 's/\#cmakedefine STRSTR/\/* #undef O_STRSTR *\//g' $(CONFIG_FILE); \
+		sed -i -e 's/\#cmakedefine O_STRSTR/\/* #undef O_STRSTR *\//g' $(CONFIG_FILE); \
 		echo "FORCE IMPLEMENT STRSTR  DISABLED"; \
 	fi
 
