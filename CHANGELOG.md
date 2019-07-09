@@ -5,6 +5,7 @@
 - Fix double free() on `pointer_list_remove_at`
 - Fix build for MacOSX (thanks JohnAZoidberg!)
 - Clean build process
+- Fix config option STRTSR so cmake and makefile will use the same name
 
 ## 2.0.0
 
