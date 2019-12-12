@@ -1,5 +1,9 @@
 # Orcania Changelog
 
+## 2.1.0
+
+- Add functions pointer_list_clean_free, pointer_list_remove_at_free and pointer_list_remove_pointer_free
+
 ## 2.0.1
 
 - Fix double free() on `pointer_list_remove_at`

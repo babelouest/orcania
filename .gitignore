@@ -8,3 +8,4 @@ split_test
 memory_test
 pointer_list_test
 orcania-cfg.h
+valgrind*.txt
