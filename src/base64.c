@@ -223,7 +223,7 @@ int o_base64url_decode(const unsigned char *src, size_t len, unsigned char * out
   
   if (src) {
     if (out != NULL) {
-      src_cpy = o_malloc(len+2);
+      src_cpy = o_malloc(len+3);
       if (src_cpy != NULL) {
         if (o_base64url_2_base64(src, len, src_cpy, &src_cpy_len)) {
           res = o_base64_decode(src_cpy, src_cpy_len, out, out_len);
