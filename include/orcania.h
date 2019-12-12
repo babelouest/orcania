@@ -1,6 +1,7 @@
 /**
  * 
- * Orcania library
+ * @file orcania.h
+ * @brief Orcania library
  * 
  * Different functions for different purposes but that can be shared between
  * other projects
@@ -31,6 +32,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+
+/**
+ * @defgroup str string functions
+ * @{
+ */
 
 /**
  * char * str_replace(const char * source, char * old, char * new)
@@ -128,6 +134,11 @@ char * o_strrchr(const char * haystack, int c);
 size_t o_strlen(const char * s);
 
 /**
+ * Remove string of beginning and ending whitespaces
+ */
+char * trimwhitespace(char * str);
+
+/**
  * char * msprintf(const char * message, ...)
  * Implementation of sprintf that return a malloc'd char * with the string construction
  * because life is too short to use 3 lines instead of 1
@@ -143,6 +154,15 @@ char * msprintf(const char * message, ...);
  * but don't forget to free the returned value after use!
  */
 char * mstrcatf(char * source, const char * message, ...);
+
+/**
+ * @}
+ */
+
+/**
+ * @defgroup split split string and string array functions
+ * @{
+ */
 
 /**
  * Split a string into an array of strings using separator string
@@ -195,17 +215,16 @@ int string_array_has_trimmed_value(const char ** array, const char * needle);
 char * string_array_join(const char ** array, const char * separator);
 
 /**
- * Remove string of beginning and ending whitespaces
+ * @}
  */
-char * trimwhitespace(char * str);
 
 /**
- * _pointer_list structure
- * 
+ * @defgroup plist _pointer_list structure
+ * @{
  */
 struct _pointer_list {
-  size_t size;
-  void ** list;
+  size_t size; /* size of the list */
+  void ** list; /* list of pointers */
 };
 
 /**
@@ -219,6 +238,13 @@ void pointer_list_init(struct _pointer_list * pointer_list);
  * Clean a pointer list structure
  */
 void pointer_list_clean(struct _pointer_list * pointer_list);
+
+/**
+ * pointer_list_clean_free
+ * Clean a pointer list structure
+ * Free all elements using the free_function given in parameters
+ */
+void pointer_list_clean_free(struct _pointer_list * pointer_list, void (* free_function)(void * elt));
 
 /**
  * pointer_list_size
@@ -247,6 +273,14 @@ void * pointer_list_get_at(struct _pointer_list * pointer_list, size_t index);
 int pointer_list_remove_at(struct _pointer_list * pointer_list, size_t index);
 
 /**
+ * pointer_list_remove_at_free
+ * Removes an element of a pointer list at the specified index
+ * Return 1 on success, 0 on error or non valid index
+ * Free the element using the free_function given in parameters
+ */
+int pointer_list_remove_at_free(struct _pointer_list * pointer_list, size_t index, void (* free_function)(void * elt));
+
+/**
  * pointer_list_insert_at
  * Inserts an element at the specified index of a pointer list
  * Return 1 on success, 0 on error or non valid index
@@ -254,15 +288,29 @@ int pointer_list_remove_at(struct _pointer_list * pointer_list, size_t index);
 int pointer_list_insert_at(struct _pointer_list * pointer_list, void * element, size_t index);
 
 /**
- * pointer_list_remove_at
+ * pointer_list_remove_pointer
  * Removes an element of a pointer list corresponding to the specified element
  * Return 1 on success, 0 on error or non valid element
  */
 int pointer_list_remove_pointer(struct _pointer_list * pointer_list, void * element);
 
 /**
- * Memory functions
+ * pointer_list_remove_pointer_free
+ * Removes an element of a pointer list corresponding to the specified element
+ * Free the element using the free_function given in parameters
+ * Return 1 on success, 0 on error or non valid element
  */
+int pointer_list_remove_pointer_free(struct _pointer_list * pointer_list, void * element, void (* free_function)(void * elt));
+
+/**
+ * @}
+ */
+
+/**
+ * @defgroup mem Memory functions
+ * @{
+ */
+
 /* C89 allows these to be macros */
 #undef malloc
 #undef realloc
@@ -279,7 +327,12 @@ void o_set_alloc_funcs(o_malloc_t malloc_fn, o_realloc_t realloc_fn, o_free_t fr
 void o_get_alloc_funcs(o_malloc_t * malloc_fn, o_realloc_t * realloc_fn, o_free_t * free_fn);
 
 /**
- * Base64 encode and decode functions
+ * @}
+ */
+
+/**
+ * @defgroup base64 Base64 encode and decode functions
+ * @{
  */
 
 /**
@@ -356,4 +409,7 @@ int o_base64url_2_base64(const unsigned char *src, size_t len, unsigned char * o
  */
 int o_base64_2_base64url(const unsigned char *src, size_t len, unsigned char * out, size_t * out_len);
 
+/**
+ * @}
+ */
 #endif

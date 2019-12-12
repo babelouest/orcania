@@ -625,6 +625,21 @@ void pointer_list_clean(struct _pointer_list * pointer_list) {
 }
 
 /**
+ * pointer_list_clean_free
+ * Clean a pointer list structure
+ * Free all elements using the free_function given in parameters
+ */
+void pointer_list_clean_free(struct _pointer_list * pointer_list, void (* free_function)(void * elt)) {
+  size_t i;
+  if (pointer_list != NULL) {
+    for (i=pointer_list_size(pointer_list); i; i--) {
+      free_function(pointer_list_get_at(pointer_list, i-1));
+      pointer_list_remove_at(pointer_list, (i-1));
+    }
+  }
+}
+
+/**
  * pointer_list_size
  * Return the size of a pointer list
  */
@@ -695,6 +710,21 @@ int pointer_list_remove_at(struct _pointer_list * pointer_list, size_t index) {
 }
 
 /**
+ * pointer_list_remove_at_free
+ * Removes an element of a pointer list at the specified index
+ * Return 1 on success, 0 on error or non valid index
+ * Free the element using the free_function given in parameters
+ */
+int pointer_list_remove_at_free(struct _pointer_list * pointer_list, size_t index, void (* free_function)(void * elt)) {
+  if (pointer_list != NULL && index < pointer_list->size) {
+    free_function(pointer_list_get_at(pointer_list, index));
+    return pointer_list_remove_at(pointer_list, index);
+  } else {
+    return 0;
+  }
+}
+
+/**
  * pointer_list_insert_at
  * Inserts an element at the specified index of a pointer list
  * Return 1 on success, 0 on error or non valid index
@@ -728,6 +758,27 @@ int pointer_list_remove_pointer(struct _pointer_list * pointer_list, void * elem
   if (pointer_list != NULL) {
     for (index=0; index<pointer_list->size; index++) {
       if (pointer_list->list[index] == element) {
+        return pointer_list_remove_at(pointer_list, index);
+      }
+    }
+    return 0;
+  } else {
+    return 0;
+  }
+}
+
+/**
+ * pointer_list_remove_pointer_free
+ * Removes an element of a pointer list corresponding to the specified element
+ * Free the element using the free_function given in parameters
+ * Return 1 on success, 0 on error or non valid element
+ */
+int pointer_list_remove_pointer_free(struct _pointer_list * pointer_list, void * element, void (* free_function)(void * elt)) {
+  size_t index;
+  if (pointer_list != NULL) {
+    for (index=0; index<pointer_list->size; index++) {
+      if (pointer_list->list[index] == element) {
+        free_function(element);
         return pointer_list_remove_at(pointer_list, index);
       }
     }
