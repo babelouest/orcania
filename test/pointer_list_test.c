@@ -9,6 +9,13 @@
 #include <check.h>
 #include "orcania.h"
 
+int counter = 0;
+
+void free_with_test(void * ptr) {
+  counter++;
+  o_free(ptr);
+}
+
 START_TEST(test_pointer_list_init)
 {
   struct _pointer_list * pointer_list = o_malloc(sizeof(struct _pointer_list));
@@ -92,6 +99,26 @@ START_TEST(test_pointer_list_remove_at)
 }
 END_TEST
 
+START_TEST(test_pointer_list_remove_at_free)
+{
+  struct _pointer_list * pointer_list = o_malloc(sizeof(struct _pointer_list));
+  
+  pointer_list_init(pointer_list);
+  ck_assert_int_eq(pointer_list_append(pointer_list, o_strdup("test1")), 1);
+  ck_assert_int_eq(pointer_list_append(pointer_list, (void *)0x43), 1);
+  ck_assert_int_eq(pointer_list_append(pointer_list, (void *)0x44), 1);
+  ck_assert_int_eq(pointer_list->size, 3);
+  counter = 0;
+  ck_assert_int_eq(pointer_list_remove_at_free(pointer_list, 0, &free_with_test), 1);
+  ck_assert_int_eq(counter, 1);
+  ck_assert_int_eq(pointer_list_remove_at_free(pointer_list, 4, &free_with_test), 0);
+  ck_assert_int_eq(counter, 1);
+  ck_assert_int_eq(pointer_list->size, 2);
+  pointer_list_clean(pointer_list);
+  o_free(pointer_list);
+}
+END_TEST
+
 START_TEST(test_pointer_list_insert_at)
 {
   struct _pointer_list * pointer_list = o_malloc(sizeof(struct _pointer_list));
@@ -136,6 +163,30 @@ START_TEST(test_pointer_list_remove_pointer)
 }
 END_TEST
 
+START_TEST(test_pointer_list_remove_pointer_free)
+{
+  struct _pointer_list * pointer_list = o_malloc(sizeof(struct _pointer_list));
+  
+  char * test1 = o_strdup("test1"), * test3 = o_strdup("test3");
+  pointer_list_init(pointer_list);
+  ck_assert_int_eq(pointer_list_append(pointer_list, test1), 1);
+  ck_assert_int_eq(pointer_list_append(pointer_list, (void *)0x43), 1);
+  ck_assert_int_eq(pointer_list_append(pointer_list, test3), 1);
+  ck_assert_int_eq(pointer_list->size, 3);
+  counter = 0;
+  ck_assert_int_eq(pointer_list_remove_pointer_free(pointer_list, test1, &free_with_test), 1);
+  ck_assert_int_eq(counter, 1);
+  ck_assert_int_eq(pointer_list->size, 2);
+  ck_assert_int_eq(pointer_list_remove_pointer(pointer_list, (void *)0x42), 0);
+  ck_assert_int_eq(pointer_list->size, 2);
+  ck_assert_int_eq(pointer_list_remove_pointer_free(pointer_list, test3, &free_with_test), 1);
+  ck_assert_int_eq(counter, 2);
+  ck_assert_int_eq(pointer_list->size, 1);
+  pointer_list_clean(pointer_list);
+  o_free(pointer_list);
+}
+END_TEST
+
 START_TEST(test_pointer_list_clean)
 {
   struct _pointer_list * pointer_list = o_malloc(sizeof(struct _pointer_list));
@@ -147,6 +198,23 @@ START_TEST(test_pointer_list_clean)
   ck_assert_int_eq(pointer_list->size, 3);
   pointer_list_clean(pointer_list);
   ck_assert_int_eq(pointer_list->size, 0);
+  o_free(pointer_list);
+}
+END_TEST
+
+START_TEST(test_pointer_list_clean_free)
+{
+  struct _pointer_list * pointer_list = o_malloc(sizeof(struct _pointer_list));
+  
+  pointer_list_init(pointer_list);
+  ck_assert_int_eq(pointer_list_append(pointer_list, o_strdup("test1")), 1);
+  ck_assert_int_eq(pointer_list_append(pointer_list, o_strdup("test2")), 1);
+  ck_assert_int_eq(pointer_list_append(pointer_list, o_strdup("test3")), 1);
+  ck_assert_int_eq(pointer_list->size, 3);
+  counter = 0;
+  pointer_list_clean_free(pointer_list, &free_with_test);
+  ck_assert_int_eq(pointer_list->size, 0);
+  ck_assert_int_eq(counter, 3);
   o_free(pointer_list);
 }
 END_TEST
@@ -163,9 +231,12 @@ static Suite *orcania_suite(void)
 	tcase_add_test(tc_core, test_pointer_list_size);
 	tcase_add_test(tc_core, test_pointer_list_get_at);
 	tcase_add_test(tc_core, test_pointer_list_remove_at);
+	tcase_add_test(tc_core, test_pointer_list_remove_at_free);
 	tcase_add_test(tc_core, test_pointer_list_insert_at);
 	tcase_add_test(tc_core, test_pointer_list_remove_pointer);
+	tcase_add_test(tc_core, test_pointer_list_remove_pointer_free);
 	tcase_add_test(tc_core, test_pointer_list_clean);
+	tcase_add_test(tc_core, test_pointer_list_clean_free);
 	tcase_set_timeout(tc_core, 30);
 	suite_add_tcase(s, tc_core);
 
