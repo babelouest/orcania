@@ -4,6 +4,10 @@ Potluck with different functions for different purposes that can be shared among
 
 [![Build Status](https://travis-ci.com/babelouest/orcania.svg?branch=master)](https://travis-ci.com/babelouest/orcania)
 
+## Documentation
+
+Library documentation is available in the [doc](doc/) folder.
+
 ## Installation
 
 ### Distribution packages
