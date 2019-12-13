@@ -38,4 +38,7 @@ install:
 uninstall:
 	cd $(LIBORCANIA_LOCATION) && $(MAKE) uninstall $*
 
+doxygen:
+	doxygen doc/doxygen.cfg
+
 release: target
