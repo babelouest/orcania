@@ -5,7 +5,7 @@ sudo: required
 language: c
 addons:
   apt:
-    packages: [ check, libsubunit-dev, cppcheck, pkg-config ]
+    packages: [ check, libsubunit-dev, cppcheck, pkg-config, doxygen ]
 matrix:
   include:
     - env: LABEL=linux-gcc
@@ -35,8 +35,8 @@ script:
   - make test
   - popd
   - mkdir build && cd build
-  - cmake -DBUILD_ORCANIA_TESTING=on ..
-  - make test package
+  - cmake -DBUILD_ORCANIA_TESTING=on -DBUILD_ORCANIA_DOCUMENTATION=on ..
+  - make test package doc
   - sudo make install
   - cd ../
   - make
