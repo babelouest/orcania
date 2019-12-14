@@ -122,10 +122,22 @@ char * o_strcasestr(const char * haystack, const char * needle);
 char * o_strchr(const char * haystack, int c);
 
 /**
+ * o_strnchr
+ * a modified strnchr function that don't crash when haystack is NULL
+ */
+const char * o_strnchr(const char * haystack, size_t len, char c);
+
+/**
  * o_strrchr
  * a modified strrchr function that don't crash when haystack is NULL
  */
 char * o_strrchr(const char * haystack, int c);
+
+/**
+ * o_strrnchr
+ * a modified strrnchr function that don't crash when haystack is NULL
+ */
+const char * o_strrnchr(const char * haystack, size_t len, char c);
 
 /**
  * o_strlen

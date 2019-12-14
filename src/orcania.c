@@ -310,6 +310,22 @@ char * o_strchr(const char * haystack, int c) {
 }
 
 /**
+ * o_strnchr
+ * a modified strnchr function that don't crash when haystack is NULL
+ */
+const char * o_strnchr(const char * haystack, size_t len, char c) {
+  size_t offset;
+  if (haystack != NULL && len > 0) {
+    for (offset = 0; offset < len && offset < o_strlen(haystack); offset++) {
+      if (haystack[offset] == c) {
+        return (haystack+offset);
+      }
+    }
+  }
+  return NULL;
+}
+
+/**
  * o_strrchr
  * a modified strrchr function that don't crash when haystack is NULL
  */
@@ -319,6 +335,22 @@ char * o_strrchr(const char * haystack, int c) {
   } else {
     return strrchr(haystack, c);
   }
+}
+
+/**
+ * o_strrnchr
+ * a modified strrnchr function that don't crash when haystack is NULL
+ */
+const char * o_strrnchr(const char * haystack, size_t len, char c) {
+  ssize_t offset;
+  if (haystack != NULL && len > 0) {
+    for (offset = o_strlen(haystack)-1; offset>=0 && (o_strlen(haystack) - 1 - offset < len); offset--) {
+      if (haystack[offset] == c) {
+        return (haystack+offset);
+      }
+    }
+  }
+  return NULL;
 }
 
 #if defined(__linux__) || defined(__GLIBC__) || defined(_WIN32) || defined(O_STRSTR)
