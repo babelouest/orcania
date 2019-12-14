@@ -155,6 +155,17 @@ START_TEST(test_o_strchr)
 }
 END_TEST
 
+START_TEST(test_o_strnchr)
+{
+  char * str_1 = "abcdef", str_2 = 'd';
+  ck_assert_ptr_ne(o_strnchr(str_1, 5, str_2), NULL);
+  ck_assert_ptr_eq(o_strnchr(str_1, 2, str_2), NULL);
+  ck_assert_ptr_eq(o_strnchr(str_1, 0, str_2), NULL);
+  ck_assert_ptr_ne(o_strnchr(str_1, 8, str_2), NULL);
+  ck_assert_ptr_eq(o_strnchr(NULL, 4, str_2), NULL);
+}
+END_TEST
+
 START_TEST(test_o_strrchr)
 {
   char * str_1 = "abcdef", str_2 = 'd', str_3 = 'g';
@@ -162,6 +173,17 @@ START_TEST(test_o_strrchr)
   ck_assert_ptr_eq(o_strrchr(str_1, str_3), NULL);
   ck_assert_ptr_ne(o_strrchr(str_1, str_2), NULL);
   ck_assert_ptr_eq(o_strrchr(NULL, str_3), NULL);
+}
+END_TEST
+
+START_TEST(test_o_strrnchr)
+{
+  char * str_1 = "abcdef", str_2 = 'd';
+  ck_assert_ptr_ne(o_strrnchr(str_1, 5, str_2), NULL);
+  ck_assert_ptr_eq(o_strrnchr(str_1, 2, str_2), NULL);
+  ck_assert_ptr_eq(o_strrnchr(str_1, 0, str_2), NULL);
+  ck_assert_ptr_ne(o_strrnchr(str_1, 8, str_2), NULL);
+  ck_assert_ptr_eq(o_strrnchr(NULL, 4, str_2), NULL);
 }
 END_TEST
 
@@ -392,7 +414,9 @@ static Suite *orcania_suite(void)
 	tcase_add_test(tc_core, test_o_strstr);
 	tcase_add_test(tc_core, test_o_strnstr);
 	tcase_add_test(tc_core, test_o_strchr);
+	tcase_add_test(tc_core, test_o_strnchr);
 	tcase_add_test(tc_core, test_o_strrchr);
+	tcase_add_test(tc_core, test_o_strrnchr);
 	tcase_add_test(tc_core, test_o_strlen);
 	tcase_add_test(tc_core, test_msprintf);
 	tcase_add_test(tc_core, test_mstrcatf);
