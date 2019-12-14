@@ -432,8 +432,8 @@ size_t o_strlen(const char * s) {
  * return_array must be free'd after use
  * you can use free_string_array to free return_array
  */
-int split_string(const char * string, const char * separator, char *** return_array) {
-  int result = 0;
+size_t split_string(const char * string, const char * separator, char *** return_array) {
+  size_t result = 0;
   char * token;
   const char * begin = string;
   
