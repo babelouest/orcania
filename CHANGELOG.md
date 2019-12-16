@@ -2,8 +2,10 @@
 
 ## 2.1.0
 
-- Add functions pointer_list_clean_free, pointer_list_remove_at_free and pointer_list_remove_pointer_free
 - Generate documentation via doxygen
+- Add functions `pointer_list_clean_free`, `pointer_list_remove_at_free` and `pointer_list_remove_pointer_free`
+- `split_string` returns `size_t`
+- Add functions `o_strnchr` and `o_strrnchr`
 
 ## 2.0.1
 
