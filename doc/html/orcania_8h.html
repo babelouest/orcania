@@ -74,7 +74,7 @@ $(function() {
 
 <p>Orcania library.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="orcania-cfg_8h_source.html">orcania-cfg.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;orcania-cfg.h&quot;</code><br />
 <code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
 </div>
@@ -122,18 +122,24 @@ Functions</h2></td></tr>
 <tr class="separator:ga2ae935a7b471c3114d4530b899602085"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga6296efffd0f5def5df34e6d3eea6e2bc"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__str.html#ga6296efffd0f5def5df34e6d3eea6e2bc">o_strchr</a> (const char *haystack, int c)</td></tr>
 <tr class="separator:ga6296efffd0f5def5df34e6d3eea6e2bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga36d8847586e65d533e8df88ebf7ccdfc"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__str.html#ga36d8847586e65d533e8df88ebf7ccdfc">o_strnchr</a> (const char *haystack, size_t len, char c)</td></tr>
+<tr class="separator:ga36d8847586e65d533e8df88ebf7ccdfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga7b7e7d54e61404929256d50d587404ed"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__str.html#ga7b7e7d54e61404929256d50d587404ed">o_strrchr</a> (const char *haystack, int c)</td></tr>
 <tr class="separator:ga7b7e7d54e61404929256d50d587404ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga06fbc282648bf0c6e3f8a50b49782c3a"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__str.html#ga06fbc282648bf0c6e3f8a50b49782c3a">o_strrnchr</a> (const char *haystack, size_t len, char c)</td></tr>
+<tr class="separator:ga06fbc282648bf0c6e3f8a50b49782c3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga5079c668dfac2290575729c2a23543bb"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__str.html#ga5079c668dfac2290575729c2a23543bb">o_strlen</a> (const char *s)</td></tr>
 <tr class="separator:ga5079c668dfac2290575729c2a23543bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga205c8acb2ef70f038f32e5fe361cc8d9"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__str.html#ga205c8acb2ef70f038f32e5fe361cc8d9">trimwhitespace</a> (char *str)</td></tr>
 <tr class="separator:ga205c8acb2ef70f038f32e5fe361cc8d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga54c07ce56f47f5fdb24f6a3c43e61861"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__str.html#ga54c07ce56f47f5fdb24f6a3c43e61861">trimcharacter</a> (char *str, char to_remove)</td></tr>
+<tr class="separator:ga54c07ce56f47f5fdb24f6a3c43e61861"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad9f5509b9e7ab1e5eb519432dbdf5349"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__str.html#gad9f5509b9e7ab1e5eb519432dbdf5349">msprintf</a> (const char *message,...)</td></tr>
 <tr class="separator:gad9f5509b9e7ab1e5eb519432dbdf5349"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga431b46526368d39f372e2c6a566fc490"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__str.html#ga431b46526368d39f372e2c6a566fc490">mstrcatf</a> (char *source, const char *message,...)</td></tr>
 <tr class="separator:ga431b46526368d39f372e2c6a566fc490"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2253c3c412293de1a1ba3c98f966b8e6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__split.html#ga2253c3c412293de1a1ba3c98f966b8e6">split_string</a> (const char *string, const char *separator, char ***return_array)</td></tr>
-<tr class="separator:ga2253c3c412293de1a1ba3c98f966b8e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7806e0d632efd9ea9264beee6d5ff181"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__split.html#ga7806e0d632efd9ea9264beee6d5ff181">split_string</a> (const char *string, const char *separator, char ***return_array)</td></tr>
+<tr class="separator:ga7806e0d632efd9ea9264beee6d5ff181"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gab3e2db03a466150e816f87fd9d152845"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__split.html#gab3e2db03a466150e816f87fd9d152845">free_string_array</a> (char **array)</td></tr>
 <tr class="separator:gab3e2db03a466150e816f87fd9d152845"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga29c0f37ab96093041d2000d42323be64"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__split.html#ga29c0f37ab96093041d2000d42323be64">string_array_size</a> (char **array)</td></tr>

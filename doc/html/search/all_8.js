@@ -2,7 +2,7 @@ var searchData=
 [
   ['size',['size',['../struct__pointer__list.html#a34b2208959c90164854a9f6f9fda90bb',1,'_pointer_list']]],
   ['split_20string_20and_20string_20array_20functions',['split string and string array functions',['../group__split.html',1,'']]],
-  ['split_5fstring',['split_string',['../group__split.html#ga2253c3c412293de1a1ba3c98f966b8e6',1,'split_string(const char *string, const char *separator, char ***return_array):&#160;orcania.c'],['../group__split.html#ga2253c3c412293de1a1ba3c98f966b8e6',1,'split_string(const char *string, const char *separator, char ***return_array):&#160;orcania.c']]],
+  ['split_5fstring',['split_string',['../group__split.html#ga7806e0d632efd9ea9264beee6d5ff181',1,'split_string(const char *string, const char *separator, char ***return_array):&#160;orcania.c'],['../group__split.html#ga7806e0d632efd9ea9264beee6d5ff181',1,'split_string(const char *string, const char *separator, char ***return_array):&#160;orcania.c']]],
   ['string_20functions',['string functions',['../group__str.html',1,'']]],
   ['str_5freplace',['str_replace',['../group__str.html#ga2a14dcf03a8822e583604bee2f0ce06a',1,'str_replace(const char *source, const char *str_old, const char *str_new):&#160;orcania.c'],['../group__str.html#ga2a14dcf03a8822e583604bee2f0ce06a',1,'str_replace(const char *source, const char *str_old, const char *str_new):&#160;orcania.c']]],
   ['string_5farray_5fhas_5ftrimmed_5fvalue',['string_array_has_trimmed_value',['../group__split.html#gaed7d5e5e60a747ec7102273e0fce53e7',1,'string_array_has_trimmed_value(const char **array, const char *needle):&#160;orcania.c'],['../group__split.html#gaed7d5e5e60a747ec7102273e0fce53e7',1,'string_array_has_trimmed_value(const char **array, const char *needle):&#160;orcania.c']]],

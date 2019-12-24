@@ -23,14 +23,14 @@ var searchData=
   ['o_5fstrdup',['o_strdup',['../group__str.html#ga7205b9a3939a3fd9152fc6771b877d6e',1,'o_strdup(const char *source):&#160;orcania.c'],['../group__str.html#ga7205b9a3939a3fd9152fc6771b877d6e',1,'o_strdup(const char *source):&#160;orcania.c']]],
   ['o_5fstrlen',['o_strlen',['../group__str.html#ga5079c668dfac2290575729c2a23543bb',1,'o_strlen(const char *s):&#160;orcania.c'],['../group__str.html#ga5079c668dfac2290575729c2a23543bb',1,'o_strlen(const char *s):&#160;orcania.c']]],
   ['o_5fstrncasecmp',['o_strncasecmp',['../group__str.html#gad668bcc5c118111492658878501b49a9',1,'o_strncasecmp(const char *p1, const char *p2, size_t n):&#160;orcania.c'],['../group__str.html#gad668bcc5c118111492658878501b49a9',1,'o_strncasecmp(const char *p1, const char *p2, size_t n):&#160;orcania.c']]],
+  ['o_5fstrnchr',['o_strnchr',['../group__str.html#ga36d8847586e65d533e8df88ebf7ccdfc',1,'o_strnchr(const char *haystack, size_t len, char c):&#160;orcania.c'],['../group__str.html#ga36d8847586e65d533e8df88ebf7ccdfc',1,'o_strnchr(const char *haystack, size_t len, char c):&#160;orcania.c']]],
   ['o_5fstrncmp',['o_strncmp',['../group__str.html#gafd8cbda0a58122bc6dbfbf02ae36fefb',1,'o_strncmp(const char *p1, const char *p2, size_t n):&#160;orcania.c'],['../group__str.html#gafd8cbda0a58122bc6dbfbf02ae36fefb',1,'o_strncmp(const char *p1, const char *p2, size_t n):&#160;orcania.c']]],
   ['o_5fstrncpy',['o_strncpy',['../group__str.html#ga0adba86043dc00cd8576b2f892cdd4e9',1,'o_strncpy(char *p1, const char *p2, size_t n):&#160;orcania.c'],['../group__str.html#ga0adba86043dc00cd8576b2f892cdd4e9',1,'o_strncpy(char *p1, const char *p2, size_t n):&#160;orcania.c']]],
   ['o_5fstrndup',['o_strndup',['../group__str.html#ga06cae172ee6720ae956a5b0b5c1b8806',1,'o_strndup(const char *source, size_t len):&#160;orcania.c'],['../group__str.html#ga06cae172ee6720ae956a5b0b5c1b8806',1,'o_strndup(const char *source, size_t len):&#160;orcania.c']]],
   ['o_5fstrnstr',['o_strnstr',['../group__str.html#gaf196149c23f5bfe5ba87c19488dd8f22',1,'o_strnstr(const char *haystack, const char *needle, size_t len):&#160;orcania.c'],['../group__str.html#gaf196149c23f5bfe5ba87c19488dd8f22',1,'o_strnstr(const char *haystack, const char *needle, size_t len):&#160;orcania.c']]],
   ['o_5fstrrchr',['o_strrchr',['../group__str.html#ga7b7e7d54e61404929256d50d587404ed',1,'o_strrchr(const char *haystack, int c):&#160;orcania.c'],['../group__str.html#ga7b7e7d54e61404929256d50d587404ed',1,'o_strrchr(const char *haystack, int c):&#160;orcania.c']]],
+  ['o_5fstrrnchr',['o_strrnchr',['../group__str.html#ga06fbc282648bf0c6e3f8a50b49782c3a',1,'o_strrnchr(const char *haystack, size_t len, char c):&#160;orcania.c'],['../group__str.html#ga06fbc282648bf0c6e3f8a50b49782c3a',1,'o_strrnchr(const char *haystack, size_t len, char c):&#160;orcania.c']]],
   ['o_5fstrstr',['o_strstr',['../group__str.html#ga142bdf9672af17640966e3610d07b37c',1,'o_strstr(const char *haystack, const char *needle):&#160;orcania.c'],['../group__str.html#ga142bdf9672af17640966e3610d07b37c',1,'o_strstr(const char *haystack, const char *needle):&#160;orcania.c']]],
-  ['orcania_2dcfg_2eh',['orcania-cfg.h',['../orcania-cfg_8h.html',1,'']]],
   ['orcania_2ec',['orcania.c',['../orcania_8c.html',1,'']]],
-  ['orcania_2eh',['orcania.h',['../orcania_8h.html',1,'']]],
-  ['orcania_5fversion',['ORCANIA_VERSION',['../orcania-cfg_8h.html#a1ea47b8ee2609340c04091b9c31e3117',1,'orcania-cfg.h']]]
+  ['orcania_2eh',['orcania.h',['../orcania_8h.html',1,'']]]
 ];

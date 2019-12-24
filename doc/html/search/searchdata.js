@@ -6,7 +6,7 @@ var indexSectionsWithContent =
   3: "fmopst",
   4: "ls",
   5: "o",
-  6: "_o",
+  6: "_",
   7: "_bms",
   8: "o"
 };
