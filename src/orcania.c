@@ -526,8 +526,32 @@ char * trimwhitespace(char * str) {
 
   while(isspace((unsigned char)*str)) str++;
 
-  end = str + strlen(str) - 1;
+  end = str + o_strlen(str) - 1;
   while(end > str && isspace((unsigned char)*end)) {
+    end--;
+  }
+
+  *(end+1) = 0;
+
+  return str;
+}
+
+/**
+ * Remove string of beginning and ending given character
+ */
+char * trimcharacter(char * str, char to_remove) {
+  char * end;
+
+  if (str == NULL) {
+    return NULL;
+  } else if(*str == 0) {
+    return str;
+  }
+
+  while(*str == to_remove) str++;
+
+  end = str + o_strlen(str) - 1;
+  while(end > str && (*end == to_remove)) {
     end--;
   }
 

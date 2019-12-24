@@ -35,6 +35,10 @@
 
 /**
  * @defgroup str string functions
+ * These functions are used for string manipulation
+ * Types of functions available:
+ * - crash safe version of <string.h> library
+ * - build heap allocated strings using printf-like format
  * @{
  */
 
@@ -149,6 +153,11 @@ size_t o_strlen(const char * s);
  * Remove string of beginning and ending whitespaces
  */
 char * trimwhitespace(char * str);
+
+/**
+ * Remove string of beginning and ending given character
+ */
+char * trimcharacter(char * str, char to_remove);
 
 /**
  * char * msprintf(const char * message, ...)
