@@ -238,6 +238,16 @@ START_TEST(test_trimwhitespace)
 }
 END_TEST
 
+START_TEST(test_trimcharacter)
+{
+  char test1[] = "3bob trimmed33", test2[] = "333", test3[] = "";
+  ck_assert_str_eq(trimcharacter(test1, '3'), "bob trimmed");
+  ck_assert_str_eq(trimcharacter(test2, '3'), "");
+  ck_assert_str_eq(trimcharacter(test3, '3'), "");
+  ck_assert_ptr_eq(trimcharacter(NULL, '3'), NULL);
+}
+END_TEST
+
 START_TEST(test_string_array)
 {
 	char ** array, * str_orig = "Alice,Bob,Carol,Dave,Eve,Isaac";
@@ -421,6 +431,7 @@ static Suite *orcania_suite(void)
 	tcase_add_test(tc_core, test_msprintf);
 	tcase_add_test(tc_core, test_mstrcatf);
 	tcase_add_test(tc_core, test_trimwhitespace);
+	tcase_add_test(tc_core, test_trimcharacter);
 	tcase_add_test(tc_core, test_base64);
 	tcase_add_test(tc_core, test_base64url);
 	tcase_add_test(tc_core, test_base64url_2_base64);
