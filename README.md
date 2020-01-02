@@ -50,6 +50,7 @@ The available options for cmake are:
 - `-DBUILD_ORCANIA_TESTING=[on|off]` (default `off`): Build unit tests
 - `-DINSTALL_HEADER=[on|off]` (default `on`): Install header file `orcania.h`
 - `-DBUILD_RPM=[on|off]` (default `off`): Build RPM package when running `make package`
+- `-DBUILD_ORCANIA_DOCUMENTATION=[on|off]` (default `off`): Build the documentation, doxygen is required
 - `-DCMAKE_BUILD_TYPE=[Debug|Release]` (default `Release`): Compile with debugging symbols or not
 
 #### Good ol' Makefile - Linux only
