@@ -100,6 +100,10 @@ int o_base64_decode(const unsigned char *src, size_t len, unsigned char * out, s
   unsigned char dtable[256], *pos = out, block[4], tmp;
   size_t i, count;
   int pad = 0;
+  
+  if (src == NULL || !len) {
+    return 0;
+  }
 
   memset(dtable, 0x80, 256);
   for (i = 0; i < sizeof(base64_table) - 1; i++) {
@@ -121,6 +125,10 @@ int o_base64_decode(const unsigned char *src, size_t len, unsigned char * out, s
   count = 0;
   *out_len = 0;
   for (i = 0; i < len; i++) {
+    if (!o_strchr((const char *)base64_table, src[i]) && src[i] != '=') {
+      // character invalid
+      return 0;
+    }
     tmp = dtable[src[i]];
     if (tmp == 0x80) {
       continue;
@@ -222,21 +230,16 @@ int o_base64url_decode(const unsigned char *src, size_t len, unsigned char * out
   unsigned char * src_cpy;
   
   if (src) {
-    if (out != NULL) {
-      src_cpy = o_malloc(len+3);
-      if (src_cpy != NULL) {
-        if (o_base64url_2_base64(src, len, src_cpy, &src_cpy_len)) {
-          res = o_base64_decode(src_cpy, src_cpy_len, out, out_len);
-        } else {
-          res = 1;
-        }
-        o_free(src_cpy);
+    src_cpy = o_malloc(len+3);
+    if (src_cpy != NULL) {
+      if (o_base64url_2_base64(src, len, src_cpy, &src_cpy_len)) {
+        res = o_base64_decode(src_cpy, src_cpy_len, out, out_len);
       } else {
-        res = 0;
+        res = 1;
       }
-    } else if (len && out_len != NULL) {
-      *out_len = (3 * len) / 4;
-      res = 1;
+      o_free(src_cpy);
+    } else {
+      res = 0;
     }
   }
   return res;
