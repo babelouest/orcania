@@ -285,25 +285,29 @@ END_TEST
 
 START_TEST(test_base64)
 {
-  char * src = "source string", encoded[128], decoded[128];
+  char * src = "source string", encoded[128], decoded[128], b64_error[] = ";error;";
   size_t encoded_size, decoded_size;
   ck_assert_int_eq(o_base64_encode((unsigned char *)src, o_strlen(src), (unsigned char *)encoded, &encoded_size), 1);
   ck_assert_str_eq(encoded, "c291cmNlIHN0cmluZw==");
   ck_assert_int_eq(o_base64_decode((unsigned char *)encoded, encoded_size, (unsigned char *)decoded, &decoded_size), 1);
   ck_assert_str_eq(decoded, src);
   ck_assert_int_eq(decoded_size, o_strlen(src));
+  ck_assert_int_eq(o_base64_decode((unsigned char *)b64_error, o_strlen(b64_error), NULL, &decoded_size), 0);
+  ck_assert_int_eq(o_base64_decode((unsigned char *)b64_error, o_strlen(b64_error), (unsigned char *)decoded, &decoded_size), 0);
 }
 END_TEST
 
 START_TEST(test_base64url)
 {
-  char * src = "source string", encoded[128], decoded[128];
+  char * src = "source string", encoded[128], decoded[128], b64_error[] = ";error;";
   size_t encoded_size, decoded_size;
   ck_assert_int_eq(o_base64url_encode((unsigned char *)src, o_strlen(src), (unsigned char *)encoded, &encoded_size), 1);
   ck_assert_str_eq(encoded, "c291cmNlIHN0cmluZw");
   ck_assert_int_eq(o_base64url_decode((unsigned char *)encoded, encoded_size, (unsigned char *)decoded, &decoded_size), 1);
   ck_assert_str_eq(decoded, src);
   ck_assert_int_eq(decoded_size, o_strlen(src));
+  ck_assert_int_eq(o_base64url_decode((unsigned char *)b64_error, o_strlen(b64_error), NULL, &decoded_size), 0);
+  ck_assert_int_eq(o_base64url_decode((unsigned char *)b64_error, o_strlen(b64_error), (unsigned char *)decoded, &decoded_size), 0);
 }
 END_TEST
 
