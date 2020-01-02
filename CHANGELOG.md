@@ -7,6 +7,7 @@
 - `split_string` returns `size_t`
 - Add functions `o_strnchr` and `o_strrnchr`
 - Add function `trimcharacter`
+- Improve `o_base64_decode` if input data is invalid
 
 ## 2.0.1
 
