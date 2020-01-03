@@ -101,7 +101,7 @@ int o_base64_decode(const unsigned char *src, size_t len, unsigned char * out, s
   size_t i, count;
   int pad = 0;
   
-  if (src == NULL || !len) {
+  if (src == NULL || !len || out_len == NULL) {
     return 0;
   }
 
@@ -118,14 +118,14 @@ int o_base64_decode(const unsigned char *src, size_t len, unsigned char * out, s
     }
   }
 
-  if (count == 0 || count % 4 || src == NULL || out_len == NULL) {
+  if (count == 0 || count % 4) {
     return 0;
   }
 
   count = 0;
   *out_len = 0;
   for (i = 0; i < len; i++) {
-    if (!o_strchr((const char *)base64_table, src[i]) && src[i] != '=') {
+    if (!o_strchr((const char *)base64_table, src[i]) && src[i] != '=' && src[i] != '\n' && src[i] != '\t' && src[i] != ' ') {
       // character invalid
       return 0;
     }
