@@ -28,6 +28,11 @@
 #ifndef __ORCANIA_H__
 #define __ORCANIA_H__
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 #include "orcania-cfg.h"
 
 #include <stdio.h>
@@ -433,4 +438,9 @@ int o_base64_2_base64url(const unsigned char *src, size_t len, unsigned char * o
 /**
  * @}
  */
+ 
+#ifdef __cplusplus
+}
+#endif
+
 #endif
