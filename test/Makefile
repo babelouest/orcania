@@ -30,7 +30,7 @@ VALGRIND_COMMAND=valgrind --tool=memcheck --leak-check=full --show-leak-kinds=al
 all: test
 
 clean:
-	rm -f *.o str_test split_test memory_test pointer_list_test valgrind.txt
+	rm -f *.o str_test split_test memory_test pointer_list_test valgrind-*.txt
 
 liborcania.so:
 	cd $(ORCANIA_LOCATION) && $(MAKE) debug
