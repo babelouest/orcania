@@ -114,6 +114,12 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>pointer_list_init Initialize a pointer list structure </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pointer_list</td><td>a pointer list to initialize</td></tr>
+  </table>
+  </dd>
+</dl>
 <p>pointer_list_init Initialize a pointer list structure </p>
 
 </div>
@@ -133,6 +139,12 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>pointer_list_clean Clean a pointer list structure </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pointer_list</td><td>a pointer list to clean</td></tr>
+  </table>
+  </dd>
+</dl>
 <p>pointer_list_clean Clean a pointer list structure </p>
 
 </div>
@@ -162,6 +174,13 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>pointer_list_clean_free Clean a pointer list structure Free all elements using the free_function given in parameters </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pointer_list</td><td>a pointer list to clean </td></tr>
+    <tr><td class="paramname">free_function</td><td>a function to use for freeing values</td></tr>
+  </table>
+  </dd>
+</dl>
 <p>pointer_list_clean_free Clean a pointer list structure Free all elements using the free_function given in parameters </p>
 
 </div>
@@ -181,6 +200,13 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>pointer_list_size </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pointer_list</td><td>a pointer list </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the size of a pointer list</dd></dl>
 <p>pointer_list_size Return the size of a pointer list </p>
 
 </div>
@@ -210,6 +236,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>pointer_list_append Appends an element at the end of a pointer list </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pointer_list</td><td>a pointer list </td></tr>
+    <tr><td class="paramname">element</td><td>an element to append </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 on success, 0 on error</dd></dl>
 <p>pointer_list_append Appends an element at the end of a pointer list Return 1 on success, 0 on error </p>
 
 </div>
@@ -239,6 +273,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>pointer_list_get_at </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pointer_list</td><td>a pointer list </td></tr>
+    <tr><td class="paramname">index</td><td>the index of the element in pointer_list </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>an element of a pointer list at the specified index or NULL if non valid index</dd></dl>
 <p>pointer_list_get_at Returns an element of a pointer list at the specified index or NULL if non valid index </p>
 
 </div>
@@ -268,6 +310,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>pointer_list_remove_at Removes an element of a pointer list at the specified index </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pointer_list</td><td>a pointer list </td></tr>
+    <tr><td class="paramname">index</td><td>the index of the element in pointer_list </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 on success, 0 on error or non valid index</dd></dl>
 <p>pointer_list_remove_at Removes an element of a pointer list at the specified index Return 1 on success, 0 on error or non valid index </p>
 
 </div>
@@ -303,6 +353,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>pointer_list_remove_at_free Removes an element of a pointer list at the specified index Free the element using the free_function given in parameters </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pointer_list</td><td>a pointer list </td></tr>
+    <tr><td class="paramname">index</td><td>the index of the element in pointer_list </td></tr>
+    <tr><td class="paramname">free_function</td><td>the function to use to free the element </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 on success, 0 on error or non valid index</dd></dl>
 <p>pointer_list_remove_at_free Removes an element of a pointer list at the specified index Return 1 on success, 0 on error or non valid index Free the element using the free_function given in parameters </p>
 
 </div>
@@ -338,6 +397,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>pointer_list_insert_at Inserts an element at the specified index of a pointer list </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pointer_list</td><td>a pointer list </td></tr>
+    <tr><td class="paramname">element</td><td>the element to set at index </td></tr>
+    <tr><td class="paramname">index</td><td>the index of the element in pointer_list </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 on success, 0 on error or non valid inde</dd></dl>
 <p>pointer_list_insert_at Inserts an element at the specified index of a pointer list Return 1 on success, 0 on error or non valid index </p>
 
 </div>
@@ -367,7 +435,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>pointer_list_remove_pointer Removes an element of a pointer list corresponding to the specified element Return 1 on success, 0 on error or non valid element</p>
+<p>pointer_list_remove_pointer Removes an element of a pointer list corresponding to the specified element </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pointer_list</td><td>a pointer list </td></tr>
+    <tr><td class="paramname">element</td><td>the element to set at index </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 on success, 0 on error or non valid inde</dd></dl>
 <p>pointer_list_remove_at Removes an element of a pointer list corresponding to the specified element Return 1 on success, 0 on error or non valid element </p>
 
 </div>
@@ -403,6 +478,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>pointer_list_remove_pointer_free Removes an element of a pointer list corresponding to the specified element Free the element using the free_function given in parameters </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pointer_list</td><td>a pointer list </td></tr>
+    <tr><td class="paramname">element</td><td>the element to set at index </td></tr>
+    <tr><td class="paramname">free_function</td><td>the function to use to free the element </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 on success, 0 on error or non valid inde</dd></dl>
 <p>pointer_list_remove_pointer_free Removes an element of a pointer list corresponding to the specified element Free the element using the free_function given in parameters Return 1 on success, 0 on error or non valid element </p>
 
 </div>

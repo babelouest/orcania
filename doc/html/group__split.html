@@ -120,6 +120,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Split a string into an array of strings using separator string return the number of elements to be returned, 0 on error </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">string</td><td>the string to split </td></tr>
+    <tr><td class="paramname">separator</td><td>the string separator, will not be included in the result </td></tr>
+    <tr><td class="paramname">return_array</td><td>an reference to a char ** that will be heap-allocated by the function The last element in return_array will be NULL </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the number of string elements in result_array if return_array is not NULL, set the returned array in it return_array is an array of char * ending with a NULL value return_array must be free'd after use you can use free_string_array to free return_array</dd></dl>
 <p>Split a string into an array of strings using separator string return the number of elements to be returned, 0 on error if return_array is not NULL, set the returned array in it return_array is an array of char * ending with a NULL value return_array must be free'd after use you can use free_string_array to free return_array </p>
 
 </div>
@@ -139,6 +148,12 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Clean an array of strings </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">array</td><td>an array of char * to free using o_free for each element the last element of array must be a NULL</td></tr>
+  </table>
+  </dd>
+</dl>
 <p>Clean an array of strings </p>
 
 </div>
@@ -158,6 +173,13 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Count the number of elements in an array of strings </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">array</td><td>an array of char * with NULL in the last element </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the number of string elements in array</dd></dl>
 <p>Count the number of elements in an array of strings </p>
 
 </div>
@@ -187,6 +209,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Check if an array of string has a specified value, case sensitive </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">array</td><td>an array of char * with NULL in the last element </td></tr>
+    <tr><td class="paramname">needle</td><td>the value to look for in array </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 if needle exists in array, 0 otherwise</dd></dl>
 <p>Check if an array of string has a specified value, case sensitive </p>
 
 </div>
@@ -216,6 +246,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Check if an array of string has a specified value, case insensitive </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">array</td><td>an array of char * with NULL in the last element </td></tr>
+    <tr><td class="paramname">needle</td><td>the value to look for in array </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 if needle exists in array, 0 otherwise</dd></dl>
 <p>Check if an array of string has a specified value, case insensitive </p>
 
 </div>
@@ -251,6 +289,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Check if an array of string has a specified value, case sensitive, limit to len characters </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">array</td><td>an array of char * with NULL in the last element </td></tr>
+    <tr><td class="paramname">needle</td><td>the value to look for in array </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 if needle exists in array, 0 otherwise</dd></dl>
 <p>Check if an array of string has a specified value, case sensitive, limit to len characters </p>
 
 </div>
@@ -286,6 +332,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Check if an array of string has a specified value, case insensitive, limit to len characters </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">array</td><td>an array of char * with NULL in the last element </td></tr>
+    <tr><td class="paramname">needle</td><td>the value to look for in array </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 if needle exists in array, 0 otherwise</dd></dl>
 <p>Check if an array of string has a specified value, case insensitive, limit to len characters </p>
 
 </div>
@@ -315,6 +369,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Check if an array of string has a specified trimmed value </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">array</td><td>an array of char * with NULL in the last element </td></tr>
+    <tr><td class="paramname">needle</td><td>the value to look for in array </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>1 if needle exists in array, 0 otherwise</dd></dl>
 <p>Check if an array of string has a specified trimmed value </p>
 
 </div>
@@ -344,6 +406,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Join a string array into a single string </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">array</td><td>an array of char * with NULL in the last element </td></tr>
+    <tr><td class="paramname">separator</td><td>a string to put between the elements </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a heap allocated string</dd></dl>
 <p>Join a string array into a single string </p>
 
 </div>

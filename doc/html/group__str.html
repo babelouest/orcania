@@ -148,7 +148,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>char * str_replace(const char * source, char * old, char * new) replace all occurences of old by new in the string source return a char * with the new value return NULL on error returned value must be free'd after use</p>
+<p>char * str_replace(const char * source, char * old, char * new) replace all occurences of old by new in the string source return a char * with the new value </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">source</td><td>the source string </td></tr>
+    <tr><td class="paramname">str_old</td><td>string to be replaced in source </td></tr>
+    <tr><td class="paramname">str_new</td><td>new string to replace </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a heap-allocated string with the replacements applied return NULL on error returned value must be free'd after use</dd></dl>
 <p>Orcania library</p>
 <p>Different functions for different purposes but that can be shared between other projects char * str_replace(const char * source, char * str_old, char * str_new) replace all occurences of str_old by str_new in the string source return a char * with the str_new value return NULL on error returned value must be free'd after use </p>
 
@@ -169,6 +177,13 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>o_strdup a modified strdup function that don't crash when source is NULL, instead return NULL </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">source</td><td>the source string to duplicate </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a heap-allocated string Returned value must be free'd after use</dd></dl>
 <p>o_strdup a modified strdup function that don't crash when source is NULL, instead return NULL Returned value must be free'd after use </p>
 
 </div>
@@ -198,6 +213,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>o_strndup a modified strndup function that don't crash when source is NULL, instead return NULL </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">source</td><td>the source string to duplicate </td></tr>
+    <tr><td class="paramname">len</td><td>the maximum length of the string source to duplicate </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a heap-allocated string Returned value must be free'd after use</dd></dl>
 <p>o_strndup a modified strndup function that don't crash when source is NULL, instead return NULL Returned value must be free'd after use </p>
 
 </div>
@@ -227,6 +250,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>o_strcmp a modified strcmp function that don't crash when p1 is NULL or p2 us NULL </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p1</td><td>the first string to compare </td></tr>
+    <tr><td class="paramname">p2</td><td>the second string to compare </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if p1 is equal to p2, negative number if p1 is inferior to p2, positive number otherwise</dd></dl>
 <p>o_strcmp a modified strcmp function that don't crash when p1 is NULL or p2 us NULL </p>
 
 </div>
@@ -262,6 +293,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>o_strncmp a modified strncmp function that don't crash when p1 is NULL or p2 us NULL </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p1</td><td>the first string to compare </td></tr>
+    <tr><td class="paramname">p2</td><td>the second string to compare </td></tr>
+    <tr><td class="paramname">n</td><td>the maximum number of char to compare </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if p1 is equal to p2, negative number if p1 is inferior to p2, positive number otherwise</dd></dl>
 <p>o_strncmp a modified strncmp function that don't crash when p1 is NULL or p2 us NULL </p>
 
 </div>
@@ -291,6 +331,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>o_strcpy a modified strcpy function that don't crash when p1 is NULL or p2 us NULL </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p1</td><td>the string to copy p2 </td></tr>
+    <tr><td class="paramname">p2</td><td>the source string to be copied </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>p1</dd></dl>
 <p>o_strcpy a modified strcpy function that don't crash when p1 is NULL or p2 us NULL </p>
 
 </div>
@@ -326,6 +374,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>o_strncpy </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p1</td><td>the string to copy p2 </td></tr>
+    <tr><td class="paramname">p2</td><td>the source string to be copied </td></tr>
+    <tr><td class="paramname">n</td><td>the maximum characters to copy from p2 to p1 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>p1 a modified strncpy function that don't crash when p1 is NULL or p2 us NULL</dd></dl>
 <p>o_strncpy a modified strncpy function that don't crash when p1 is NULL or p2 us NULL </p>
 
 </div>
@@ -355,6 +412,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>o_strcasecmp a modified strcasecmp function that don't crash when p1 is NULL or p2 us NULL </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p1</td><td>the first string to compare </td></tr>
+    <tr><td class="paramname">p2</td><td>the second string to compare </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if p1 is equal to p2, negative number if p1 is inferior to p2, positive number otherwise</dd></dl>
 <p>o_strcasecmp a modified strcasecmp function that don't crash when p1 is NULL or p2 us NULL </p>
 
 </div>
@@ -390,6 +455,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>o_strncasecmp a modified strncasecmp function that don't crash when p1 is NULL or p2 us NULL </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p1</td><td>the first string to compare </td></tr>
+    <tr><td class="paramname">p2</td><td>the second string to compare </td></tr>
+    <tr><td class="paramname">n</td><td>the maximum number of char to compare </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 if p1 is equal to p2, negative number if p1 is inferior to p2, positive number otherwise</dd></dl>
 <p>o_strncasecmp a modified strncasecmp function that don't crash when p1 is NULL or p2 us NULL </p>
 
 </div>
@@ -419,6 +493,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>o_strstr a modified strstr function that don't crash when haystack is NULL or needle us NULL </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">haystack</td><td>the string to be looked for </td></tr>
+    <tr><td class="paramname">needle</td><td>the string to search in haystack </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the pointer to the first occurence of needle in haystack or NULL if not found</dd></dl>
 <p>o_strstr a modified strstr function that don't crash when haystack is NULL or needle us NULL </p>
 
 </div>
@@ -454,6 +536,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>o_strnstr a modified strnstr function that don't crash when haystack is NULL or needle us NULL </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">haystack</td><td>the string to be looked for </td></tr>
+    <tr><td class="paramname">needle</td><td>the string to search in haystack </td></tr>
+    <tr><td class="paramname">len</td><td>the maximum length to look for in haystack </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the pointer to the first occurence of needle in haystack or NULL if not found</dd></dl>
 <p>o_strnstr a modified strnstr function that don't crash when haystack is NULL or needle us NULL </p>
 
 </div>
@@ -483,6 +574,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>o_strcasestr a modified strcasestr function that don't crash when haystack is NULL or needle us NULL </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">haystack</td><td>the string to be looked for </td></tr>
+    <tr><td class="paramname">needle</td><td>the string to search in haystack </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the pointer to the first occurence of needle in haystack or NULL if not found</dd></dl>
 <p>o_strcasestr a modified strcasestr function that don't crash when haystack is NULL or needle us NULL </p>
 
 </div>
@@ -512,6 +611,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>o_strchr a modified strchr function that don't crash when haystack is NULL </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">haystack</td><td>the string to be looked for </td></tr>
+    <tr><td class="paramname">c</td><td>the character to look for in haystack </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the pointer to the first occurence of c in haystack or NULL if not found</dd></dl>
 <p>o_strchr a modified strchr function that don't crash when haystack is NULL </p>
 
 </div>
@@ -547,6 +654,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>o_strnchr a modified strnchr function that don't crash when haystack is NULL </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">haystack</td><td>the string to be looked for </td></tr>
+    <tr><td class="paramname">len</td><td>the maxmimum length of characters to look for in haystack </td></tr>
+    <tr><td class="paramname">c</td><td>the character to look for in haystack </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the pointer to the first occurence of c in haystack or NULL if not found</dd></dl>
 <p>o_strnchr a modified strnchr function that don't crash when haystack is NULL </p>
 
 </div>
@@ -576,6 +692,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>o_strrchr a modified strrchr function that don't crash when haystack is NULL </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">haystack</td><td>the string to be looked for </td></tr>
+    <tr><td class="paramname">c</td><td>the character to look for in haystack </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the pointer to the last occurence of c in haystack or NULL if not found</dd></dl>
 <p>o_strrchr a modified strrchr function that don't crash when haystack is NULL </p>
 
 </div>
@@ -611,6 +735,15 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>o_strrnchr a modified strrnchr function that don't crash when haystack is NULL </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">haystack</td><td>the string to be looked for </td></tr>
+    <tr><td class="paramname">len</td><td>the maxmimum length of characters to look for in haystack </td></tr>
+    <tr><td class="paramname">c</td><td>the character to look for in haystack </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the pointer to the last occurence of c in haystack or NULL if not found</dd></dl>
 <p>o_strrnchr a modified strrnchr function that don't crash when haystack is NULL </p>
 
 </div>
@@ -630,6 +763,13 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>o_strlen a modified version of strlen that don't crash when s is NULL </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s</td><td>the string to calculate length </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the length of s, 0 if s is NULL</dd></dl>
 <p>o_strlen a modified version of strlen that don't crash when s is NULL </p>
 
 </div>
@@ -649,6 +789,13 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Remove string of beginning and ending whitespaces the string str will be modified </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>the string to trim </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the trimmed str</dd></dl>
 <p>Remove string of beginning and ending whitespaces </p>
 
 </div>
@@ -678,6 +825,13 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Remove string of beginning and ending given character the string str will be modified </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>the string to trim </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the trimmed str</dd></dl>
 <p>Remove string of beginning and ending given character </p>
 
 </div>
@@ -707,6 +861,13 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>char * msprintf(const char * message, ...) Implementation of sprintf that return a malloc'd char * with the string construction because life is too short to use 3 lines instead of 1 but don't forget to free the returned value after use! Disclaimer: When I made this function, I didn't know asprintf existed. If I did I surely wouldn't make msprintf although, msprintf has the advantage to work with o_malloc and o_free so it can use specific memory allocation functions </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">message</td><td>the message format to concat to source, printf format </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a heap-allocated char * containing the result string</dd></dl>
 <p>char * msprintf(const char * message, ...) Implementation of sprintf that return a malloc'd char * with the string construction because life is too short to use 3 lines instead of 1 but don't forget to free the returned value after use! </p>
 
 </div>
@@ -742,6 +903,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>char * mstrcatf((char * source, const char * message, ...) A combination of strcat and msprintf that will concat source and message formatted and return the combination as a new allocated char * and will o_free source but don't forget to free the returned value after use! </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">source</td><td>the source string to concat message, source will be free'd during the process </td></tr>
+    <tr><td class="paramname">message</td><td>the message format to concat to source, printf format </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a heap-allocated char * containing the result string</dd></dl>
 <p>char * mstrcatf((char * source, const char * message, ...) A combination of strcat and msprintf that will concat source and message formatted and return the combination as a new allocated char * and will o_free source but don't forget to free the returned value after use! </p>
 
 </div>

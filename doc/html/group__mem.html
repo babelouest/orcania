@@ -102,6 +102,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>typedefs use to replace glib's memory functions </p>
 
 </div>
 </div>
@@ -149,6 +150,13 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Allocate a memory block </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">size</td><td>the size of the block to allocate in memory </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a pointer to the new allocated block </dd></dl>
 
 </div>
 </div>
@@ -177,6 +185,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Reallocate a memory block </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ptr</td><td>the previous memory block that will be free'd </td></tr>
+    <tr><td class="paramname">size</td><td>the size of the block to allocate in memory </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a pointer to the new allocated block with a copy of the data previously in ptr </dd></dl>
 
 </div>
 </div>
@@ -195,6 +211,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Free a block allocated by o_malloc </p>
 
 </div>
 </div>
@@ -229,6 +246,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Updates the memory functions by user-specific ones </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">malloc_fn</td><td>a pointer to a malloc function, if NULL, will use current function </td></tr>
+    <tr><td class="paramname">realloc_fn</td><td>a pointer to a realloc function, if NULL, will use current function </td></tr>
+    <tr><td class="paramname">free_fn</td><td>a pointer to a free function, if NULL, will use current function </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -263,6 +288,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Gets the pointer to current memory functions </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">malloc_fn</td><td>reference to a pointer to a malloc function </td></tr>
+    <tr><td class="paramname">realloc_fn</td><td>reference to a pointer to a realloc function </td></tr>
+    <tr><td class="paramname">free_fn</td><td>reference to a pointer to a free function </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
