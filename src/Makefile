@@ -32,7 +32,9 @@ PKGCONFIG_TEMPLATE=../liborcania.pc.in
 CC=gcc
 CFLAGS+=-c -fPIC -Wall -Werror -Wextra -I$(ORCANIA_INCLUDE) -D_REENTRANT $(ADDITIONALFLAGS) $(CPPFLAGS)
 OUTPUT=liborcania.so
-VERSION=2.1.0
+VERSION_MAJOR=2
+VERSION_MINOR=1
+VERSION_PATCH=0
 OBJECTS=orcania.o memory.o base64.o
 LIBS=-lc -lm
 
@@ -52,7 +54,11 @@ all: release
 $(CONFIG_FILE):
 	@cp $(CONFIG_TEMPLATE) $(CONFIG_FILE)
 	@echo Config file $(CONFIG_FILE) generated
-	@sed -i -e 's/$${PROJECT_VERSION}/$(VERSION)/g' $(CONFIG_FILE)
+	@sed -i -e 's/$${PROJECT_VERSION}/$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)/g' $(CONFIG_FILE)        
+	@sed -i -e 's/$${PROJECT_VERSION_MAJOR}/$(VERSION_MAJOR)/g' $(CONFIG_FILE)        
+	@sed -i -e 's/$${PROJECT_VERSION_MINOR}/$(VERSION_MINOR)/g' $(CONFIG_FILE)        
+	@sed -i -e 's/$${PROJECT_VERSION_PATCH}/$(VERSION_PATCH)/g' $(CONFIG_FILE)        
+	@sed -i -e 's/$${PROJECT_VERSION_NUMBER}/$(shell printf '%02d' $(VERSION_MAJOR))$(shell printf '%02d' $(VERSION_MINOR))$(shell printf '%02d' $(VERSION_PATCH))/g' $(CONFIG_FILE)        
 	@if [ "$(STRSTR)" = "1" ]; then \
 		sed -i -e 's/\#cmakedefine O_STRSTR/\#define O_STRSTR/g' $(CONFIG_FILE); \
 		echo "FORCE IMPLEMENT STRSTR  ENABLED"; \
