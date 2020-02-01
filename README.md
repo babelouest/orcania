@@ -3,7 +3,7 @@
 Potluck with different functions for different purposes that can be shared among C programs.
 
 [![Build Status](https://travis-ci.com/babelouest/orcania.svg?branch=master)](https://travis-ci.com/babelouest/orcania)
-![C/C++ CI](https://github.com/babelouest/orcania/workflows/C/C++%20CI/badge.svg)
+![.github/workflows/ccpp.yml](https://github.com/babelouest/orcania/workflows/.github/workflows/ccpp.yml/badge.svg)
 
 ## Documentation
 
