@@ -7,7 +7,7 @@ Potluck with different functions for different purposes that can be shared among
 
 ## Documentation
 
-Library documentation is available in the [online documentation](https://babelouest.github.io/orcania/doc/html/).
+Library documentation is available in the [online documentation](https://babelouest.github.io/orcania/).
 
 ## Installation
 
