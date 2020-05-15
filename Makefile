@@ -27,6 +27,7 @@ debug:
 clean:
 	cd $(LIBORCANIA_LOCATION) && $(MAKE) clean
 	cd $(TESTS_LOCATION) && $(MAKE) clean
+	rm -rf doc/html/ doc/man/
 
 check:
 	cd $(LIBORCANIA_LOCATION) && $(MAKE) debug $*
