@@ -135,33 +135,35 @@ char * msprintf(const char * message, ...) {
 char * mstrcatf(char * source, const char * message, ...) {
   va_list argp, argp_cpy;
   char * out = NULL, * message_formatted = NULL;
-  size_t message_formatted_len = 0, out_len = 0;
+  size_t message_formatted_len = 0, out_len = 0, source_len = 0;
   
   if (message != NULL) {
+    va_start(argp, message);
+    va_copy(argp_cpy, argp); // We make a copy because in some architectures, vsnprintf can modify argp
     if (source != NULL) {
-      va_start(argp, message);
-      va_copy(argp_cpy, argp); // We make a copy because in some architectures, vsnprintf can modify argp
+      source_len = o_strlen(source);
       message_formatted_len = vsnprintf(NULL, 0, message, argp);
       message_formatted = o_malloc(message_formatted_len+sizeof(char));
       if (message_formatted != NULL) {
+        out = o_malloc(source_len+message_formatted_len+sizeof(char));
         vsnprintf(message_formatted, (message_formatted_len+sizeof(char)), message, argp_cpy);
-        out = msprintf("%s%s", source, message_formatted);
+        if (out != NULL) {
+          o_strncpy(out, source, source_len);
+          o_strncpy(out+source_len, message_formatted, message_formatted_len);
+          out[source_len+message_formatted_len] = '\0';
+        }
         o_free(message_formatted);
         o_free(source);
       }
-      va_end(argp);
-      va_end(argp_cpy);
     } else {
-      va_start(argp, message);
-      va_copy(argp_cpy, argp); // We make a copy because in some architectures, vsnprintf can modify argp
       out_len = vsnprintf(NULL, 0, message, argp);
       out = o_malloc(out_len+sizeof(char));
       if (out != NULL) {
         vsnprintf(out, (out_len+sizeof(char)), message, argp_cpy);
       }
-      va_end(argp);
-      va_end(argp_cpy);
     }
+    va_end(argp);
+    va_end(argp_cpy);
   }
   return out;
 }
