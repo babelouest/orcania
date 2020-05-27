@@ -1,7 +1,7 @@
 /*
  * Base64 encoding/decoding (RFC1341)
  * Copyright (c) 2005-2011, Jouni Malinen <j@w1.fi>
- * Copyright (c) 2017, Nicolas Mora <mail@babelouest.org>
+ * Copyright (c) 2017-2020, Nicolas Mora <mail@babelouest.org>
  *
  * This software may be distributed under the terms of the BSD license.
  */
