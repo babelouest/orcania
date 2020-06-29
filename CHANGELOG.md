@@ -1,5 +1,12 @@
 # Orcania Changelog
 
+## 2.1.1
+
+- Harmonize and fix license
+- Fix doc generator
+- Rework mstrcatf
+- Fix pkgconfig install on Makefile
+
 ## 2.1.0
 
 - Add doxygen documentation
