@@ -6,6 +6,7 @@
 - Fix doc generator
 - Rework mstrcatf
 - Fix pkgconfig install on Makefile
+- Add simple API documentation summary
 
 ## 2.1.0
 
