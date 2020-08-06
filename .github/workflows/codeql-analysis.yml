@@ -51,8 +51,8 @@ jobs:
     #   make release
         mkdir build
         cd build
-        cmake -DBUILD_ORCANIA_TESTING=on -DBUILD_ORCANIA_DOCUMENTATION=on ..
-        make test package doc
+        cmake -DBUILD_ORCANIA_DOCUMENTATION=on ..
+        make && make doc
         sudo make install
 
     - name: Perform CodeQL Analysis
