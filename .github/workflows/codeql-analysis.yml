@@ -47,10 +47,13 @@ jobs:
     #    uses a compiled language
 
     - run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake pkg-config doxygen
         mkdir build
         cd build
         cmake -DBUILD_ORCANIA_DOCUMENTATION=on ..
-        make && make doc
+        make
+        make doc
         sudo make install
 
     - name: Perform CodeQL Analysis
