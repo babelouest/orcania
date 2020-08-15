@@ -23,7 +23,7 @@ You can install Orcania with a pre-compiled package available in the [release pa
 
 ### Build from source
 
-Download Orcania source code from Github:
+Download Orcania source code from GitHub:
 
 ```shell
 $ git clone https://github.com/babelouest/orcania.git
@@ -34,7 +34,7 @@ $ cd orcania
 
 [CMake](https://cmake.org/download/) minimum 3.5 is required.
 
-Run the cmake script in a subdirectory, example:
+Run the CMake script in a sub-directory, example:
 
 ```shell
 $ git clone https://github.com/babelouest/orcania.git
@@ -45,7 +45,7 @@ $ cmake ..
 $ make && sudo make install
 ```
 
-The available options for cmake are:
+The available options for CMake are:
 - `-DBUILD_STATIC=[on|off]` (default `off`): Build the static archive in addition to the shared library
 - `-DWITH_STRSTR=[on|off]` (default `off`): Force using inline implementation of strstr
 - `-DBUILD_ORCANIA_TESTING=[on|off]` (default `off`): Build unit tests
@@ -65,7 +65,7 @@ $ make && sudo make install
 
 This will install Orcania's files under `/usr/local/` DESTDIR.
 
-If you want to force using inline implementation of `strstr`, you can append the build option `STRSTRFLAG=1`. This is useful if your systemdoesn't have an implementation of the function `strstr` but isn't listed as one in Orcania. Like FreeRTOS.
+If you want to force using inline implementation of `strstr`, you can append the build option `STRSTRFLAG=1`. This is useful if your system doesn't have an implementation of the function `strstr` but isn't listed as one in Orcania. Like FreeRTOS.
 
 ```
 $ cd src
