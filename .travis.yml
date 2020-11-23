@@ -30,6 +30,18 @@ jobs:
     - env: LABEL=cppcheck
       script:
         - cppcheck --force --enable=warning,missingInclude --error-exitcode=1 .
+# For PPPC64Le
+    - env: LABEL=linux-gcc
+      arch: ppc64le
+      compiler: gcc
+    - env: LABEL=lnux-clang
+      arch: ppc64le
+      compiler: clang
+    - env: LABEL=cppcheck
+      arch: ppc64le
+      script:
+        - cppcheck --force --enable=warning,missingInclude --error-exitcode=1 .
+
 script:
   - pushd test
   - make test
