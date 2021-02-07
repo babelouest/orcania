@@ -9,3 +9,4 @@ memory_test
 pointer_list_test
 orcania-cfg.h
 valgrind*.txt
+tools/base64url/base64url
