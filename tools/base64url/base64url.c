@@ -43,6 +43,7 @@ static void print_output(const unsigned char * output, size_t output_len, unsign
       fputc(output[i], stdout);
     }
   }
+  fputs("\n", stdout);
 }
 
 static void print_help(FILE * output, const char * command) {
