@@ -1,5 +1,9 @@
 # Orcania Changelog
 
+## 2.1.2
+
+- Add command-line tool `base64url` which is similar to GNU `base64` tool but for `base64url` format
+
 ## 2.1.1
 
 - Harmonize and fix license

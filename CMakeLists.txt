@@ -30,7 +30,7 @@ set(PROJECT_HOMEPAGE_URL "https://github.com/babelouest/orcania/")
 set(PROJECT_BUGREPORT_PATH "https://github.com/babelouest/orcania/issues")
 set(LIBRARY_VERSION_MAJOR "2")
 set(LIBRARY_VERSION_MINOR "1")
-set(LIBRARY_VERSION_PATCH "1")
+set(LIBRARY_VERSION_PATCH "2")
 set(LIBS "-lm")
 
 set(PROJECT_VERSION "${LIBRARY_VERSION_MAJOR}.${LIBRARY_VERSION_MINOR}.${LIBRARY_VERSION_PATCH}")
@@ -84,6 +84,7 @@ endif ()
 
 set(INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
+set(BASE64URL_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tools/base64url)
 
 include_directories(${INC_DIR})
 
@@ -154,6 +155,19 @@ if (BUILD_ORCANIA_DOCUMENTATION)
     else ()
         message(FATAL_ERROR "Doxygen is needed to build the documentation.")
     endif ()
+endif ()
+
+# build base64url
+
+option(BUILD_BASE64URL "Build base64url application." ON)
+
+if (BUILD_BASE64URL)
+    add_executable(base64url ${BASE64URL_DIR}/base64url.c ${INC_DIR}/orcania.h ${PROJECT_BINARY_DIR}/orcania-cfg.h)
+    set_target_properties(base64url PROPERTIES SKIP_BUILD_RPATH TRUE)
+    add_dependencies(base64url orcania)
+    target_link_libraries(base64url orcania ${LIBS})
+    install(TARGETS base64url RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+    install(FILES ${BASE64URL_DIR}/base64url.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 COMPONENT runtime)
 endif ()
 
 # tests
@@ -293,8 +307,9 @@ add_custom_target(dist_o
         COMMAND ${CMAKE_MAKE_PROGRAM} package_source)
 
 message(STATUS "Force inline implementation of strstr: ${WITH_STRSTR}")
-message(STATUS "Build static library: ${BUILD_STATIC}")
-message(STATUS "Build testing tree: ${BUILD_ULFIUS_TESTING}")
-message(STATUS "Install the header files: ${INSTALL_HEADER}")
-message(STATUS "Build RPM package: ${BUILD_RPM}")
-message(STATUS "Build documentation: ${BUILD_ORCANIA_DOCUMENTATION}")
+message(STATUS "Build static library:                  ${BUILD_STATIC}")
+message(STATUS "Build testing tree:                    ${BUILD_ORCANIA_TESTING}")
+message(STATUS "Install the header files:              ${INSTALL_HEADER}")
+message(STATUS "Build RPM package:                     ${BUILD_RPM}")
+message(STATUS "Build documentation:                   ${BUILD_ORCANIA_DOCUMENTATION}")
+message(STATUS "Build base64url application:           ${BUILD_BASE64URL}")
