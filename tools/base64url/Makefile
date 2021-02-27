@@ -57,10 +57,10 @@ manpage: base64url
 	help2man ./base64url -s 1 -n "Base64Url encode or decode FILE, or standard input, to standard output." > base64url.1
 
 test: base64url
-	echo plop | $(VALGRIND_COMMAND) ./base64url
-	$(VALGRIND_COMMAND) ./base64url -f README.md
-	$(VALGRIND_COMMAND) ./base64url -f error || true
-	echo ";error;" | $(VALGRIND_COMMAND) ./base64url -d || true
-	echo Z3J1dAo | $(VALGRIND_COMMAND) ./base64url -d
-	echo ZuJ1dAo | $(VALGRIND_COMMAND) ./base64url -d -i
-	echo plop | $(VALGRIND_COMMAND) ./base64url -w 2
+	echo plop | LD_LIBRARY_PATH=$(ORCANIA_LOCATION) $(VALGRIND_COMMAND) ./base64url
+	LD_LIBRARY_PATH=$(ORCANIA_LOCATION) $(VALGRIND_COMMAND) ./base64url -f README.md
+	LD_LIBRARY_PATH=$(ORCANIA_LOCATION) $(VALGRIND_COMMAND) ./base64url -f error || true
+	echo ";error;" | LD_LIBRARY_PATH=$(ORCANIA_LOCATION) $(VALGRIND_COMMAND) ./base64url -d || true
+	echo Z3J1dAo | LD_LIBRARY_PATH=$(ORCANIA_LOCATION) $(VALGRIND_COMMAND) ./base64url -d
+	echo ZuJ1dAo | LD_LIBRARY_PATH=$(ORCANIA_LOCATION) $(VALGRIND_COMMAND) ./base64url -d -i
+	echo plop | LD_LIBRARY_PATH=$(ORCANIA_LOCATION) $(VALGRIND_COMMAND) ./base64url -w 2
