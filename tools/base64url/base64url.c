@@ -26,7 +26,7 @@
 #include <ctype.h>
 #include <orcania.h>
 
-#define _BASE64URL_VERSION "0.5"
+#define _BASE64URL_VERSION "0.7"
 
 #define ACTION_ENCODE 0
 #define ACTION_DECODE 1
@@ -224,15 +224,19 @@ int main(int argc, char ** argv) {
                 print_output(output, output_len, 0, ignore);
               } else {
                 fprintf(stderr, "%s: invalid input\n", argv[0]);
+                ret = 1;
               }
             } else {
               fprintf(stderr, "%s: Error decoding\n", argv[0]);
+              ret = 1;
             }
           } else {
             fprintf(stderr, "%s: invalid input\n", argv[0]);
+            ret = 1;
           }
         } else {
           fprintf(stderr, "%s: invalid input\n", argv[0]);
+          ret = 1;
         }
       }
     } else {
@@ -243,5 +247,6 @@ int main(int argc, char ** argv) {
     o_free(input);
     o_free(output);
   }
+  o_free(file);
   return ret;
 }
