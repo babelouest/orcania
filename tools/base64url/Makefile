@@ -26,17 +26,18 @@ DESTDIR=/usr/local
 CFLAGS+=-Wall -I$(ORCANIA_INCLUDE) $(ADDITIONALFLAGS) $(CPPFLAGS)
 LIBS=-lc -lorcania -L$(ORCANIA_LOCATION)
 ORCANIA_LIBRARY=../../src/librhonabwy.so
+VALGRIND_COMMAND=valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --track-origins=yes
 
 all: base64url
 
 all: ADDITIONALFLAGS= -O3
 
 clean:
-	rm -f *.o base64url
-
-debug: ADDITIONALFLAGS=-DDEBUG -g -O0
+	rm -f *.o base64url *.b64
 
 debug: base64url
+
+debug: ADDITIONALFLAGS=-DDEBUG -g -O0
 
 $(ORCANIA_LIBRARY):
 	cd $(ORCANIA_LOCATION) && $(MAKE) debug
@@ -54,3 +55,12 @@ uninstall:
 
 manpage: base64url
 	help2man ./base64url -s 1 -n "Base64Url encode or decode FILE, or standard input, to standard output." > base64url.1
+
+test: base64url
+	echo plop | $(VALGRIND_COMMAND) ./base64url
+	$(VALGRIND_COMMAND) ./base64url -f README.md
+	$(VALGRIND_COMMAND) ./base64url -f error || true
+	echo ";error;" | $(VALGRIND_COMMAND) ./base64url -d || true
+	echo Z3J1dAo | $(VALGRIND_COMMAND) ./base64url -d
+	echo ZuJ1dAo | $(VALGRIND_COMMAND) ./base64url -d -i
+	echo plop | $(VALGRIND_COMMAND) ./base64url -w 2
