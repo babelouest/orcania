@@ -21,29 +21,36 @@
 
 LIBORCANIA_LOCATION=./src
 TESTS_LOCATION=./test
+BASE64URL_LOCATION=./tools/base64url/
 
 all: target
 
 target:
 	cd $(LIBORCANIA_LOCATION) && $(MAKE) $*
+	cd $(BASE64URL_LOCATION) && $(MAKE) $*
 
 debug:
 	cd $(LIBORCANIA_LOCATION) && $(MAKE) debug $*
+	cd $(BASE64URL_LOCATION) && $(MAKE) debug $*
 
 clean:
 	cd $(LIBORCANIA_LOCATION) && $(MAKE) clean
 	cd $(TESTS_LOCATION) && $(MAKE) clean
+	cd $(BASE64URL_LOCATION) && $(MAKE) clean
 	rm -rf doc/html/ doc/man/
 
 check:
 	cd $(LIBORCANIA_LOCATION) && $(MAKE) debug $*
 	cd $(TESTS_LOCATION) && $(MAKE) test $*
+	cd $(BASE64URL_LOCATION) && $(MAKE) test $*
 
 install:
 	cd $(LIBORCANIA_LOCATION) && $(MAKE) install $*
+	cd $(BASE64URL_LOCATION) && $(MAKE) install $*
 
 uninstall:
 	cd $(LIBORCANIA_LOCATION) && $(MAKE) uninstall $*
+	cd $(BASE64URL_LOCATION) && $(MAKE) uninstall $*
 
 doxygen:
 	doxygen doc/doxygen.cfg
