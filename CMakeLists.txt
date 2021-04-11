@@ -30,7 +30,7 @@ set(PROJECT_HOMEPAGE_URL "https://github.com/babelouest/orcania/")
 set(PROJECT_BUGREPORT_PATH "https://github.com/babelouest/orcania/issues")
 set(LIBRARY_VERSION_MAJOR "2")
 set(LIBRARY_VERSION_MINOR "2")
-set(LIBRARY_VERSION_PATCH "0")
+set(LIBRARY_VERSION_PATCH "1")
 set(LIBS "-lm")
 
 set(PROJECT_VERSION "${LIBRARY_VERSION_MAJOR}.${LIBRARY_VERSION_MINOR}.${LIBRARY_VERSION_PATCH}")

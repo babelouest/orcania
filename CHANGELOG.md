@@ -1,5 +1,9 @@
 # Orcania Changelog
 
+## 2.2.1
+
+- Add ld flags in liborcania.pc on static build
+
 ## 2.2.0
 
 - Add command-line tool `base64url` which is similar to GNU `base64` tool but for `base64url` format
