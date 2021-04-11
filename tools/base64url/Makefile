@@ -25,7 +25,7 @@ DESTDIR=/usr/local
 
 CFLAGS+=-Wall -I$(ORCANIA_INCLUDE) $(ADDITIONALFLAGS) $(CPPFLAGS)
 LIBS=-lc -lorcania -L$(ORCANIA_LOCATION)
-ORCANIA_LIBRARY=../../src/librhonabwy.so
+ORCANIA_LIBRARY=../../src/liborcania.so
 VALGRIND_COMMAND=valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --track-origins=yes
 
 all: base64url
