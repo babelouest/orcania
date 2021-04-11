@@ -36,7 +36,8 @@ VERSION_MAJOR=2
 VERSION_MINOR=2
 VERSION_PATCH=0
 OBJECTS=orcania.o memory.o base64.o
-LIBS=-lc -lm
+LIBSDEP=-lm
+LIBS=-lc
 
 SONAME = -soname
 ifeq ($(shell uname -s),Darwin)
@@ -79,12 +80,13 @@ $(PKGCONFIG_FILE):
 	@sed -i -e 's/@LIBRARY_VERSION@/$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)/g' $(PKGCONFIG_FILE)
 	@sed -i -e 's/@PKGCONF_REQ@/$(PKGCONF_REQ)/g' $(PKGCONFIG_FILE)
 	@sed -i -e 's/@PKGCONF_REQ_PRIVATE@/$(PKGCONF_REQ_PRIVATE)/g' $(PKGCONFIG_FILE)
+	@sed -i -e 's/@LIB_STATIC@/$(LIB_STATIC)/g' $(PKGCONFIG_FILE)
 
-liborcania.so: $(OBJECTS)
-	$(CC) -shared -fPIC -Wl,$(SONAME),$(OUTPUT) -o $(OUTPUT).$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH) $(OBJECTS) $(LIBS) $(LDFLAGS)
+liborcania.so: $(OBJECTS) $(PKGCONFIG_FILE)
+	$(CC) -shared -fPIC -Wl,$(SONAME),$(OUTPUT) -o $(OUTPUT).$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH) $(OBJECTS) $(LIBS) $(LIBSDEP) $(LDFLAGS)
 	ln -sf $(OUTPUT).$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH) $(OUTPUT)
 
-liborcania.a: $(OBJECTS)
+liborcania.a: $(OBJECTS) $(PKGCONFIG_FILE)
 	ar rcs liborcania.a $(OBJECTS)
 
 %.o: %.c $(CONFIG_FILE) ../include/orcania.h
@@ -93,7 +95,7 @@ liborcania.a: $(OBJECTS)
 clean:
 	rm -f *.o *.so *.a $(OUTPUT) $(OUTPUT).* $(CONFIG_FILE) $(PKGCONFIG_FILE)
 
-install: all $(PKGCONFIG_FILE)
+install: all
 	install $(OUTPUT).$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH) $(DESTDIR)/lib
 	mkdir -p $(DESTDIR)/lib/pkgconfig/ $(DESTDIR)/include
 	install -m644 $(PKGCONFIG_FILE) $(DESTDIR)/lib/pkgconfig/
@@ -127,6 +129,10 @@ static-debug: ADDITIONALFLAGS=-DDEBUG -g -O0
 
 static-debug: liborcania.a
 
+static-debug: LIB_STATIC=$(LIBSDEP)
+
 static: ADDITIONALFLAGS=-O3
 
 static: liborcania.a
+
+static: LIB_STATIC=$(LIBSDEP)
