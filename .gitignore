@@ -3,6 +3,7 @@
 *.so.*
 *.a
 *.pc
+*.log
 str_test
 split_test
 memory_test
