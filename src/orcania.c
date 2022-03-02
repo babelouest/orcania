@@ -74,12 +74,12 @@ char * str_replace(const char * source, const char * str_old, const char * str_n
     memcpy(pre, source, pre_len);
     pre[pre_len] = '\0';
     
-    next = str_replace(source+strlen(pre)+strlen(str_old), str_old, str_new);
+    next = str_replace(source+o_strlen(pre)+o_strlen(str_old), str_old, str_new);
     if (next == NULL) {
       o_free(pre);
       return NULL;
     }
-    len = ((ptr-source)+strlen(str_new)+strlen(next));
+    len = ((ptr-source)+o_strlen(str_new)+o_strlen(next));
     to_return = o_malloc((len+1)*sizeof(char));
     if (to_return == NULL) {
       o_free(pre);
@@ -361,7 +361,7 @@ static char *strnstr(const char *haystack, const char *needle, size_t len) {
   size_t needle_len;
 
   /* segfault here if needle is not NULL terminated */
-  if (0 == (needle_len = strlen(needle)))
+  if (0 == (needle_len = o_strlen(needle)))
     return (char *)haystack;
 
   for (i=0; i<=(int)(len - needle_len); i++) {
@@ -427,6 +427,14 @@ size_t o_strlen(const char * s) {
 }
 
 /**
+ * o_strnullempty
+ * return true if s is NULL or empty string, false otherwise
+ */
+int o_strnullempty(const char * s) {
+  return (s == NULL || s[0] == '\0');
+}
+
+/**
  * Split a string into an array of strings using separator string
  * return the number of elements to be returned, 0 on error
  * if return_array is not NULL, set the returned array in it
@@ -454,7 +462,7 @@ size_t split_string(const char * string, const char * separator, char *** return
         }
       }
       result++;
-      begin = token+strlen(separator);
+      begin = token+o_strlen(separator);
       token = strstr(begin, separator);
     }
     if (return_array != NULL) {
