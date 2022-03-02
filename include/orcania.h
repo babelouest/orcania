@@ -203,6 +203,12 @@ char * o_strrchr(const char * haystack, int c);
 const char * o_strrnchr(const char * haystack, size_t len, char c);
 
 /**
+ * o_strnullempty
+ * return true if s is NULL or empty string, false otherwise
+ */
+int o_strnullempty(const char * s);
+
+/**
  * o_strlen
  * a modified version of strlen that don't crash when s is NULL
  * @param s the string to calculate length
