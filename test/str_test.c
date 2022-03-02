@@ -40,10 +40,10 @@ END_TEST
 START_TEST(test_o_strndup)
 {
   char * str = "abcdeffedcba", * target;
-  target = o_strndup(str, strlen(str));
+  target = o_strndup(str, o_strlen(str));
   ck_assert_str_eq(target, str);
   o_free(target);
-  target = o_strndup(str, strlen(str)-2);
+  target = o_strndup(str, o_strlen(str)-2);
   ck_assert_str_eq(target, "abcdeffedc");
   o_free(target);
   ck_assert_ptr_eq(o_strndup(NULL, 12), NULL);
@@ -67,11 +67,11 @@ END_TEST
 START_TEST(test_o_strncmp)
 {
   char * str_1 = "abcdeffedcba", * str_2 = "abc", * str_3 = "abcdeffedcba";
-  ck_assert_int_eq(o_strncmp(str_1, str_3, strlen(str_3)), 0);
-  ck_assert_int_eq(o_strncmp(str_1, str_2, strlen(str_2)), 0);
-  ck_assert_int_ne(o_strncmp(str_1, str_2, strlen(str_1)), 0);
-  ck_assert_int_ne(o_strncmp(str_1, NULL, strlen(str_1)), 0);
-  ck_assert_int_ne(o_strncmp(NULL, str_1, strlen(str_1)), 0);
+  ck_assert_int_eq(o_strncmp(str_1, str_3, o_strlen(str_3)), 0);
+  ck_assert_int_eq(o_strncmp(str_1, str_2, o_strlen(str_2)), 0);
+  ck_assert_int_ne(o_strncmp(str_1, str_2, o_strlen(str_1)), 0);
+  ck_assert_int_ne(o_strncmp(str_1, NULL, o_strlen(str_1)), 0);
+  ck_assert_int_ne(o_strncmp(NULL, str_1, o_strlen(str_1)), 0);
   ck_assert_int_eq(o_strncmp(NULL, NULL, 0), 0);
   ck_assert_int_eq(o_strncmp(NULL, NULL, 1), 0);
 }
@@ -91,11 +91,11 @@ END_TEST
 START_TEST(test_o_strncasecmp)
 {
   char * str_1 = "abcdeFfedcba", * str_2 = "abC", * str_3 = "abCdeffedCba";
-  ck_assert_int_eq(o_strncasecmp(str_1, str_3, strlen(str_3)), 0);
-  ck_assert_int_eq(o_strncasecmp(str_1, str_2, strlen(str_2)), 0);
-  ck_assert_int_ne(o_strncasecmp(str_1, str_2, strlen(str_1)), 0);
-  ck_assert_int_ne(o_strncasecmp(str_1, NULL, strlen(str_1)), 0);
-  ck_assert_int_ne(o_strncasecmp(NULL, str_1, strlen(str_1)), 0);
+  ck_assert_int_eq(o_strncasecmp(str_1, str_3, o_strlen(str_3)), 0);
+  ck_assert_int_eq(o_strncasecmp(str_1, str_2, o_strlen(str_2)), 0);
+  ck_assert_int_ne(o_strncasecmp(str_1, str_2, o_strlen(str_1)), 0);
+  ck_assert_int_ne(o_strncasecmp(str_1, NULL, o_strlen(str_1)), 0);
+  ck_assert_int_ne(o_strncasecmp(NULL, str_1, o_strlen(str_1)), 0);
   ck_assert_int_eq(o_strncasecmp(NULL, NULL, 0), 0);
   ck_assert_int_eq(o_strncasecmp(NULL, NULL, 1), 0);
 }
@@ -137,12 +137,12 @@ END_TEST
 START_TEST(test_o_strnstr)
 {
   char * str_1 = "abcdeffedcba", * str_2 = "def", * str_3 = "bob";
-  ck_assert_ptr_ne(o_strnstr(str_1, str_2, strlen(str_1)), NULL);
-  ck_assert_ptr_eq(o_strnstr(str_1, str_3, strlen(str_1)), NULL);
+  ck_assert_ptr_ne(o_strnstr(str_1, str_2, o_strlen(str_1)), NULL);
+  ck_assert_ptr_eq(o_strnstr(str_1, str_3, o_strlen(str_1)), NULL);
   ck_assert_ptr_eq(o_strnstr(str_1, str_3, 0), NULL);
-  ck_assert_ptr_eq(o_strnstr(NULL, str_3, strlen(str_3)), NULL);
-  ck_assert_ptr_eq(o_strnstr(str_1, NULL, strlen(str_1)), NULL);
-  ck_assert_ptr_eq(o_strnstr(NULL, NULL, strlen(str_3)), NULL);
+  ck_assert_ptr_eq(o_strnstr(NULL, str_3, o_strlen(str_3)), NULL);
+  ck_assert_ptr_eq(o_strnstr(str_1, NULL, o_strlen(str_1)), NULL);
+  ck_assert_ptr_eq(o_strnstr(NULL, NULL, o_strlen(str_3)), NULL);
 }
 END_TEST
 
@@ -409,6 +409,20 @@ START_TEST(test_base64_len)
 }
 END_TEST
 
+START_TEST(test_str_null_or_empty)
+{
+  char a[1] = {0}, * b = NULL, c[] = "test";
+  
+  ck_assert_int_eq(1, o_strnullempty(a));
+  ck_assert_int_eq(1, o_strnullempty(b));
+  ck_assert_int_eq(0, o_strnullempty(c));
+  c[2] = '\0';
+  ck_assert_int_eq(0, o_strnullempty(c));
+  c[0] = '\0';
+  ck_assert_int_eq(1, o_strnullempty(c));
+}
+END_TEST
+
 static Suite *orcania_suite(void)
 {
 	Suite *s;
@@ -443,6 +457,7 @@ static Suite *orcania_suite(void)
 	tcase_add_test(tc_core, test_base64_len);
 	tcase_add_test(tc_core, test_string_array);
 	tcase_add_test(tc_core, test_string_array_has_trimmed_value);
+	tcase_add_test(tc_core, test_str_null_or_empty);
 	tcase_set_timeout(tc_core, 30);
 	suite_add_tcase(s, tc_core);
 
