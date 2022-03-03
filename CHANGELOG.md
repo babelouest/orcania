@@ -1,5 +1,9 @@
 # Orcania Changelog
 
+## 2.2.2
+
+- Add `o_strnullempty`
+
 ## 2.2.1
 
 - Add ld flags in liborcania.pc on static build
