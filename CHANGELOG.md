@@ -3,6 +3,7 @@
 ## 2.2.2
 
 - Add `o_strnullempty`
+- Breaking: `trimwhitespace` now returns `const char *`
 
 ## 2.2.1
 
