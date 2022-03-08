@@ -222,7 +222,7 @@ size_t o_strlen(const char * s);
  * @param str the string to trim
  * @return the trimmed str
  */
-char * trimwhitespace(char * str);
+const char * trimwhitespace(char * str);
 
 /**
  * Remove string of beginning and ending given character

@@ -525,7 +525,7 @@ char * string_array_join(const char ** array, const char * separator) {
 /**
  * Remove string of beginning and ending whitespaces
  */
-char * trimwhitespace(char * str) {
+const char * trimwhitespace(char * str) {
   char * end;
 
   if (str == NULL) {
@@ -643,7 +643,8 @@ int string_array_has_value_ncase(const char ** array, const char * needle, size_
  */
 int string_array_has_trimmed_value(const char ** array, const char * needle) {
   int i, to_return = 0;
-  char * duplicate_needle, * trimmed_needle, * duplicate_value, * trimmed_value;
+  char * duplicate_needle, * duplicate_value;
+  const char * trimmed_needle, * trimmed_value;
   if (array != NULL && needle != NULL) {
     duplicate_needle = o_strdup(needle);
     if (duplicate_needle != NULL) {
