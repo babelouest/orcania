@@ -1,5 +1,5 @@
-/*
- * Copyright (c) 2017-2020 Nicolas Mora <mail@babelouest.org>
+/**
+ * Copyright (c) 2017-2022 Nicolas Mora <mail@babelouest.org>
  * Copyright (c) 2009-2014 Petri Lehtinen <petri@digip.org>
  * Copyright (c) 2011-2012 Basile Starynkevitch <basile@starynkevitch.net>
  *
