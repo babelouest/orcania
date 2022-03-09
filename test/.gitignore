@@ -1,0 +1,5 @@
+valgrind*.txt
+str_test
+split_test
+memory_test
+pointer_list_test
