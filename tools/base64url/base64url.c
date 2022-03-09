@@ -2,7 +2,7 @@
  * 
  * base64url: Base64Url encode or decode FILE, or standard input, to standard output.
  * 
- * Copyright 2021 Nicolas Mora <mail@babelouest.org>
+ * Copyright 2021-2022 Nicolas Mora <mail@babelouest.org>
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU GENERAL PUBLIC LICENSE
@@ -26,7 +26,7 @@
 #include <ctype.h>
 #include <orcania.h>
 
-#define _BASE64URL_VERSION "0.7"
+#define _BASE64URL_VERSION "0.9"
 
 #define ACTION_ENCODE 0
 #define ACTION_DECODE 1
@@ -51,7 +51,7 @@ static void print_help(FILE * output, const char * command) {
   fprintf(output, "\n");
   fprintf(output, "Version %s\n", _BASE64URL_VERSION);
   fprintf(output, "\n");
-  fprintf(output, "Copyright 2021 Nicolas Mora <mail@babelouest.org>\n");
+  fprintf(output, "Copyright 2021-2022 Nicolas Mora <mail@babelouest.org>\n");
   fprintf(output, "\n");
   fprintf(output, "This program is free software; you can redistribute it and/or\n");
   fprintf(output, "modify it under the terms of the GPL 3\n");
@@ -157,7 +157,7 @@ int main(int argc, char ** argv) {
         break;
       case 'v':
         fprintf(stdout, "%s %s\n", argv[0], _BASE64URL_VERSION);
-        fprintf(stdout, "Copyright 2021 Nicolas Mora <mail@babelouest.org>\n");
+        fprintf(stdout, "Copyright 2021-2022 Nicolas Mora <mail@babelouest.org>\n");
         fprintf(stdout, "This program is free software; you can redistribute it and/or\n");
         fprintf(stdout, "modify it under the terms of the GPL 3\n");
         exit_loop = 1;
