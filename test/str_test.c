@@ -9,6 +9,79 @@
 #include <check.h>
 #include "orcania.h"
 
+static void run_test_base64(const unsigned char * src, size_t src_len, const unsigned char * b64_expected, size_t b64_expected_len, const unsigned char * b64url_expected, size_t b64url_expected_len) {
+  unsigned char out[256] = {0}, * out_m;
+  size_t out_len = 0;
+
+  memset(out, 0, 256);
+  out_len = 0;
+  ck_assert_int_eq(o_base64_encode(src, src_len, out, &out_len), 1);
+  ck_assert_int_eq(out_len, b64_expected_len);
+  ck_assert_str_eq((const char *)out, (const char *)b64_expected);
+
+  out_len = 0;
+  ck_assert_int_eq(o_base64_encode(src, src_len, NULL, &out_len), 1);
+  ck_assert_int_eq(out_len, b64_expected_len);
+  out_m = o_malloc(out_len);
+  out_len = 0;
+  ck_assert_int_eq(o_base64_encode(src, src_len, out_m, &out_len), 1);
+  o_free(out_m);
+
+  memset(out, 0, 256);
+  out_len = 0;
+  ck_assert_int_eq(o_base64_decode(b64_expected, b64_expected_len, out, &out_len), 1);
+  ck_assert_int_eq(out_len, src_len);
+  ck_assert_int_eq(0, memcmp(src, out, out_len));
+
+  out_len = 0;
+  ck_assert_int_eq(o_base64_decode(b64_expected, b64_expected_len, NULL, &out_len), 1);
+  ck_assert_int_eq(out_len, src_len);
+  out_m = o_malloc(out_len+2);
+  out_len = 0;
+  ck_assert_int_eq(o_base64_decode(b64_expected, b64_expected_len, out_m, &out_len), 1);
+  o_free(out_m);
+
+  memset(out, 0, 256);
+  out_len = 0;
+  ck_assert_int_eq(o_base64url_encode(src, src_len, out, &out_len), 1);
+  ck_assert_int_eq(out_len, b64url_expected_len);
+  ck_assert_str_eq((const char *)out, (const char *)b64url_expected);
+
+  out_len = 0;
+  ck_assert_int_eq(o_base64url_encode(src, src_len, NULL, &out_len), 1);
+  ck_assert_int_eq(out_len, b64url_expected_len);
+  out_m = o_malloc(out_len);
+  out_len = 0;
+  ck_assert_int_eq(o_base64url_encode(src, src_len, out_m, &out_len), 1);
+  o_free(out_m);
+
+  memset(out, 0, 256);
+  out_len = 0;
+  ck_assert_int_eq(o_base64url_decode(b64url_expected, b64url_expected_len, out, &out_len), 1);
+  ck_assert_int_eq(out_len, src_len);
+  ck_assert_int_eq(0, memcmp(src, out, out_len));
+
+  out_len = 0;
+  ck_assert_int_eq(o_base64url_decode(b64url_expected, b64url_expected_len, NULL, &out_len), 1);
+  ck_assert_int_eq(out_len, src_len);
+  out_m = o_malloc(out_len+2);
+  out_len = 0;
+  ck_assert_int_eq(o_base64url_decode(b64url_expected, b64url_expected_len, out_m, &out_len), 1);
+  o_free(out_m);
+
+  memset(out, 0, 256);
+  out_len = 0;
+  ck_assert_int_eq(o_base64_2_base64url(b64_expected, b64_expected_len, out, &out_len), 1);
+  ck_assert_int_eq(out_len, b64url_expected_len);
+  ck_assert_int_eq(0, memcmp(b64url_expected, out, out_len));
+  
+  memset(out, 0, 256);
+  out_len = 0;
+  ck_assert_int_eq(o_base64url_2_base64(b64url_expected, b64url_expected_len, out, &out_len), 1);
+  ck_assert_int_eq(out_len, b64_expected_len);
+  ck_assert_int_eq(0, memcmp(b64_expected, out, out_len));
+}
+
 START_TEST(test_str_replace)
 {
   char * str = "abcdeffedcba", * old_1 = "cd", * new_1 = "gh", * old_2 = "f", * target;
@@ -285,10 +358,11 @@ END_TEST
 
 START_TEST(test_base64)
 {
-  char * src = "source string", encoded[128], decoded[128], b64_error[] = ";error;";
+  char * src = "source string", encoded[128] = {0}, decoded[128] = {0}, b64_error[] = ";error;";
   size_t encoded_size, decoded_size;
   ck_assert_int_eq(o_base64_encode((unsigned char *)src, o_strlen(src), (unsigned char *)encoded, &encoded_size), 1);
   ck_assert_str_eq(encoded, "c291cmNlIHN0cmluZw==");
+  ck_assert_int_eq(20, encoded_size);
   ck_assert_int_eq(o_base64_decode((unsigned char *)encoded, encoded_size, (unsigned char *)decoded, &decoded_size), 1);
   ck_assert_str_eq(decoded, src);
   ck_assert_int_eq(decoded_size, o_strlen(src));
@@ -297,12 +371,67 @@ START_TEST(test_base64)
 }
 END_TEST
 
+START_TEST(test_base64_more_test_cases)
+{
+  const unsigned char message1[] = "C combines the power and performance of assembly language with the flexibility and ease-of-use of assembly language.",
+                      message2[] = "Bryan is in\nthe kitchen",
+                      message3[] = {0},
+                      message4[] = {0, 0},
+                      message5[] = {0, 0, 0},
+                      message6[] = {0x32, 0x0, 0x0},
+                      message7[] = "아쿠아 포니",
+                      message8[] = {0x76, 0x65, 0x72, 0x79, 0x00, 0x20, 0x75, 0x6e, 0x75, 0x73, 0x75, 0x61, 0x6c, 0x9b, 0x20, 0x73, 0x74, 0x72, 0x69, 0x6e, 0x67},
+                      message9[] = "\377",
+                      message10[] = "\377\377",
+                      message11[] = "\377\377\377",
+                      message12[] = "\xff\xef";
+  const unsigned char message1_b64[] = "QyBjb21iaW5lcyB0aGUgcG93ZXIgYW5kIHBlcmZvcm1hbmNlIG9mIGFzc2VtYmx5IGxhbmd1YWdlIHdpdGggdGhlIGZsZXhpYmlsaXR5IGFuZCBlYXNlLW9mLXVzZSBvZiBhc3NlbWJseSBsYW5ndWFnZS4=",
+                      message2_b64[] = "QnJ5YW4gaXMgaW4KdGhlIGtpdGNoZW4=",
+                      message3_b64[] = "AA==",
+                      message4_b64[] = "AAA=",
+                      message5_b64[] = "AAAA",
+                      message6_b64[] = "MgAA",
+                      message7_b64[] = "7JWE7L+g7JWEIO2PrOuLiAA=",
+                      message8_b64[] = "dmVyeQAgdW51c3VhbJsgc3RyaW5n",
+                      message9_b64[] = "/w==",
+                      message10_b64[] = "//8=",
+                      message11_b64[] = "////",
+                      message12_b64[] = "/+8=";
+  const unsigned char message1_b64url[] = "QyBjb21iaW5lcyB0aGUgcG93ZXIgYW5kIHBlcmZvcm1hbmNlIG9mIGFzc2VtYmx5IGxhbmd1YWdlIHdpdGggdGhlIGZsZXhpYmlsaXR5IGFuZCBlYXNlLW9mLXVzZSBvZiBhc3NlbWJseSBsYW5ndWFnZS4",
+                      message2_b64url[] = "QnJ5YW4gaXMgaW4KdGhlIGtpdGNoZW4",
+                      message3_b64url[] = "AA",
+                      message4_b64url[] = "AAA",
+                      message5_b64url[] = "AAAA",
+                      message6_b64url[] = "MgAA",
+                      message7_b64url[] = "7JWE7L-g7JWEIO2PrOuLiAA",
+                      message8_b64url[] = "dmVyeQAgdW51c3VhbJsgc3RyaW5n",
+                      message9_b64url[] = "_w",
+                      message10_b64url[] = "__8",
+                      message11_b64url[] = "____",
+                      message12_b64url[] = "_-8";
+  
+  run_test_base64(message1, o_strlen((const char *)message1), message1_b64, o_strlen((const char *)message1_b64), message1_b64url, o_strlen((const char *)message1_b64url));
+  run_test_base64(message2, o_strlen((const char *)message2), message2_b64, o_strlen((const char *)message2_b64), message2_b64url, o_strlen((const char *)message2_b64url));
+  run_test_base64(message3, sizeof(message3), message3_b64, o_strlen((const char *)message3_b64), message3_b64url, o_strlen((const char *)message3_b64url));
+  run_test_base64(message4, sizeof(message4), message4_b64, o_strlen((const char *)message4_b64), message4_b64url, o_strlen((const char *)message4_b64url));
+  run_test_base64(message5, sizeof(message5), message5_b64, o_strlen((const char *)message5_b64), message5_b64url, o_strlen((const char *)message5_b64url));
+  run_test_base64(message6, sizeof(message6), message6_b64, o_strlen((const char *)message6_b64), message6_b64url, o_strlen((const char *)message6_b64url));
+  run_test_base64(message7, sizeof(message7), message7_b64, o_strlen((const char *)message7_b64), message7_b64url, o_strlen((const char *)message7_b64url));
+  run_test_base64(message8, sizeof(message8), message8_b64, o_strlen((const char *)message8_b64), message8_b64url, o_strlen((const char *)message8_b64url));
+  run_test_base64(message9, o_strlen((const char *)message9), message9_b64, o_strlen((const char *)message9_b64), message9_b64url, o_strlen((const char *)message9_b64url));
+  run_test_base64(message10, o_strlen((const char *)message10), message10_b64, o_strlen((const char *)message10_b64), message10_b64url, o_strlen((const char *)message10_b64url));
+  run_test_base64(message11, o_strlen((const char *)message11), message11_b64, o_strlen((const char *)message11_b64), message11_b64url, o_strlen((const char *)message11_b64url));
+  run_test_base64(message12, o_strlen((const char *)message12), message12_b64, o_strlen((const char *)message12_b64), message12_b64url, o_strlen((const char *)message12_b64url));
+}
+END_TEST
+
 START_TEST(test_base64url)
 {
-  char * src = "source string", encoded[128], decoded[128], b64_error[] = ";error;";
+  char * src = "source string", encoded[128] = {0}, decoded[128] = {0}, b64_error[] = ";error;";
   size_t encoded_size, decoded_size;
   ck_assert_int_eq(o_base64url_encode((unsigned char *)src, o_strlen(src), (unsigned char *)encoded, &encoded_size), 1);
   ck_assert_str_eq(encoded, "c291cmNlIHN0cmluZw");
+  ck_assert_int_eq(18, encoded_size);
   ck_assert_int_eq(o_base64url_decode((unsigned char *)encoded, encoded_size, (unsigned char *)decoded, &decoded_size), 1);
   ck_assert_str_eq(decoded, src);
   ck_assert_int_eq(decoded_size, o_strlen(src));
@@ -347,7 +476,7 @@ END_TEST
 
 START_TEST(test_base64_len)
 {
-  char * src1 = "a", * src2 = "aa", * src3 = "aaa", * src4 = "aaaa", * src5 = "aaaaa", * src = "source string", encoded[128];
+  char * src1 = "a", * src2 = "aa", * src3 = "aaa", * src4 = "aaaa", * src5 = "aaaaa", * src = "source string", encoded[128] = {0};
   char * src1_enc = "YQ==", * src2_enc = "YWE=", * src3_enc = "YWFh", *src4_enc = "YWFhYQ==", *src5_enc = "YWFhYWE=";
   size_t encoded_size, decoded_size;
   
@@ -362,7 +491,7 @@ START_TEST(test_base64_len)
   ck_assert_int_eq(o_base64url_encode((unsigned char *)src, o_strlen(src), (unsigned char *)encoded, &encoded_size), 1);
   ck_assert_int_eq(o_base64url_decode((unsigned char *)encoded, encoded_size, NULL, &decoded_size), 1);
   ck_assert_int_eq(decoded_size, 13);
-  
+
   ck_assert_int_eq(o_base64_encode((unsigned char *)src1, o_strlen(src1), NULL, &encoded_size), 1);
   ck_assert_int_eq(encoded_size, 4);
   ck_assert_int_eq(o_base64_encode((unsigned char *)src2, o_strlen(src2), NULL, &encoded_size), 1);
@@ -451,6 +580,7 @@ static Suite *orcania_suite(void)
 	tcase_add_test(tc_core, test_trimwhitespace);
 	tcase_add_test(tc_core, test_trimcharacter);
 	tcase_add_test(tc_core, test_base64);
+	tcase_add_test(tc_core, test_base64_more_test_cases);
 	tcase_add_test(tc_core, test_base64url);
 	tcase_add_test(tc_core, test_base64url_2_base64);
 	tcase_add_test(tc_core, test_base64_2_base64url);
