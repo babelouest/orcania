@@ -3,7 +3,8 @@
 ## 2.2.2
 
 - Add `o_strnullempty`
-- Breaking: `trimwhitespace` now returns `const char *`
+- Breaking: `trimwhitespace` now returns `const char *` instead of `char *`, might give compiler warning
+- Refactor `o_base64*` functions
 
 ## 2.2.1
 
