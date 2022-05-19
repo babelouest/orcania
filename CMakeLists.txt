@@ -224,6 +224,18 @@ endif ()
 
 # install target
 
+if(IS_ABSOLUTE "${CMAKE_INSTALL_INCLUDEDIR}")
+  set(PKGCONFIG_TARGET_INCLUDES "${CMAKE_INSTALL_INCLUDEDIR}")
+else()
+  set(PKGCONFIG_TARGET_INCLUDES "\${prefix}/${CMAKE_INSTALL_INCLUDEDIR}")
+endif()
+
+if(IS_ABSOLUTE "${CMAKE_INSTALL_LIBDIR}")
+  set(PKGCONFIG_TARGET_LIBDIR "${CMAKE_INSTALL_LIBDIR}")
+else()
+  set(PKGCONFIG_TARGET_LIBDIR "\${prefix}/${CMAKE_INSTALL_LIBDIR}")
+endif()
+
 option(INSTALL_HEADER "Install the header files" ON) # Install orcania.h or not
 
 configure_file(liborcania.pc.in liborcania.pc @ONLY)
