@@ -1,5 +1,10 @@
 # Orcania Changelog
 
+## 2.3.0
+
+- Add `o_base64_encode_alloc`, `o_base64_decode_alloc`, `o_base64url_encode_alloc`, `o_base64url_decode_alloc`, `o_base64url_2_base64_alloc`, `o_base64_2_base64url_alloc`
+- Fix pkg-config file with absolute path for `CMAKE_INSTALL_{INCLUDE,LIB}DIR`, Closes #27
+
 ## 2.2.2
 
 - Add `o_strnullempty`
