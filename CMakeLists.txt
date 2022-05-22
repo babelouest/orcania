@@ -60,7 +60,8 @@ set(LIBRARY_SOVERSION "${LIBRARY_VERSION_MAJOR}.${LIBRARY_VERSION_MINOR}")
 
 # cmake modules
 
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules)
+set(O_CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules)
+list(APPEND CMAKE_MODULE_PATH "${O_CMAKE_MODULE_PATH}")
 
 include(GNUInstallDirs)
 include(CheckSymbolExists)
@@ -207,7 +208,7 @@ if (BUILD_ORCANIA_TESTING)
                 pointer_list_test)
 
         configure_file(
-                "${CMAKE_MODULE_PATH}/CTestCustom.cmake.in"
+                "${O_CMAKE_MODULE_PATH}/CTestCustom.cmake.in"
                 "${CMAKE_CURRENT_BINARY_DIR}/CTestCustom.cmake"
                 @ONLY)
 
@@ -265,7 +266,7 @@ endif ()
 
 if (NOT TARGET uninstall)
     configure_file(
-            "${CMAKE_MODULE_PATH}/CMakeUninstall.cmake.in"
+            "${O_CMAKE_MODULE_PATH}/CMakeUninstall.cmake.in"
             "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
             IMMEDIATE @ONLY)
     add_custom_target(uninstall
