@@ -99,9 +99,9 @@ set(LIB_SRC
 # Enable option WITH_STRSTR by default if the system doesn't provide a strnstr.
 check_symbol_exists(strnstr "string.h" HAVE_STRNSTR)
 if (NOT WITH_STRSTR)
-	option(WITH_STRSTR "Use inline implementation of strstr" ON)
+    option(WITH_STRSTR "Use inline implementation of strstr" ON)
 else ()
-	option(WITH_STRSTR "Use inline implementation of strstr" OFF)
+    option(WITH_STRSTR "Use inline implementation of strstr" OFF)
 endif ()
 
 if (WITH_STRSTR)
