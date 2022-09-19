@@ -128,7 +128,7 @@ option(BUILD_STATIC "Build static library." OFF)
 
 if (BUILD_STATIC)
     add_library(orcania_static STATIC ${LIB_SRC})
-    target_compile_definitions(orcania_static PUBLIC -DO_STATIC_LIBRARY ${DEFS})
+    target_compile_definitions(orcania_static PUBLIC -DO_STATIC_LIBRARY)
     set_target_properties(orcania_static PROPERTIES
             OUTPUT_NAME orcania)
 endif ()
@@ -136,7 +136,6 @@ endif ()
 # shared library
 
 add_library(orcania SHARED ${LIB_SRC})
-target_compile_definitions(orcania PUBLIC ${DEFS})
 if (NOT MSVC)
     set_target_properties(orcania PROPERTIES
             COMPILE_OPTIONS -Wextra
