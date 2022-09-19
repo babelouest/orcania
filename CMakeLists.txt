@@ -82,9 +82,6 @@ if (_GNU_SOURCE)
     add_definitions(-D_GNU_SOURCE)
 endif ()
 
-
-
-
 # directories and source
 
 set(INC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
