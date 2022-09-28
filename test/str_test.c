@@ -374,9 +374,12 @@ START_TEST(test_string_array)
 	
 	ck_assert_int_eq(size, 6);
 	ck_assert_int_eq(string_array_has_value((const char **)array, "Alice"), 1);
+	ck_assert_int_eq(string_array_has_value((const char **)array, "Ali"), 0);
 	ck_assert_int_eq(string_array_has_value((const char **)array, "Mallory"), 0);
 	ck_assert_int_eq(string_array_has_value_case((const char **)array, "alice"), 1);
+	ck_assert_int_eq(string_array_has_value_case((const char **)array, "ali"), 0);
 	ck_assert_int_eq(string_array_has_value_case((const char **)array, "mallory"), 0);
+	ck_assert_int_eq(string_array_has_value_n((const char **)array, "Ali", 3), 1);
 	ck_assert_int_eq(string_array_has_value_n((const char **)array, "Aliceeee", 5), 1);
 	ck_assert_int_eq(string_array_has_value_n((const char **)array, "Malloryyyy", 7), 0);
 	ck_assert_int_eq(string_array_has_value_ncase((const char **)array, "aliceeee", 5), 1);
