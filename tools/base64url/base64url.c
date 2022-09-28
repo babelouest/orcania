@@ -109,6 +109,10 @@ static unsigned char * get_stdin_content(size_t * length) {
     (*length) += read_length;
     out[(*length)] = '\0';
   }
+  if ((*length) && (out[(*length)-1] == '\n' || out[(*length)-1] == '\r')) {
+    out[(*length)-1] = '\0';
+    (*length)--;
+  }
   return out;
 }
 
