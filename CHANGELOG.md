@@ -1,5 +1,9 @@
 # Orcania Changelog
 
+## 2.3.1
+
+- Minor bugfixes
+
 ## 2.3.0
 
 - Add `o_base64_encode_alloc`, `o_base64_decode_alloc`, `o_base64url_encode_alloc`, `o_base64url_decode_alloc`, `o_base64url_2_base64_alloc`, `o_base64_2_base64url_alloc`
