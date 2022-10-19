@@ -112,29 +112,50 @@ include_directories(${PROJECT_BINARY_DIR})
 
 # static library
 
+option(BUILD_SHARED "Build shared library." ON)
 option(BUILD_STATIC "Build static library." OFF)
+
+if (NOT BUILD_STATIC AND NOT BUILD_SHARED)
+    message(FATAL_ERROR "BUILD_SHARED and BUILD_STATIC cannot be both disabled")
+endif ()
 
 if (BUILD_STATIC)
     add_library(orcania_static STATIC ${LIB_SRC})
+    set_target_properties(orcania_static PROPERTIES
+            PUBLIC_HEADER "${INC_DIR}/orcania.h;${PROJECT_BINARY_DIR}/orcania-cfg.h")
     target_compile_definitions(orcania_static PUBLIC -DO_STATIC_LIBRARY)
     set_target_properties(orcania_static PROPERTIES
             OUTPUT_NAME orcania)
+    if (MSVC)
+        set_target_properties(orcania_static PROPERTIES
+                OUTPUT_NAME orcania-static)
+    else ()
+        set_target_properties(orcania_static PROPERTIES
+            COMPILE_OPTIONS "-Wextra;-Wconversion")
+    endif ()
+    set(orcania_lib orcania_static)
 endif ()
 
 # shared library
 
-add_library(orcania SHARED ${LIB_SRC})
-if (NOT MSVC)
+if (BUILD_SHARED)
+    add_library(orcania SHARED ${LIB_SRC})
     set_target_properties(orcania PROPERTIES
-            COMPILE_OPTIONS "-Wextra;-Wconversion"
             PUBLIC_HEADER "${INC_DIR}/orcania.h;${PROJECT_BINARY_DIR}/orcania-cfg.h"
             VERSION "${LIBRARY_VERSION}"
-            SOVERSION "${LIBRARY_SOVERSION}")
-endif()
-if (WIN32)
-    set_target_properties(orcania PROPERTIES SUFFIX "-${LIBRARY_VERSION_MAJOR}.dll")
+            SOVERSION "${LIBRARY_SOVERSION}"
+            WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+    if (NOT MSVC)
+        set_target_properties(orcania PROPERTIES
+            COMPILE_OPTIONS "-Wextra;-Wconversion")
+    endif ()
+    if (WIN32)
+        set_target_properties(orcania PROPERTIES
+                    SUFFIX "-${LIBRARY_VERSION_MAJOR}.dll")
+    endif ()
+    target_link_libraries(orcania ${LIBS})
+    set(orcania_lib orcania)
 endif ()
-target_link_libraries(orcania ${LIBS})
 
 # documentation
 
@@ -164,9 +185,12 @@ option(BUILD_BASE64URL "Build base64url application." ON)
 
 if (BUILD_BASE64URL)
     add_executable(base64url ${BASE64URL_DIR}/base64url.c ${INC_DIR}/orcania.h ${PROJECT_BINARY_DIR}/orcania-cfg.h)
-    set_target_properties(base64url PROPERTIES SKIP_BUILD_RPATH TRUE COMPILE_OPTIONS "-Wextra;-Wconversion")
-    add_dependencies(base64url orcania)
-    target_link_libraries(base64url orcania ${LIBS})
+    set_target_properties(base64url PROPERTIES SKIP_BUILD_RPATH TRUE)
+    if (NOT MSVC)
+        set_target_properties(base64url COMPILE_OPTIONS "-Wextra;-Wconversion")
+    endif ()
+    add_dependencies(base64url ${orcania_lib})
+    target_link_libraries(base64url ${orcania_lib} ${LIBS})
     install(TARGETS base64url RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
     install(FILES ${BASE64URL_DIR}/base64url.1 DESTINATION ${CMAKE_INSTALL_MANDIR}/man1 COMPONENT runtime)
 endif ()
@@ -244,9 +268,12 @@ configure_file(liborcania.pc.in liborcania.pc @ONLY)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/liborcania.pc
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
 
-set(TARGETS orcania)
+set(TARGETS )
+if (BUILD_SHARED)
+    list(APPEND TARGETS orcania)
+endif ()
 if (BUILD_STATIC)
-    set(TARGETS ${TARGETS} orcania_static)
+    list(APPEND TARGETS orcania_static)
 endif ()
 
 if (INSTALL_HEADER)
@@ -320,6 +347,7 @@ add_custom_target(dist_o
         COMMAND ${CMAKE_MAKE_PROGRAM} package_source)
 
 message(STATUS "Force inline implementation of strstr: ${WITH_STRSTR}")
+message(STATUS "Build shared library:                  ${BUILD_SHARED}")
 message(STATUS "Build static library:                  ${BUILD_STATIC}")
 message(STATUS "Build testing tree:                    ${BUILD_ORCANIA_TESTING}")
 message(STATUS "Install the header files:              ${INSTALL_HEADER}")
