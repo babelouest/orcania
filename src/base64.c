@@ -7,7 +7,6 @@
  */
 
 #include <string.h>
-#include <math.h>
 #include "orcania.h"
 
 static const unsigned char base64_table[65] =
