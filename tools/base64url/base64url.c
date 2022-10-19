@@ -19,12 +19,19 @@
  * 
  */
 
-#include <unistd.h>
 #include <stdio.h>
 #include <string.h>
 #include <getopt.h>
 #include <ctype.h>
 #include <orcania.h>
+
+#ifdef _MSC_VER
+#include <io.h>
+#include <BaseTsd.h>
+typedef SSIZE_T ssize_t;
+#else
+#include <unistd.h>
+#endif
 
 #define _BASE64URL_VERSION "0.9"
 
