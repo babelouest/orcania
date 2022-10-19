@@ -40,6 +40,8 @@ typedef SSIZE_T ssize_t;
 
 #define DEFAULT_WRAP 76
 
+#define SIZE 100
+
 static void print_output(const unsigned char * output, size_t output_len, unsigned long int wrap, short int ignore) {
   size_t i;
   for (i=0; i<output_len; i++) {
@@ -105,12 +107,11 @@ static unsigned char * get_file_content(const char * file_path, size_t * length)
 }
 
 static unsigned char * get_stdin_content(size_t * length) {
-  int size = 100;
-  unsigned char * out = NULL, buffer[size];
+  unsigned char * out = NULL, buffer[SIZE];
   ssize_t read_length;
 
   *length = 0;
-  while ((read_length = read(0, buffer, (size_t)size)) > 0) {
+  while ((read_length = read(0, buffer, SIZE)) > 0) {
     out = o_realloc(out, (*length)+(size_t)read_length+1);
     memcpy(out+(*length), buffer, (size_t)read_length);
     (*length) += (size_t)read_length;
