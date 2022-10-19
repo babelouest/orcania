@@ -233,6 +233,7 @@ const char * trimwhitespace(char * str);
  * Remove string of beginning and ending given character
  * the string str will be modified
  * @param str the string to trim
+ * @param to_remove the character to trim
  * @return the trimmed str
  */
 char * trimcharacter(char * str, char to_remove);
@@ -321,6 +322,7 @@ int string_array_has_value_case(const char ** array, const char * needle);
  * Check if an array of string has a specified value, case sensitive, limit to len characters
  * @param array an array of char * with NULL in the last element
  * @param needle the value to look for in array
+ * @param len the length of needle
  * @return 1 if needle exists in array, 0 otherwise
  */
 int string_array_has_value_n(const char ** array, const char * needle, size_t len);
@@ -329,6 +331,7 @@ int string_array_has_value_n(const char ** array, const char * needle, size_t le
  * Check if an array of string has a specified value, case insensitive, limit to len characters
  * @param array an array of char * with NULL in the last element
  * @param needle the value to look for in array
+ * @param len the length of needle
  * @return 1 if needle exists in array, 0 otherwise
  */
 int string_array_has_value_ncase(const char ** array, const char * needle, size_t len);
@@ -527,11 +530,11 @@ void o_get_alloc_funcs(o_malloc_t * malloc_fn, o_realloc_t * realloc_fn, o_free_
 
 /**
  * o_base64_encode - Base64 encode
- * @src: Data to be encoded
- * @len: Length of the data to be encoded
- * @out: Pointer to output variable, you might add up to 2 bytes to out length than expected for safety
- * @out_len: Pointer to output length variable
- * Returns: 1 on success, 0 on failure
+ * @param src Data to be encoded
+ * @param len Length of the data to be encoded
+ * @param out Pointer to output variable, you might add up to 2 bytes to out length than expected for safety
+ * @param out_len Pointer to output length variable
+ * @return 1 on success, 0 on failure
  *
  * The nul terminator is not included in out_len.
  */
@@ -539,11 +542,11 @@ int o_base64_encode(const unsigned char * src, size_t len, unsigned char * out, 
 
 /**
  * o_base64_decode - Base64 decode
- * @src: Data to be decoded
- * @len: Length of the data to be decoded
- * @out: Pointer to output variable, you might add up to 2 bytes to out length than expected for safety
- * @out_len: Pointer to output length variable
- * Returns: 1 on success, 0 on failure
+ * @param src Data to be decoded
+ * @param len Length of the data to be decoded
+ * @param out Pointer to output variable, you might add up to 2 bytes to out length than expected for safety
+ * @param out_len Pointer to output length variable
+ * @return 1 on success, 0 on failure
  *
  * The nul terminator is not included in out_len.
  */
@@ -551,11 +554,11 @@ int o_base64_decode(const unsigned char *src, size_t len, unsigned char * out, s
 
 /**
  * o_base64url_encode - Base64url encode (url format)
- * @src: Data to be encoded
- * @len: Length of the data to be encoded
- * @out: Pointer to output variable, you might add up to 2 bytes to out length than expected for safety
- * @out_len: Pointer to output length variable
- * Returns: 1 on success, 0 on failure
+ * @param src Data to be encoded
+ * @param len Length of the data to be encoded
+ * @param out Pointer to output variable, you might add up to 2 bytes to out length than expected for safety
+ * @param out_len Pointer to output length variable
+ * @return 1 on success, 0 on failure
  *
  * The nul terminator is not included in out_len.
  */
@@ -563,11 +566,11 @@ int o_base64url_encode(const unsigned char * src, size_t len, unsigned char * ou
 
 /**
  * o_base64url_decode - Base64 decode (url format)
- * @src: Data to be decoded
- * @len: Length of the data to be decoded
- * @out: Pointer to output variable, you might add up to 2 bytes to out length than expected for safety
- * @out_len: Pointer to output length variable
- * Returns: 1 on success, 0 on failure
+ * @param src Data to be decoded
+ * @param len Length of the data to be decoded
+ * @param out Pointer to output variable, you might add up to 2 bytes to out length than expected for safety
+ * @param out_len Pointer to output length variable
+ * @return 1 on success, 0 on failure
  *
  * The nul terminator is not included in out_len.
  */
@@ -575,11 +578,11 @@ int o_base64url_decode(const unsigned char *src, size_t len, unsigned char * out
 
 /**
  * o_base64url_2_base64 - Convert a base64 url format to base64 format - Does not check if src is a valid base64
- * @src: Data to be decoded
- * @len: Length of the data to be decoded
- * @out: Pointer to output variable
- * @out_len: Pointer to output length variable
- * Returns: 1 on success, 0 on failure
+ * @param src Data to be decoded
+ * @param len Length of the data to be decoded
+ * @param out Pointer to output variable
+ * @param out_len Pointer to output length variable
+ * @return 1 on success, 0 on failure
  *
  * The nul terminator is not included in out_len.
  * out must be at least len+2
@@ -588,11 +591,11 @@ int o_base64url_2_base64(const unsigned char *src, size_t len, unsigned char * o
 
 /**
  * o_base64_2_base64url - Convert a base64 url format to base64 format - Does not check if src is a valid base64url
- * @src: Data to be decoded
- * @len: Length of the data to be decoded
- * @out: Pointer to output variable
- * @out_len: Pointer to output length variable
- * Returns: 1 on success, 0 on failure
+ * @param src Data to be decoded
+ * @param len Length of the data to be decoded
+ * @param out Pointer to output variable
+ * @param out_len Pointer to output length variable
+ * @return 1 on success, 0 on failure
  *
  * The nul terminator is not included in out_len.
  * out must be at least len+2
@@ -601,10 +604,10 @@ int o_base64_2_base64url(const unsigned char *src, size_t len, unsigned char * o
 
 /**
  * o_base64_encode_alloc - Base64 encode - allocate data result in a struct _o_datum * 
- * @param src: Data to be encoded
- * @param len: Length of the data to be encoded
- * @param dat: Pointer to a struct _o_datum * to store result
- * @return : 1 on success, 0 on failure
+ * @param src Data to be encoded
+ * @param len Length of the data to be encoded
+ * @param dat Pointer to a struct _o_datum * to store result
+ * @return 1 on success, 0 on failure
  *
  * dat->data must be o_free'd after use
  * The nul terminator is not included in dat->data.
@@ -613,10 +616,10 @@ int o_base64_encode_alloc(const unsigned char * src, size_t len, struct _o_datum
 
 /**
  * o_base64_decode_alloc - Base64 decode - allocate data result in a struct _o_datum * 
- * @param src: Data to be decoded
- * @param len: Length of the data to be decoded
- * @param dat: Pointer to a struct _o_datum * to store result
- * @return : 1 on success, 0 on failure
+ * @param src Data to be decoded
+ * @param len Length of the data to be decoded
+ * @param dat Pointer to a struct _o_datum * to store result
+ * @return 1 on success, 0 on failure
  *
  * dat->data must be o_free'd after use
  * The nul terminator is not included in dat->data.
@@ -625,10 +628,10 @@ int o_base64_decode_alloc(const unsigned char * src, size_t len, struct _o_datum
 
 /**
  * o_base64url_encode_alloc - Base64url encode (url format) - allocate data result in a struct _o_datum * 
- * @param src: Data to be encoded
- * @param len: Length of the data to be encoded
- * @param dat: Pointer to a struct _o_datum * to store result
- * @return : 1 on success, 0 on failure
+ * @param src Data to be encoded
+ * @param len Length of the data to be encoded
+ * @param dat Pointer to a struct _o_datum * to store result
+ * @return 1 on success, 0 on failure
  *
  * dat->data must be o_free'd after use
  * The nul terminator is not included in dat->data.
@@ -637,10 +640,10 @@ int o_base64url_encode_alloc(const unsigned char * src, size_t len, struct _o_da
 
 /**
  * o_base64url_decode_alloc - Base64 decode (url format) - allocate data result in a struct _o_datum * 
- * @param src: Data to be decoded
- * @param len: Length of the data to be decoded
- * @param dat: Pointer to a struct _o_datum * to store result
- * @return : 1 on success, 0 on failure
+ * @param src Data to be decoded
+ * @param len Length of the data to be decoded
+ * @param dat Pointer to a struct _o_datum * to store result
+ * @return 1 on success, 0 on failure
  *
  * dat->data must be o_free'd after use
  * The nul terminator is not included in dat->data.
@@ -649,10 +652,10 @@ int o_base64url_decode_alloc(const unsigned char * src, size_t len, struct _o_da
 
 /**
  * o_base64url_2_base64_alloc - Convert a base64 url format to base64 format - allocate data result in a struct _o_datum * 
- * @param src: Data to be decoded
- * @param len: Length of the data to be decoded
- * @param dat: Pointer to a struct _o_datum * to store result
- * @return : 1 on success, 0 on failure
+ * @param src Data to be decoded
+ * @param len Length of the data to be decoded
+ * @param dat Pointer to a struct _o_datum * to store result
+ * @return 1 on success, 0 on failure
  *
  * dat->data must be o_free'd after use
  * The nul terminator is not included in dat->data.
@@ -661,10 +664,10 @@ int o_base64url_2_base64_alloc(const unsigned char * src, size_t len, struct _o_
 
 /**
  * o_base64_2_base64url_alloc - Convert a base64 format to base64 url format - allocate data result in a struct _o_datum * 
- * @param src: Data to be decoded
- * @param len: Length of the data to be decoded
- * @param dat: Pointer to a struct _o_datum * to store result
- * @return : 1 on success, 0 on failure
+ * @param src Data to be decoded
+ * @param len Length of the data to be decoded
+ * @param dat Pointer to a struct _o_datum * to store result
+ * @return 1 on success, 0 on failure
  *
  * dat->data must be o_free'd after use
  * The nul terminator is not included in dat->data.
