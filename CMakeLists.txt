@@ -296,25 +296,27 @@ else ()
             ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
 endif ()
 
-set(ORCANIA_INSTALL_CMAKEDIR_DEFAULT "${CMAKE_INSTALL_LIBDIR}/cmake/Orcania")
-if (WIN32 AND NOT MINGW)
-    set(ORCANIA_INSTALL_CMAKEDIR_DEFAULT "cmake")
+if (INSTALL_HEADER)
+    set(ORCANIA_INSTALL_CMAKEDIR_DEFAULT "${CMAKE_INSTALL_LIBDIR}/cmake/Orcania")
+    if (WIN32 AND NOT MINGW)
+        set(ORCANIA_INSTALL_CMAKEDIR_DEFAULT "cmake")
+    endif ()
+    set(ORCANIA_INSTALL_CMAKEDIR ${ORCANIA_INSTALL_CMAKEDIR_DEFAULT} CACHE STRING "Location where to install the cmake config files")
+
+    install(EXPORT OrcaniaExports DESTINATION "${ORCANIA_INSTALL_CMAKEDIR}"
+            NAMESPACE "Orcania::"
+            FILE "OrcaniaTargets.cmake")
+
+    configure_package_config_file(cmake-modules/OrcaniaConfig.cmake.in OrcaniaConfig.cmake
+            INSTALL_DESTINATION "${ORCANIA_INSTALL_CMAKEDIR}")
+    write_basic_package_version_file(OrcaniaConfigVersion.cmake
+            COMPATIBILITY AnyNewerVersion)
+
+    install(FILES
+                "${PROJECT_BINARY_DIR}/OrcaniaConfig.cmake"
+                "${PROJECT_BINARY_DIR}/OrcaniaConfigVersion.cmake"
+            DESTINATION "${ORCANIA_INSTALL_CMAKEDIR}")
 endif ()
-set(ORCANIA_INSTALL_CMAKEDIR ${ORCANIA_INSTALL_CMAKEDIR_DEFAULT} CACHE STRING "Location where to install the cmake config files")
-
-install(EXPORT OrcaniaExports DESTINATION "${ORCANIA_INSTALL_CMAKEDIR}"
-        NAMESPACE "Orcania::"
-        FILE "OrcaniaTargets.cmake")
-
-configure_package_config_file(cmake-modules/OrcaniaConfig.cmake.in OrcaniaConfig.cmake
-        INSTALL_DESTINATION "${ORCANIA_INSTALL_CMAKEDIR}")
-write_basic_package_version_file(OrcaniaConfigVersion.cmake
-        COMPATIBILITY AnyNewerVersion)
-
-install(FILES
-            "${PROJECT_BINARY_DIR}/OrcaniaConfig.cmake"
-            "${PROJECT_BINARY_DIR}/OrcaniaConfigVersion.cmake"
-        DESTINATION "${ORCANIA_INSTALL_CMAKEDIR}")
 
 # uninstall target
 
