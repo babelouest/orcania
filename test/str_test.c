@@ -318,11 +318,11 @@ START_TEST(test_msprintf)
 {
   char * target;
   char tmp[100];
-  target = msprintf("target1 %s %d %p", "str1", 42, NULL);
-  sprintf(tmp, "target1 str1 42 %p", NULL);
+  target = msprintf("target1 %s %d %s %p", "str1", 42, "pl\342\230\272op", NULL);
+  sprintf(tmp, "target1 %s %d %s %p", "str1", 42, "pl\342\230\272op", NULL);
   ck_assert_str_eq(target, tmp);
   o_free(target);
-  ck_assert_ptr_eq(msprintf(NULL, "str1", 42, NULL), NULL);
+  ck_assert_ptr_eq(msprintf(NULL, "str1", 42, "pl\342\230\272op", NULL), NULL);
 }
 END_TEST
 
@@ -330,15 +330,15 @@ START_TEST(test_mstrcatf)
 {
   char * target;
   char tmp[200];
-  target = msprintf("target1 %s %d %p", "str1", 42, NULL);
+  target = msprintf("target1 %s %d %s %p", "str1", 42, "pl\342\230\272op", NULL);
   target = mstrcatf(target, "target2 %s %d %p", "str2", 42, NULL);
-  sprintf(tmp, "target1 str1 42 %ptarget2 %s 42 %p", NULL, "str2", NULL);
+  sprintf(tmp, "target1 str1 42 %s %ptarget2 %s 42 %p", "pl\342\230\272op", NULL, "str2", NULL);
   ck_assert_str_eq(target, tmp);
   o_free(target);
   ck_assert_ptr_eq(msprintf(NULL, NULL, "str1", 42, NULL), NULL);
   target = NULL;
-  target = mstrcatf(target, "target2 %s %d %p", "str2", 42, NULL);
-  sprintf(tmp, "target2 %s 42 %p", "str2", NULL);
+  target = mstrcatf(target, "target2 %s %d %s %p", "str2", 42, "pl\342\230\272op", NULL);
+  sprintf(tmp, "target2 %s 42 %s %p", "str2", "pl\342\230\272op", NULL);
   ck_assert_str_eq(target, tmp);
   o_free(target);
 }
