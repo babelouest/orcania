@@ -60,7 +60,7 @@ char * str_replace(const char * source, const char * str_old, const char * str_n
     return o_strdup(source);
   } else {
     pre_len = ptr-source;
-    pre = o_malloc((pre_len+1)*sizeof(char));
+    pre = o_malloc((pre_len+1));
     if (pre == NULL) {
       return NULL;
     }
@@ -73,7 +73,7 @@ char * str_replace(const char * source, const char * str_old, const char * str_n
       return NULL;
     }
     len = ((ptr-source)+o_strlen(str_new)+o_strlen(next));
-    to_return = o_malloc((len+1)*sizeof(char));
+    to_return = o_malloc((len+1));
     if (to_return == NULL) {
       o_free(pre);
       o_free(next);
@@ -99,13 +99,13 @@ char * msprintf(const char * message, ...) {
     va_start(argp, message);
     va_copy(argp_cpy, argp); // We make a copy because in some architectures, vsnprintf can modify argp
     out_len = vsnprintf(NULL, 0, message, argp);
-    out = o_malloc(out_len+sizeof(char));
+    out = o_malloc(out_len+1);
     if (out == NULL) {
       va_end(argp);
       va_end(argp_cpy);
       return NULL;
     }
-    vsnprintf(out, (out_len+sizeof(char)), message, argp_cpy);
+    vsnprintf(out, (out_len+1), message, argp_cpy);
     va_end(argp);
     va_end(argp_cpy);
   }
@@ -115,31 +115,26 @@ char * msprintf(const char * message, ...) {
 char * mstrcatf(char * source, const char * message, ...) {
   va_list argp, argp_cpy;
   char * out = NULL, * message_formatted = NULL;
-  size_t message_formatted_len = 0, out_len = 0, source_len = 0;
+  size_t message_formatted_len = 0, out_len = 0;
   
   if (message != NULL) {
     va_start(argp, message);
     va_copy(argp_cpy, argp); // We make a copy because in some architectures, vsnprintf can modify argp
     if (source != NULL) {
-      source_len = o_strlen(source);
       message_formatted_len = vsnprintf(NULL, 0, message, argp);
-      message_formatted = o_malloc(message_formatted_len+sizeof(char));
+      message_formatted = o_malloc(message_formatted_len+1);
       if (message_formatted != NULL) {
-        out = o_malloc(source_len+message_formatted_len+sizeof(char));
-        vsnprintf(message_formatted, (message_formatted_len+sizeof(char)), message, argp_cpy);
-        if (out != NULL) {
-          o_strncpy(out, source, source_len);
-          o_strncpy(out+source_len, message_formatted, message_formatted_len);
-          out[source_len+message_formatted_len] = '\0';
-        }
+        memset(message_formatted, 0, message_formatted_len+1);
+        vsnprintf(message_formatted, (message_formatted_len+1), message, argp_cpy);
+        out = msprintf("%s%s", source, message_formatted);
         o_free(message_formatted);
         o_free(source);
       }
     } else {
       out_len = vsnprintf(NULL, 0, message, argp);
-      out = o_malloc(out_len+sizeof(char));
+      out = o_malloc(out_len+1);
       if (out != NULL) {
-        vsnprintf(out, (out_len+sizeof(char)), message, argp_cpy);
+        vsnprintf(out, (out_len+1), message, argp_cpy);
       }
     }
     va_end(argp);
@@ -313,7 +308,7 @@ static char *strcasestr(const char *haystack, const char *needle) {
   n = o_strlen(needle);
   while (*haystack) {
     if (!strnicmp(haystack++, needle, n)) {
-      return (char *)(haystack-sizeof(char));
+      return (char *)(haystack-1);
     }
   }
   return NULL;
