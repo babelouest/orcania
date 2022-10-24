@@ -59,7 +59,7 @@ char * str_replace(const char * source, const char * str_old, const char * str_n
   if (ptr == NULL) {
     return o_strdup(source);
   } else {
-    pre_len = ptr-source;
+    pre_len = (size_t)(ptr-source);
     pre = o_malloc((pre_len+1));
     if (pre == NULL) {
       return NULL;
@@ -72,7 +72,7 @@ char * str_replace(const char * source, const char * str_old, const char * str_n
       o_free(pre);
       return NULL;
     }
-    len = ((ptr-source)+o_strlen(str_new)+o_strlen(next));
+    len = (((size_t)(ptr-source))+o_strlen(str_new)+o_strlen(next));
     to_return = o_malloc((len+1));
     if (to_return == NULL) {
       o_free(pre);
@@ -98,7 +98,7 @@ char * msprintf(const char * message, ...) {
   if (message != NULL) {
     va_start(argp, message);
     va_copy(argp_cpy, argp); // We make a copy because in some architectures, vsnprintf can modify argp
-    out_len = vsnprintf(NULL, 0, message, argp);
+    out_len = (size_t)vsnprintf(NULL, 0, message, argp);
     out = o_malloc(out_len+1);
     if (out == NULL) {
       va_end(argp);
@@ -121,7 +121,7 @@ char * mstrcatf(char * source, const char * message, ...) {
     va_start(argp, message);
     va_copy(argp_cpy, argp); // We make a copy because in some architectures, vsnprintf can modify argp
     if (source != NULL) {
-      message_formatted_len = vsnprintf(NULL, 0, message, argp);
+      message_formatted_len = (size_t)vsnprintf(NULL, 0, message, argp);
       message_formatted = o_malloc(message_formatted_len+1);
       if (message_formatted != NULL) {
         memset(message_formatted, 0, message_formatted_len+1);
@@ -131,7 +131,7 @@ char * mstrcatf(char * source, const char * message, ...) {
         o_free(source);
       }
     } else {
-      out_len = vsnprintf(NULL, 0, message, argp);
+      out_len = (size_t)vsnprintf(NULL, 0, message, argp);
       out = o_malloc(out_len+1);
       if (out != NULL) {
         vsnprintf(out, (out_len+1), message, argp_cpy);
@@ -271,7 +271,7 @@ char * o_strrchr(const char * haystack, int c) {
 const char * o_strrnchr(const char * haystack, size_t len, char c) {
   ssize_t offset;
   if (haystack != NULL && len > 0) {
-    for (offset = o_strlen(haystack)-1; offset>=0 && (o_strlen(haystack) - 1 - offset < len); offset--) {
+    for (offset = ((ssize_t)o_strlen(haystack))-1; offset>=0 && (o_strlen(haystack) - 1 - (size_t)offset < len); offset--) {
       if (haystack[offset] == c) {
         return (haystack+offset);
       }
@@ -358,7 +358,7 @@ size_t split_string(const char * string, const char * separator, char *** return
       if (return_array != NULL) {
         (*return_array) = o_realloc((*return_array), (result + 1)*sizeof(char*));
         if ((*return_array) != NULL) {
-          (*return_array)[result-1] = o_strndup(begin, (token-begin));
+          (*return_array)[result-1] = o_strndup(begin, (size_t)(token-begin));
           (*return_array)[result] = NULL;
         }
       }

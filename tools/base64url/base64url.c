@@ -80,7 +80,7 @@ static unsigned char * get_file_content(const char * file_path, size_t * length)
   f = fopen (file_path, "rb");
   if (f) {
     fseek (f, 0, SEEK_END);
-    *length = ftell (f);
+    *length = (size_t)ftell (f);
     fseek (f, 0, SEEK_SET);
     buffer = o_malloc(((*length)+1)*sizeof(char));
     if (buffer) {
@@ -103,10 +103,10 @@ static unsigned char * get_stdin_content(size_t * length) {
   ssize_t read_length;
 
   *length = 0;
-  while ((read_length = read(0, buffer, size)) > 0) {
-    out = o_realloc(out, (*length)+read_length+1);
-    memcpy(out+(*length), buffer, read_length);
-    (*length) += read_length;
+  while ((read_length = read(0, buffer, (size_t)size)) > 0) {
+    out = o_realloc(out, (*length)+(size_t)read_length+1);
+    memcpy(out+(*length), buffer, (size_t)read_length);
+    (*length) += (size_t)read_length;
     out[(*length)] = '\0';
   }
   if ((*length) && (out[(*length)-1] == '\n' || out[(*length)-1] == '\r')) {
@@ -119,7 +119,7 @@ static unsigned char * get_stdin_content(size_t * length) {
 int main(int argc, char ** argv) {
   short int action = ACTION_ENCODE, ignore = 0;
   unsigned long int wrap = DEFAULT_WRAP;
-  long int s_wrap = 0;
+  long unsigned int s_wrap = 0;
   const char * short_options = "d::i::w:f:v::h";
   int next_option, ret = 0, exit_loop = 0;
   char * file = NULL, * endptr = NULL, * tmp = NULL;
@@ -147,7 +147,7 @@ int main(int argc, char ** argv) {
         break;
       case 'w':
         s_wrap = strtoul(optarg, &endptr, 10);
-        if (*endptr == '\0' && s_wrap >= 0) {
+        if (*endptr == '\0' && s_wrap) {
           wrap = (unsigned long int)s_wrap;
         } else {
           print_help(stderr, argv[0]);
