@@ -126,7 +126,7 @@ endif ()
 add_library(orcania SHARED ${LIB_SRC})
 if (NOT MSVC)
     set_target_properties(orcania PROPERTIES
-            COMPILE_OPTIONS -Wextra
+            COMPILE_OPTIONS "-Wextra;-Wconversion"
             PUBLIC_HEADER "${INC_DIR}/orcania.h;${PROJECT_BINARY_DIR}/orcania-cfg.h"
             VERSION "${LIBRARY_VERSION}"
             SOVERSION "${LIBRARY_SOVERSION}")
@@ -164,7 +164,7 @@ option(BUILD_BASE64URL "Build base64url application." ON)
 
 if (BUILD_BASE64URL)
     add_executable(base64url ${BASE64URL_DIR}/base64url.c ${INC_DIR}/orcania.h ${PROJECT_BINARY_DIR}/orcania-cfg.h)
-    set_target_properties(base64url PROPERTIES SKIP_BUILD_RPATH TRUE)
+    set_target_properties(base64url PROPERTIES SKIP_BUILD_RPATH TRUE COMPILE_OPTIONS "-Wextra;-Wconversion")
     add_dependencies(base64url orcania)
     target_link_libraries(base64url orcania ${LIBS})
     install(TARGETS base64url RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
