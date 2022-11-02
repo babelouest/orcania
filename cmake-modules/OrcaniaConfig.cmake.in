@@ -1,0 +1,16 @@
+@PACKAGE_INIT@
+
+include("${CMAKE_CURRENT_LIST_DIR}/OrcaniaTargets.cmake")
+
+if(TARGET Orcania::Orcania-static)
+    set(ORCANIA_INCLUDE_DIRS $<TARGET_PROPERTY:Orcania::Orcania-static,INTERFACE_INCLUDE_DIRECTORIES>)
+    set(ORCANIA_LIBRARIES Orcania::Orcania-static)
+endif()
+
+if(TARGET Orcania::Orcania)
+    set(ORCANIA_INCLUDE_DIRS $<TARGET_PROPERTY:Orcania::Orcania,INTERFACE_INCLUDE_DIRECTORIES>)
+    set(ORCANIA_LIBRARIES Orcania::Orcania)
+endif()
+
+set(ORCANIA_VERSION_STRING "@PROJECT_VERSION@")
+set(Orcania_FOUND TRUE)
