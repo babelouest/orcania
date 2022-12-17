@@ -30,11 +30,11 @@ CONFIG_FILE=$(ORCANIA_INCLUDE)/orcania-cfg.h
 PKGCONFIG_FILE=../liborcania.pc
 PKGCONFIG_TEMPLATE=../liborcania.pc.in
 CC=gcc
-CFLAGS+=-c -fPIC -Wall -Werror -Wextra -Wpedantic -Wconversion -I$(ORCANIA_INCLUDE) -D_REENTRANT $(ADDITIONALFLAGS) $(CPPFLAGS)
+CFLAGS+=-c -fPIC -Wall -Werror -Wextra -Wpedantic -Wconversion -Werror=sign-conversion -I$(ORCANIA_INCLUDE) -D_REENTRANT $(ADDITIONALFLAGS) $(CPPFLAGS)
 OUTPUT=liborcania.so
 VERSION_MAJOR=2
 VERSION_MINOR=3
-VERSION_PATCH=1
+VERSION_PATCH=2
 OBJECTS=orcania.o memory.o base64.o
 LIBSDEP=-lm
 LIBS=-lc

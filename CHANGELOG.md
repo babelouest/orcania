@@ -1,5 +1,10 @@
 # Orcania Changelog
 
+## 2.3.2
+
+- Improve cmake script and MSVC support
+- Build with flag `-Wconversion`
+
 ## 2.3.1
 
 - Minor bugfixes

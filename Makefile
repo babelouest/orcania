@@ -37,7 +37,7 @@ clean:
 	cd $(LIBORCANIA_LOCATION) && $(MAKE) clean
 	cd $(TESTS_LOCATION) && $(MAKE) clean
 	cd $(BASE64URL_LOCATION) && $(MAKE) clean
-	rm -rf doc/html/ doc/man/
+	rm -rf doc/html/
 
 check:
 	cd $(LIBORCANIA_LOCATION) && $(MAKE) debug $*
