@@ -11,13 +11,28 @@
 
 START_TEST(test_split_string)
 {
-  char * str = "ab,cd,ef,gghhii,jkl", * separator = ",", ** splitted;
+  char * str = "ab,cd,ef,gghhii,jkl",  * str_2 = "ab, cd,ef,gghhii, jkl", * separator = ",", * long_separator = ", ", ** splitted;
   int nb_elt;
   nb_elt = split_string(str, separator, &splitted);
   ck_assert_ptr_ne(splitted, NULL);
   ck_assert_int_eq(nb_elt, 5);
   ck_assert_int_eq(split_string(str, "nope", NULL), 1);
   ck_assert_str_eq(splitted[0], "ab");
+  free_string_array(splitted);
+  
+  nb_elt = split_string(str_2, long_separator, &splitted);
+  ck_assert_ptr_ne(splitted, NULL);
+  ck_assert_int_eq(nb_elt, 3);
+  free_string_array(splitted);
+  
+  nb_elt = split_string(str_2, "yolo", &splitted);
+  ck_assert_ptr_ne(splitted, NULL);
+  ck_assert_int_eq(nb_elt, 1);
+  free_string_array(splitted);
+  
+  nb_elt = split_string("john", "and-yolo", &splitted);
+  ck_assert_ptr_ne(splitted, NULL);
+  ck_assert_int_eq(nb_elt, 1);
   free_string_array(splitted);
 }
 END_TEST
