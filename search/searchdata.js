@@ -1,14 +1,14 @@
 var indexSectionsWithContent =
 {
-  0: "_bflmoprst",
+  0: "_abdflmoprst",
   1: "_",
-  2: "bmor",
+  2: "abmor",
   3: "fmopst",
-  4: "ls",
+  4: "dls",
   5: "o",
   6: "_",
   7: "_bms",
-  8: "o"
+  8: "bo"
 };
 
 var indexSectionNames =
