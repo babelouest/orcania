@@ -120,7 +120,7 @@ static int o_base64_decode_agnostic(const unsigned char *src, size_t len, unsign
   count = 0;
   *out_len = 0;
   for (i = 0; i < len; i++) {
-    if (!o_strchr((const char *)table, src[i]) && src[i] != '=' && src[i] != '\n' && src[i] != '\t' && src[i] != ' ') {
+    if (!o_strnchr((const char *)table, table_size, (char)src[i]) && ((src[i] != '=')||(!right_pad && src[i] == '=')) && src[i] != '\n' && src[i] != '\t' && src[i] != ' ') {
       // character invalid
       return 0;
     }
