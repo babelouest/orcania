@@ -1,5 +1,9 @@
 # Orcania Changelog
 
+## 2.3.3
+
+- Enforce base64decode
+
 ## 2.3.2
 
 - Improve cmake script and MSVC support
