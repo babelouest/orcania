@@ -5,6 +5,7 @@
 #
 # Copyright 2018 Silvio Clecio <silvioprog@gmail.com>
 # Copyright 2018-2022 Nicolas Mora <mail@babelouest.org>
+# Copyright 2022 ChihHao Su <nikob@live.cn>
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the MIT License
@@ -95,12 +96,20 @@ set(LIB_SRC
         ${SRC_DIR}/memory.c
         ${SRC_DIR}/orcania.c)
 
-option(WITH_STRSTR "Use inline implementation of strstr" OFF)
+# Enable option WITH_STRSTR by default if the system doesn't provide a strnstr.
+check_symbol_exists(strnstr "string.h" HAVE_STRNSTR)
+if (NOT WITH_STRSTR)
+    option(WITH_STRSTR "Use inline implementation of strstr" ON)
+else ()
+    option(WITH_STRSTR "Use inline implementation of strstr" OFF)
+endif ()
+
 if (WITH_STRSTR)
     set(O_STRSTR ON)
 else ()
     set(O_STRSTR OFF)
 endif ()
+
 
 set(PKGCONF_REQ "")
 set(PKGCONF_REQ_PRIVATE "")
