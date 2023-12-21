@@ -26,7 +26,7 @@ static int _o_base64_encode_agnostic(const unsigned char * src, size_t len, unsi
   olen = len * 4 / 3 + 4; /* 3-byte blocks to 4-byte */
   olen += olen / 72; /* line feeds */
   olen++; /* nul termination */
-  if (olen < len || src == NULL || out_len == NULL) {
+  if (olen < len || src == NULL || out_len == NULL || !len) {
     return 0;
   }
 
@@ -115,12 +115,14 @@ static int o_base64_decode_agnostic(const unsigned char *src, size_t len, unsign
 
   if (right_pad && (count == 0 || count % 4)) {
     return 0;
+  } else if (!right_pad && (len % 4) ==  1) {
+    return 0;
   }
 
   count = 0;
   *out_len = 0;
   for (i = 0; i < len; i++) {
-    if (!o_strnchr((const char *)table, table_size, (char)src[i]) && ((src[i] != '=')||(!right_pad && src[i] == '=')) && src[i] != '\n' && src[i] != '\t' && src[i] != ' ') {
+    if (!o_strnchr((const char *)table, table_size, (char)src[i]) && ((src[i] != '=')||(!right_pad && src[i] == '='))) {
       // character invalid
       return 0;
     }
@@ -167,7 +169,7 @@ static int o_base64_decode_agnostic(const unsigned char *src, size_t len, unsign
     }
   }
 
-  return 1;
+  return *out_len?1:0;
 }
 
 int o_base64_encode(const unsigned char * src, size_t len, unsigned char * out, size_t * out_len) {
