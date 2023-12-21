@@ -440,11 +440,44 @@ START_TEST(test_base64)
   ck_assert_int_eq(o_base64_encode((unsigned char *)src, o_strlen(src), (unsigned char *)encoded, &encoded_size), 1);
   ck_assert_str_eq(encoded, "c291cmNlIHN0cmluZw==");
   ck_assert_int_eq(20, encoded_size);
+  ck_assert_int_eq(o_base64_decode((unsigned char *)encoded, encoded_size-1, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64_decode((unsigned char *)encoded, encoded_size-2, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64_decode((unsigned char *)encoded, encoded_size-3, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64_decode((unsigned char *)encoded, encoded_size-4, (unsigned char *)decoded, &decoded_size), 1);
+  ck_assert_int_eq(o_base64_decode((unsigned char *)(encoded+1), encoded_size-1, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64_decode((unsigned char *)(encoded+2), encoded_size-2, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64_decode((unsigned char *)(encoded+3), encoded_size-3, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64_decode((unsigned char *)"", 0, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64_decode((unsigned char *)"Zw==", 4, (unsigned char *)decoded, &decoded_size), 1);
+  ck_assert_int_eq(o_base64_decode((unsigned char *)"Z===", 4, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64_decode((unsigned char *)"==", 2, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64_decode((unsigned char *)"===", 3, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64_decode((unsigned char *)"====", 4, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64_decode((unsigned char *)"cmluZw==", 8, (unsigned char *)decoded, &decoded_size), 1);
+  ck_assert_int_eq(o_base64_decode((unsigned char *)"cmluZwe=", 8, (unsigned char *)decoded, &decoded_size), 1);
+  ck_assert_int_eq(o_base64_decode((unsigned char *)"cmluZweS", 8, (unsigned char *)decoded, &decoded_size), 1);
+  ck_assert_int_eq(o_base64_decode((unsigned char *)"cmluZ ==", 8, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64_decode((unsigned char *)"cmluZ===", 8, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64_decode((unsigned char *)"cmlu=  =", 8, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64_decode((unsigned char *)"cmlu====", 8, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64_decode((unsigned char *)" cmlu===", 8, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64_decode((unsigned char *)"cmlu==E=", 8, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64_decode((unsigned char *)"cmluZ=eS", 8, (unsigned char *)decoded, &decoded_size), 1);
   ck_assert_int_eq(o_base64_decode((unsigned char *)encoded, encoded_size, (unsigned char *)decoded, &decoded_size), 1);
   ck_assert_str_eq(decoded, src);
   ck_assert_int_eq(decoded_size, o_strlen(src));
   ck_assert_int_eq(o_base64_decode((unsigned char *)b64_error, o_strlen(b64_error), NULL, &decoded_size), 0);
   ck_assert_int_eq(o_base64_decode((unsigned char *)b64_error, o_strlen(b64_error), (unsigned char *)decoded, &decoded_size), 0);
+  
+  memset(encoded, 0, 128);
+  memset(decoded, 0, 128);
+  ck_assert_int_eq(o_base64_encode((unsigned char *)src, 1, (unsigned char *)encoded, &encoded_size), 1);
+  ck_assert_int_eq(4, encoded_size);
+  ck_assert_int_eq(o_base64_decode((unsigned char *)encoded, encoded_size, (unsigned char *)decoded, &decoded_size), 1);
+  ck_assert_int_eq(decoded_size, 1);
+  ck_assert_int_eq(o_base64_decode((unsigned char *)encoded, 3, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64_decode((unsigned char *)encoded, 2, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64_decode((unsigned char *)encoded, 1, (unsigned char *)decoded, &decoded_size), 0);
 
   ck_assert_int_eq(o_base64_decode((unsigned char *)b64_error_2, b64_error_2_len, (unsigned char *)decoded, &decoded_size), 1);
   // Insert invalid characters
@@ -527,11 +560,37 @@ START_TEST(test_base64url)
   ck_assert_int_eq(o_base64url_encode((unsigned char *)src, o_strlen(src), (unsigned char *)encoded, &encoded_size), 1);
   ck_assert_str_eq(encoded, "c291cmNlIHN0cmluZw");
   ck_assert_int_eq(18, encoded_size);
+  ck_assert_int_eq(o_base64url_decode((unsigned char *)encoded, encoded_size-1, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64url_decode((unsigned char *)encoded, encoded_size-2, (unsigned char *)decoded, &decoded_size), 1);
+  ck_assert_int_eq(o_base64url_decode((unsigned char *)encoded, encoded_size-3, (unsigned char *)decoded, &decoded_size), 1);
+  ck_assert_int_eq(o_base64url_decode((unsigned char *)encoded, encoded_size-4, (unsigned char *)decoded, &decoded_size), 1);
+  ck_assert_int_eq(o_base64url_decode((unsigned char *)(encoded+1), encoded_size-1, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64url_decode((unsigned char *)"", 0, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64url_decode((unsigned char *)"Zw", 2, (unsigned char *)decoded, &decoded_size), 1);
+  ck_assert_int_eq(o_base64url_decode((unsigned char *)"Zw  ", 4, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64url_decode((unsigned char *)"Z   ", 4, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64url_decode((unsigned char *)"    ", 4, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64url_decode((unsigned char *)"cmluZw  ", 8, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64url_decode((unsigned char *)"cmluZwe ", 8, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64url_decode((unsigned char *)"cmluZweS", 8, (unsigned char *)decoded, &decoded_size), 1);
+  ck_assert_int_eq(o_base64url_decode((unsigned char *)"cmluZ   ", 8, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64url_decode((unsigned char *)"  cmluZ ", 8, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64url_decode((unsigned char *)"cmlu    ", 8, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64url_decode((unsigned char *)" cmlu   ", 8, (unsigned char *)decoded, &decoded_size), 0);
+  ck_assert_int_eq(o_base64url_decode((unsigned char *)"cmlu  E ", 8, (unsigned char *)decoded, &decoded_size), 0);
   ck_assert_int_eq(o_base64url_decode((unsigned char *)encoded, encoded_size, (unsigned char *)decoded, &decoded_size), 1);
   ck_assert_str_eq(decoded, src);
   ck_assert_int_eq(decoded_size, o_strlen(src));
   ck_assert_int_eq(o_base64url_decode((unsigned char *)b64_error, o_strlen(b64_error), NULL, &decoded_size), 0);
   ck_assert_int_eq(o_base64url_decode((unsigned char *)b64_error, o_strlen(b64_error), (unsigned char *)decoded, &decoded_size), 0);
+
+  memset(encoded, 0, 128);
+  memset(decoded, 0, 128);
+  ck_assert_int_eq(o_base64url_encode((unsigned char *)src, 1, (unsigned char *)encoded, &encoded_size), 1);
+  ck_assert_int_eq(2, encoded_size);
+  ck_assert_int_eq(o_base64url_decode((unsigned char *)encoded, encoded_size, (unsigned char *)decoded, &decoded_size), 1);
+  ck_assert_int_eq(decoded_size, 1);
+  ck_assert_int_eq(o_base64url_decode((unsigned char *)encoded, 1, (unsigned char *)decoded, &decoded_size), 0);
 
   ck_assert_int_eq(o_base64url_decode((unsigned char *)b64_error_2, b64_error_2_len, (unsigned char *)decoded, &decoded_size), 1);
   // Insert invalid characters
