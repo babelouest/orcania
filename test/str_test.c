@@ -323,6 +323,9 @@ START_TEST(test_msprintf)
   ck_assert_str_eq(target, tmp);
   o_free(target);
   ck_assert_ptr_eq(msprintf(NULL, "str1", 42, "pl\342\230\272op", NULL), NULL);
+  target = msprintf("");
+  ck_assert_ptr_ne(NULL, target);
+  o_free(target);
 }
 END_TEST
 
@@ -345,6 +348,10 @@ START_TEST(test_mstrcatf)
   target = mstrcatf(target, "");
   sprintf(tmp, "target1 str1 42 %s %p", "pl\342\230\272op", NULL);
   ck_assert_str_eq(target, tmp);
+  o_free(target);
+  target = mstrcatf(NULL, "%s", "plop");
+  ck_assert_ptr_ne(NULL, target);
+  ck_assert_str_eq("plop", target);
   o_free(target);
 }
 END_TEST
