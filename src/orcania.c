@@ -31,6 +31,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdarg.h>
+#include <stdint.h>
 #include "orcania.h"
 
 #ifdef _MSC_VER
@@ -64,6 +65,9 @@ char * str_replace(const char * source, const char * str_old, const char * str_n
   if (ptr == NULL) {
     return o_strdup(source);
   } else {
+    if ((size_t)(ptr-source) > SIZE_MAX) {
+      return NULL;
+    }
     pre_len = (size_t)(ptr-source);
     pre = o_malloc((pre_len+1));
     if (pre == NULL) {
@@ -74,6 +78,10 @@ char * str_replace(const char * source, const char * str_old, const char * str_n
     
     next = str_replace(source+o_strlen(pre)+o_strlen(str_old), str_old, str_new);
     if (next == NULL) {
+      o_free(pre);
+      return NULL;
+    }
+    if (((size_t)(ptr-source))+o_strlen(str_new)+o_strlen(next) > SIZE_MAX) {
       o_free(pre);
       return NULL;
     }
@@ -100,17 +108,20 @@ char * msprintf(const char * message, ...) {
   va_list argp, argp_cpy;
   size_t out_len = 0;
   char * out = NULL;
+  int v_out = 0;
   if (message != NULL) {
     va_start(argp, message);
     va_copy(argp_cpy, argp); // We make a copy because in some architectures, vsnprintf can modify argp
-    out_len = (size_t)vsnprintf(NULL, 0, message, argp);
-    out = o_malloc(out_len+1);
-    if (out == NULL) {
-      va_end(argp);
-      va_end(argp_cpy);
-      return NULL;
+    if ((v_out = vsnprintf(NULL, 0, message, argp)) > 0) {
+      out_len = (size_t)v_out;
+      out = o_malloc(out_len+1);
+      if (out == NULL) {
+        va_end(argp);
+        va_end(argp_cpy);
+        return NULL;
+      }
+      vsnprintf(out, (out_len+1), message, argp_cpy);
     }
-    vsnprintf(out, (out_len+1), message, argp_cpy);
     va_end(argp);
     va_end(argp_cpy);
   }
@@ -121,25 +132,29 @@ char * mstrcatf(char * source, const char * message, ...) {
   va_list argp, argp_cpy;
   char * out = NULL, * message_formatted = NULL;
   size_t message_formatted_len = 0, out_len = 0;
-  
+  int v_out = 0;
   if (message != NULL) {
     va_start(argp, message);
     va_copy(argp_cpy, argp); // We make a copy because in some architectures, vsnprintf can modify argp
     if (source != NULL) {
-      message_formatted_len = (size_t)vsnprintf(NULL, 0, message, argp);
-      message_formatted = o_malloc(message_formatted_len+1);
-      if (message_formatted != NULL) {
-        memset(message_formatted, 0, message_formatted_len+1);
-        vsnprintf(message_formatted, (message_formatted_len+1), message, argp_cpy);
-        out = msprintf("%s%s", source, message_formatted);
-        o_free(message_formatted);
-        o_free(source);
+      if ((v_out = vsnprintf(NULL, 0, message, argp)) > 0) {
+        message_formatted_len = (size_t)v_out;
+        message_formatted = o_malloc(message_formatted_len+1);
+        if (message_formatted != NULL) {
+          memset(message_formatted, 0, message_formatted_len+1);
+          vsnprintf(message_formatted, (message_formatted_len+1), message, argp_cpy);
+          out = msprintf("%s%s", source, message_formatted);
+          o_free(message_formatted);
+          o_free(source);
+        }
       }
     } else {
-      out_len = (size_t)vsnprintf(NULL, 0, message, argp);
-      out = o_malloc(out_len+1);
-      if (out != NULL) {
-        vsnprintf(out, (out_len+1), message, argp_cpy);
+      if ((v_out = vsnprintf(NULL, 0, message, argp)) > 0) {
+        out_len = (size_t)v_out;
+        out = o_malloc(out_len+1);
+        if (out != NULL) {
+          vsnprintf(out, (out_len+1), message, argp_cpy);
+        }
       }
     }
     va_end(argp);
