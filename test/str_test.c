@@ -341,6 +341,11 @@ START_TEST(test_mstrcatf)
   sprintf(tmp, "target2 %s 42 %s %p", "str2", "pl\342\230\272op", NULL);
   ck_assert_str_eq(target, tmp);
   o_free(target);
+  target = msprintf("target1 %s %d %s %p", "str1", 42, "pl\342\230\272op", NULL);
+  target = mstrcatf(target, "");
+  sprintf(tmp, "target1 str1 42 %s %p", "pl\342\230\272op", NULL);
+  ck_assert_str_eq(target, tmp);
+  o_free(target);
 }
 END_TEST
 
