@@ -147,6 +147,9 @@ char * mstrcatf(char * source, const char * message, ...) {
           o_free(message_formatted);
           o_free(source);
         }
+      } else if (v_out == 0) {
+        out = o_strdup(source);
+        o_free(source);
       }
     } else {
       if ((v_out = vsnprintf(NULL, 0, message, argp)) > 0) {
@@ -155,6 +158,9 @@ char * mstrcatf(char * source, const char * message, ...) {
         if (out != NULL) {
           vsnprintf(out, (out_len+1), message, argp_cpy);
         }
+      } else if (v_out == 0) {
+        out = o_strdup(source);
+        o_free(source);
       }
     }
     va_end(argp);
