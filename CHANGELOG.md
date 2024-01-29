@@ -1,5 +1,10 @@
 # Orcania Changelog
 
+## 2.3.4
+
+- Minor bugfixes
+- Build with flag `-Wpedantic`
+
 ## 2.3.3
 
 - Enforce base64decode
