@@ -21,6 +21,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdint.h>
 #include <getopt.h>
 #include <ctype.h>
 #include <orcania.h>
@@ -42,7 +43,7 @@ typedef SSIZE_T ssize_t;
 
 #define SIZE 100
 
-static void print_output(const unsigned char * output, size_t output_len, unsigned long int wrap, short int ignore) {
+static void print_output(const unsigned char * output, size_t output_len, size_t wrap, short int ignore) {
   size_t i;
   for (i=0; i<output_len; i++) {
     if (i && wrap && !(i%wrap)) {
@@ -95,6 +96,7 @@ static unsigned char * get_file_content(const char * file_path, size_t * length)
     if (buffer) {
       res = fread (buffer, 1, *length, f);
       if (res != *length) {
+        *length = 0;
         fprintf(stderr, "fread warning, reading %zu while expecting %zu", res, *length);
       }
     }
@@ -127,7 +129,7 @@ static unsigned char * get_stdin_content(size_t * length) {
 int main(int argc, char ** argv) {
   short int action = ACTION_ENCODE, ignore = 0;
   unsigned long int wrap = DEFAULT_WRAP;
-  long unsigned int s_wrap = 0;
+  size_t s_wrap = DEFAULT_WRAP;
   const char * short_options = "d::i::w:f:v::h";
   int next_option, ret = 0, exit_loop = 0;
   char * file = NULL, * endptr = NULL, * tmp = NULL;
@@ -154,9 +156,9 @@ int main(int argc, char ** argv) {
         ignore = 1;
         break;
       case 'w':
-        s_wrap = strtoul(optarg, &endptr, 10);
-        if (*endptr == '\0' && s_wrap) {
-          wrap = (unsigned long int)s_wrap;
+        wrap = strtoul(optarg, &endptr, 10);
+        if (*endptr == '\0' && wrap <= SIZE_MAX) {
+          s_wrap = (size_t)wrap;
         } else {
           print_help(stderr, argv[0]);
           exit_loop = 1;
@@ -196,7 +198,7 @@ int main(int argc, char ** argv) {
           if (output_len) {
             if ((output = o_malloc(output_len+4)) != NULL) {
               if (o_base64url_encode(input, input_len, output, &output_len)) {
-                print_output(output, output_len, wrap, ignore);
+                print_output(output, output_len, s_wrap, ignore);
               } else {
                 fprintf(stderr, "%s: Error encoding\n", argv[0]);
               }
