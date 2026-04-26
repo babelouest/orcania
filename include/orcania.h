@@ -148,7 +148,7 @@ int o_strncasecmp(const char * p1, const char * p2, size_t n);
  * @param needle the string to search in haystack
  * @return the pointer to the first occurence of needle in haystack or NULL if not found
  */
-char * o_strstr(const char * haystack, const char * needle);
+const char * o_strstr(const char * haystack, const char * needle);
 
 /**
  * o_strnstr
@@ -158,7 +158,7 @@ char * o_strstr(const char * haystack, const char * needle);
  * @param len the maximum length to look for in haystack
  * @return the pointer to the first occurence of needle in haystack or NULL if not found
  */
-char * o_strnstr(const char * haystack, const char * needle, size_t len);
+const char * o_strnstr(const char * haystack, const char * needle, size_t len);
 
 /**
  * o_strcasestr
@@ -167,7 +167,7 @@ char * o_strnstr(const char * haystack, const char * needle, size_t len);
  * @param needle the string to search in haystack
  * @return the pointer to the first occurence of needle in haystack or NULL if not found
  */
-char * o_strcasestr(const char * haystack, const char * needle);
+const char * o_strcasestr(const char * haystack, const char * needle);
 
 /**
  * o_strchr
@@ -176,7 +176,7 @@ char * o_strcasestr(const char * haystack, const char * needle);
  * @param c the character to look for in haystack
  * @return the pointer to the first occurence of c in haystack or NULL if not found
  */
-char * o_strchr(const char * haystack, int c);
+const char * o_strchr(const char * haystack, int c);
 
 /**
  * o_strnchr
@@ -195,7 +195,7 @@ const char * o_strnchr(const char * haystack, size_t len, char c);
  * @param c the character to look for in haystack
  * @return the pointer to the last occurence of c in haystack or NULL if not found
  */
-char * o_strrchr(const char * haystack, int c);
+const char * o_strrchr(const char * haystack, int c);
 
 /**
  * o_strrnchr
