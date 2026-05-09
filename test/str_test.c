@@ -399,6 +399,10 @@ START_TEST(test_split_string)
 	free_string_array(array);
   array = NULL;
   
+  ck_assert_int_eq(split_string("Alice,Bob,Carol,Dave,Eve,Isaac", "", &array), 0);
+	free_string_array(array);
+  array = NULL;
+  
   ck_assert_int_eq(split_string("", ",", &array), 1);
 	free_string_array(array);
   array = NULL;

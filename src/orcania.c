@@ -369,7 +369,7 @@ size_t split_string(const char * string, const char * separator, char *** return
   const char * token;
   const char * begin = string;
   
-  if (string != NULL && separator != NULL) {
+  if (string != NULL && !o_strnullempty(separator)) {
     if (return_array != NULL) {
       *return_array = NULL;
     }
