@@ -62,7 +62,7 @@ char * str_replace(const char * source, const char * str_old, const char * str_n
     return NULL;
   }
   
-  ptr = strstr(source, str_old);
+  ptr = o_strstr(source, str_old);
   if (ptr == NULL) {
     return o_strdup(source);
   } else {
@@ -366,7 +366,7 @@ int o_strnullempty(const char * s) {
 
 size_t split_string(const char * string, const char * separator, char *** return_array) {
   size_t result = 0;
-  char * token;
+  const char * token;
   const char * begin = string;
   
   if (string != NULL && separator != NULL) {
@@ -374,7 +374,7 @@ size_t split_string(const char * string, const char * separator, char *** return
       *return_array = NULL;
     }
     result = 1;
-    token = strstr(begin, separator);
+    token = o_strstr(begin, separator);
     while (token != NULL) {
       if (return_array != NULL) {
         (*return_array) = o_realloc((*return_array), (result + 1)*sizeof(char*));
@@ -385,7 +385,7 @@ size_t split_string(const char * string, const char * separator, char *** return
       }
       result++;
       begin = token+o_strlen(separator);
-      token = strstr(begin, separator);
+      token = o_strstr(begin, separator);
     }
     if (return_array != NULL) {
       (*return_array) = o_realloc((*return_array), (result + 1)*sizeof(char*));
