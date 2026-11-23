@@ -2,6 +2,10 @@
 
 Potluck with different functions for different purposes that can be shared among C programs.
 
+## NOTICE: This project is no longer being maintained. ⚠️
+
+This project is now closed for me, I have no time nor motivation to maintain it, so I prefer to close this repository.
+
 ![.github/workflows/ccpp.yml](https://github.com/babelouest/orcania/workflows/.github/workflows/ccpp.yml/badge.svg)
 
 ## Documentation
